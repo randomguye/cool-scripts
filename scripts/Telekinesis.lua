@@ -112,15 +112,18 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
-			if ((object.Parent == nil) or (object == nil)) then
+			if ((object.Parent == nil) or (object == nil) or (BP.Parent == nil) or (BP == nil)) then
+				local lv = _CF_new(primary.Position, mouse.Hit.p);
+				BP.Parent = object;
+				BP.Position = primary.Position + (lv.lookVector * dist);
+				w();
+			else
 				break;
 			end
-			local lv = _CF_new(primary.Position, mouse.Hit.p);
-			BP.Parent = object;
-			BP.Position = primary.Position + (lv.lookVector * dist);
-			w();
 		end
-		BP:Remove();
+		if ((BP.Parent == nil) or (BP == nil)) then
+			BP:Remove();
+		end
 		object = nil;
 		if (objval ~= nil) then
 			objval.Value = nil;
