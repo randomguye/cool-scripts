@@ -15,18 +15,6 @@ local waitForChildWhichIsA = function(parent, className)
 	end
 	return child;
 end;
-
---Credits
-print(name .. " " .. vers .. " loaded. Made by Solstice.");
-
---Part Claim
-loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
-
-local Sound = _Ins("Sound", plr);
-Sound.SoundId = "rbxassetid://1092093337";
-Sound.PlayOnRemove = true;
-Sound:Destroy();
-
 local createtool = function()
 	w();
 	local char = plr.Character;
@@ -50,12 +38,12 @@ local createtool = function()
 	point.CanQuery = false;
 	point.Shape = "Ball";
 	point.BrickColor = BrickColor.White();
-	point.Size = _VTR_new(1, 1, 1);
+	point.Size = _VTR_new(0, 0, 0);
 	point.Material = Enum.Material.Neon;
 	point.Transparency = 0.996;
 	local mesh = _Ins("SpecialMesh");
-	mesh.MeshType = "Sphere";
-	mesh.Scale = _VTR_new(-0.5, -0.5, -0.5);
+	mesh.MeshId = "rbxassetid://1111494591"
+	mesh.Scale = _VTR_new(-0.025, -0.025, -0.025);
 	mesh.Parent = point;
 	local highlight = _Ins("Highlight", point);
 	highlight.FillTransparency = 0.7;
@@ -69,7 +57,7 @@ local createtool = function()
 	selectionbox.SurfaceTransparency = 0.7;
 	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
-    	selectionbox.Adornee = nil;
+    selectionbox.Adornee = nil;
 	local selectionhighlight = _Ins("Highlight", selectionbox);
 	selectionhighlight.FillTransparency = 0.7;
 	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -274,3 +262,9 @@ plr.CharacterAdded:Connect(function()
 		createtool();
 	end
 end);
+
+--Credits
+print(name .. " " .. vers .. " loaded. Made by Solstice.");
+
+--Part Claim
+loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
