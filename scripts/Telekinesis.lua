@@ -1,3 +1,5 @@
+--Credits
+print(name .. " " .. vers .. " loaded. Made by Solstice.");
 
 --Part Claim
 loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
@@ -19,9 +21,6 @@ local waitForChildWhichIsA = function(parent, className)
 	end
 	return child;
 end;
-
-print(name.." "..vers.." loaded. Made by Solstice.")
-
 local createtool = function()
 	w();
 	local char = plr.Character;
@@ -36,7 +35,7 @@ local createtool = function()
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
-	tool.ToolTip = name.." "..vers;
+	tool.ToolTip = name .. " " .. vers;
 	tool.Parent = mas;
 	local point = _Ins("Part");
 	point.CanCollide = false;
@@ -59,11 +58,11 @@ local createtool = function()
 	local pointlight = _Ins("PointLight", point);
 	pointlight.Range = 7.5;
 	pointlight.Color = Color3.fromRGB(255, 255, 255);
-	local selectionbox=Instance.new("SelectionBox", plr)
-	selectionbox.LineThickness = 0.25
-	selectionbox.SurfaceTransparency = 0.85
-	selectionbox.Color3 = Color3.fromRGB(255, 255, 255)	
-	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255)
+	local selectionbox = Instance.new("SelectionBox", plr);
+	selectionbox.LineThickness = 0.25;
+	selectionbox.SurfaceTransparency = 0.85;
+	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
+	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
 	local selectionhighlight = _Ins("Highlight", selectionbox);
 	selectionhighlight.FillTransparency = 0.7;
 	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -75,7 +74,7 @@ local createtool = function()
 	local BP = _Ins("BodyPosition");
 	BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 	BP.P = BP.P * 3;
- 	local cloneBP = BP:Clone()
+	local cloneBP = BP:Clone();
 	local ObjConnect = function(part)
 		if (part == object) then
 			objval = p;
@@ -111,7 +110,7 @@ local createtool = function()
 				local t = mouse.Target;
 				if (t.Anchored == false) then
 					object = t;
-					if object.Transparency > 0.996 then
+					if (object.Transparency > 0.996) then
 						selectionbox.Adornee = object;
 					else
 						selectionhighlight.Adornee = object;
@@ -125,8 +124,8 @@ local createtool = function()
 		while mousedown == true do
 			if ((object.Parent == nil) or (object == nil)) then
 				if ((BP.Parent == nil) or (BP == nil)) then
-					local regenBP = cloneBP:Clone()
-					BP = regenBP
+					local regenBP = cloneBP:Clone();
+					BP = regenBP;
 				end
 				break;
 			end
@@ -135,7 +134,7 @@ local createtool = function()
 				BP.Parent = object;
 				BP.Position = primary.Position + (lv.lookVector * dist);
 				w();
-			end)
+			end);
 		end
 		BP:Remove();
 		object = nil;
