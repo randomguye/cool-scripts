@@ -115,8 +115,10 @@ local createtool = function()
 		end
 		while mousedown == true do
 			if ((object.Parent == nil) or (object == nil)) then
-				local regenBP = cloneBP:Clone()
-				regenBP = BP
+				if (BP.Parent == nil or BP == nil) then
+					local regenBP = cloneBP:Clone()
+					regenBP = BP
+				end
 				break;
 			end
 			local lv = _CF_new(primary.Position, mouse.Hit.p);
