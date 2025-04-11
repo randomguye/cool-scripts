@@ -64,11 +64,12 @@ local createtool = function()
 	local pointlight = _Ins("PointLight", point);
 	pointlight.Range = 7.5;
 	pointlight.Color = Color3.fromRGB(255, 255, 255);
-	local selectionbox = Instance.new("SelectionBox", plr);
-	selectionbox.LineThickness = 0.25;
-	selectionbox.SurfaceTransparency = 0.85;
+	local selectionbox = _Ins("SelectionBox", cam);
+	selectionbox.LineThickness = 0.025;
+	selectionbox.SurfaceTransparency = 0.7;
 	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
+    	selectionbox.Adornee = nil;
 	local selectionhighlight = _Ins("Highlight", selectionbox);
 	selectionhighlight.FillTransparency = 0.7;
 	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -118,8 +119,10 @@ local createtool = function()
 					object = t;
 					if (object.Transparency > 0.996) then
 						selectionbox.Adornee = object;
+                        selectionhighlight.Adornee = nil;
 					else
 						selectionhighlight.Adornee = object;
+                        selectionbox.Adornee = nil;
 					end
 					dist = (object.Position - primary.Position).magnitude;
 					break;
