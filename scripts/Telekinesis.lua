@@ -114,10 +114,10 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
-			if ((object.Parent == nil) or (object == nil)) then
-				if (BP.Parent == nil or BP == nil) then
+			if ((object.Parent == nil) or (object == nil) or (BP.Parent == nil) or (BP == nil)) then
+				if ((BP.Parent == nil) or (BP == nil)) then
 					local regenBP = cloneBP:Clone()
-					regenBP = BP
+					BP = regenBP
 				end
 				break;
 			end
@@ -126,7 +126,7 @@ local createtool = function()
 			BP.Position = primary.Position + (lv.lookVector * dist);
 			w();
 		end
-		if (BP.Parent ~= nil or BP ~= nil) then
+		if ((BP.Parent == object) or (BP.Parent ~= nil) or (BP ~= nil)) then
 			BP:Remove();
 		end
 		object = nil;
