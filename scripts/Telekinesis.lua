@@ -114,7 +114,7 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
-			if ((object.Parent == nil) or (object == nil) or (BP.Parent == nil) or (BP == nil)) then
+			if ((object.Parent == nil) or (object == nil) or (BP.Parent == nil)) then
 				if ((BP.Parent == nil) or (BP == nil)) then
 					local regenBP = cloneBP:Clone()
 					BP = regenBP
