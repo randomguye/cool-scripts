@@ -59,10 +59,15 @@ local createtool = function()
 	local pointlight = _Ins("PointLight", point);
 	pointlight.Range = 7.5;
 	pointlight.Color = Color3.fromRGB(255, 255, 255);
-	local selectionbox = _Ins("Highlight", plr);
-	selectionbox.FillTransparency = 0.7;
-	selectionbox.FillColor = Color3.fromRGB(255, 255, 255);
-	selectionbox.Adornee = nil;
+	local selectionbox=Instance.new("SelectionBox", plr)
+	selectionbox.LineThickness = 0.25
+	selectionbox.SurfaceTransparency = 0.85
+	selectionbox.Color3 = Color3.fromRGB(255, 255, 255)	
+	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255)
+	local selectionhighlight = _Ins("Highlight", selectionbox);
+	selectionhighlight.FillTransparency = 0.7;
+	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
+	selectionhighlight.Adornee = nil;
 	local objval = _Ins("ObjectValue");
 	objval.Value = nil;
 	objval.Name = "objval";
@@ -106,7 +111,11 @@ local createtool = function()
 				local t = mouse.Target;
 				if (t.Anchored == false) then
 					object = t;
-					selectionbox.Adornee = object;
+					if object.Transparency > 0.996 then
+						selectionbox.Adornee = object;
+					else
+						selectionhighlight.Adornee = object;
+					end
 					dist = (object.Position - primary.Position).magnitude;
 					break;
 				end
@@ -134,6 +143,7 @@ local createtool = function()
 			objval.Value = nil;
 		end
 		selectionbox.Adornee = nil;
+		selectionhighlight.Adornee = nil;
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
