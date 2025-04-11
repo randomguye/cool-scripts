@@ -1,6 +1,6 @@
 
 --Part Claim
-loadstring(game:HttpGet("https://raw.githubusercontent.com/evilionx3/new-scripts/refs/heads/main/partclaim.lua"))();
+loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
 
 --Solstice
 local name = "Telekinesis";
