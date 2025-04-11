@@ -39,17 +39,18 @@ local createtool = function()
 	tool.ToolTip = name.." "..vers;
 	tool.Parent = mas;
 	local point = _Ins("Part");
+	point.CanCollide = false;
 	point.Locked = true;
 	point.Anchored = true;
+	point.CanQuery = false;
 	point.Shape = "Ball";
 	point.BrickColor = BrickColor.White();
 	point.Size = _VTR_new(1, 1, 1);
-	point.CanCollide = false;
 	point.Material = Enum.Material.Neon;
 	point.Transparency = 0.996;
 	local mesh = _Ins("SpecialMesh");
 	mesh.MeshType = "Sphere";
-	mesh.Scale = _VTR_new(0.5, 0.5, 0.5);
+	mesh.Scale = _VTR_new(-0.5, -0.5, -0.5);
 	mesh.Parent = point;
 	local highlight = _Ins("Highlight", point);
 	highlight.FillTransparency = 0.7;
@@ -69,6 +70,7 @@ local createtool = function()
 	local BP = _Ins("BodyPosition");
 	BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 	BP.P = BP.P * 3;
+ 	local cloneBP = BP:Clone()
 	local ObjConnect = function(part)
 		if (part == object) then
 			objval = p;
@@ -112,18 +114,17 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
-			if ((object.Parent ~= nil) or (object ~= nil) or (BP.Parent ~= nil) or (BP ~= nil)) then
-				local lv = _CF_new(primary.Position, mouse.Hit.p);
-				BP.Parent = object;
-				BP.Position = primary.Position + (lv.lookVector * dist);
-				w();
-			else
+			if ((object.Parent == nil) or (object == nil) or (BP.Parent == nil) or (BP == nil)) then
+				local regenBP = cloneBP:Clone()
+				regenBP = BP
 				break;
 			end
+			local lv = _CF_new(primary.Position, mouse.Hit.p);
+			BP.Parent = object;
+			BP.Position = primary.Position + (lv.lookVector * dist);
+			w();
 		end
-		if ((object.Parent ~= nil) or (object ~= nil) or (BP.Parent ~= nil) or (BP ~= nil)) then
-			BP:Remove();
-		end
+		BP:Remove();
 		object = nil;
 		if (objval ~= nil) then
 			objval.Value = nil;
@@ -229,7 +230,9 @@ local createtool = function()
 	end);
 	human.Died:connect(function()
 		mousedown = false;
-		BP:Remove();
+		if (BP ~= nil) then
+			BP:Remove();
+		end
 		point:Remove();
 		selectionbox:Remove();
 		if (objval ~= nil) then
