@@ -121,14 +121,14 @@ local createtool = function()
 				end
 				break;
 			end
-			local lv = _CF_new(primary.Position, mouse.Hit.p);
-			BP.Parent = object;
-			BP.Position = primary.Position + (lv.lookVector * dist);
-			w();
+			pcall(function()
+				local lv = _CF_new(primary.Position, mouse.Hit.p);
+				BP.Parent = object;
+				BP.Position = primary.Position + (lv.lookVector * dist);
+				w();
+			end)
 		end
-		if ((BP.Parent == object) or (BP.Parent ~= nil) or (BP ~= nil)) then
-			BP:Remove();
-		end
+		BP:Remove();
 		object = nil;
 		if (objval ~= nil) then
 			objval.Value = nil;
