@@ -249,6 +249,7 @@ local createtool = function()
 		end
 		point:Remove();
 		selectionbox:Remove();
+		selectionhighlight:Remove();
 		if (objval ~= nil) then
 			objval:Remove();
 		end
