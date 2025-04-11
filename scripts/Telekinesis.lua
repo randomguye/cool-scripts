@@ -1,9 +1,3 @@
---Credits
-print(name .. " " .. vers .. " loaded. Made by Solstice.");
-
---Part Claim
-loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
-
 --Solstice
 local name = "Telekinesis";
 local vers = "V8";
@@ -265,3 +259,14 @@ plr.CharacterAdded:Connect(function()
 		createtool();
 	end
 end);
+
+--Credits
+print(name .. " " .. vers .. " loaded. Made by Solstice.");
+
+--Part Claim
+loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
+
+local Sound = _Ins("Sound", plr)
+Sound.SoundId = "rbxassetid://1092093337"
+Sound.PlayOnRemove = true
+Sound:Destroy()
