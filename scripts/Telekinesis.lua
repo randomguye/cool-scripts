@@ -8,13 +8,6 @@ local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
-local waitForChildWhichIsA = function(parent, className)
-	local child = parent:FindFirstChildWhichIsA(className);
-	while not child or not child:IsA(className) do
-		child = parent.ChildAdded:Wait();
-	end
-	return child;
-end;
 local createtool = function()
 	w();
 	local char = plr.Character;
