@@ -257,10 +257,7 @@ local createtool = function()
 end;
 createtool();
 plr.CharacterAdded:Connect(function()
-	local hum = waitForChildWhichIsA(plr.Character, "Humanoid");
-	if (hum ~= nil) then
-		createtool();
-	end
+	createtool();
 end);
 
 --Credits
