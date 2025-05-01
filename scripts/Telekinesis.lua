@@ -221,6 +221,7 @@ local createtool = function()
 		end
 		if (key == "f") then
 			local orgobj = object
+			local mousePos = plr:GetMouse().Hit.Position
 			--local orgdist = dist;
 			--dist = dist + 100;
 			--throwPart(object, 100)
@@ -228,18 +229,14 @@ local createtool = function()
 			--dist = orgdist;
 			mousedown = false;
 			w();
-			throwPart(orgobj, 100)
+			orgobj:ApplyImpulse(primary.Position:Lerp(mousePos,100))
 		end
 		if (key == "j") then
 			local orgobj = object
-			--local orgdist = dist;
-			--dist = 5000;
-			--throwPart(object, 5000)
-			--w();
-			--dist = orgdist;
+			local mousePos = plr:GetMouse().Hit.Position
 			mousedown = false;
 			w();
-			throwPart(orgobj, 5000)
+			orgobj:ApplyImpulse(primary.Position:Lerp(mousePos,5000))
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
