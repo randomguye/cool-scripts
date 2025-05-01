@@ -308,7 +308,7 @@ pcall(function()
 		end
 		local backpack = plr:FindFirstChild("Backpack")
 		local character = plr.Character
-		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		local humanoid = character and WaitForChildWhichIsA(character, "Humanoid")
 		local isInBackpack = backpack and backpack:FindFirstChild(name)
 		local isEquipped = character and character:FindFirstChild(name)
 		if not isInBackpack and not isEquipped then
