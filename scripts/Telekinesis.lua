@@ -309,8 +309,8 @@ pcall(function()
 		local backpack = plr:FindFirstChild("Backpack")
 		local character = plr.Character
 		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-		local isInBackpack = backpack and backpack:FindFirstChild(TOOL_NAME)
-		local isEquipped = character and character:FindFirstChild(TOOL_NAME)
+		local isInBackpack = backpack and backpack:FindFirstChild(name)
+		local isEquipped = character and character:FindFirstChild(name)
 		if not isInBackpack and not isEquipped then
 			if character and humanoid and humanoid.Health > 0 and backpack then
 				createtool()
