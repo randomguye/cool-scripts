@@ -309,10 +309,9 @@ spawn(function()
 			if plr.Character then
 				char = plr.Character
 				hum = WaitForChildWhichIsA(char, "Humanoid")
-				if not (plr.Backpack:FindFirstChild(name) or char:FindFirstChild(name)) then
-					if hum.Health <= 0 then return end
-					createtool()
-				end
+				if plr.Backpack:FindFirstChild(name) or char:FindFirstChild(name) then return end
+				if hum.Health <= 0 then return end
+				createtool()
 			end
 		end
 	end)
