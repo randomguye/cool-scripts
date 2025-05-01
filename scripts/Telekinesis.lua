@@ -67,11 +67,33 @@ local createtool = function()
 	BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 	BP.P = BP.P * 3;
 	local cloneBP = BP:Clone();
+	local destroy = function()
+		mousedown = false;
+		if settings().Physics.AreOwnersShown == viewnetworkowner then
+			settings().Physics.AreOwnersShown = false;
+			viewnetworkowner = false
+		end
+		if (BP ~= nil) then
+			BP:Remove();
+		end
+		point:Remove();
+		selectionbox:Remove();
+		if (objval ~= nil) then
+			objval:Remove();
+		end
+		tool:Remove();
+	end
 	local ObjConnect = function(part)
 		if (part == object) then
 			objval = p;
 		end
 	end;
+	local throwPart = function(part, force)
+    		local mousePos = uis:GetMouse().ScreenPointToRay(Window.Size.X/2, Window.Size.Y/2).Origin
+    		local direction = (mousePos - part.Position).Unit
+   		local impulse = direction * force
+    		part:ApplyImpulse(impulse)
+	end
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 		if (mousedown == true) then
@@ -198,17 +220,19 @@ local createtool = function()
 			end
 		end
 		if (key == "f") then
-			local orgdist = dist;
-			dist = dist + 100;
-			w();
-			dist = orgdist;
+			--local orgdist = dist;
+			--dist = dist + 100;
+			throwPart(object, 100)
+			--w();
+			--dist = orgdist;
 			mousedown = false;
 		end
 		if (key == "j") then
-			local orgdist = dist;
-			dist = 5000;
-			w();
-			dist = orgdist;
+			--local orgdist = dist;
+			--dist = 5000;
+			throwPart(object, 5000)
+			--w();
+			--dist = orgdist;
 			mousedown = false;
 		end
 		if (key == "x") then
@@ -242,22 +266,6 @@ local createtool = function()
 	tool.Unequipped:connect(function()
 		mousedown = false;
 	end);
-	local function destroy()
-		mousedown = false;
-		if settings().Physics.AreOwnersShown == viewnetworkowner then
-			settings().Physics.AreOwnersShown = false;
-			viewnetworkowner = false
-		end
-		if (BP ~= nil) then
-			BP:Remove();
-		end
-		point:Remove();
-		selectionbox:Remove();
-		if (objval ~= nil) then
-			objval:Remove();
-		end
-		tool:Remove();
-	end
 	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
 	human.Died:connect(function()
 		destroy();
