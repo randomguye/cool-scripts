@@ -20,6 +20,9 @@ local createtool = function()
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
 	local viewnetworkowner = false
+
+	if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
+	
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
