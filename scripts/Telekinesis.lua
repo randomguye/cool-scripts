@@ -20,7 +20,8 @@ local createtool = function()
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
 	local viewnetworkowner = false
-	
+
+	w(1);
 	if (primary == nil) or (human == nil) or (char == nil) then return end
 	
 	tool.RequiresHandle = false;
@@ -216,6 +217,7 @@ local createtool = function()
 		end
 		if (key == "r") then
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
+			viewnetworkowner = settings().Physics.AreOwnersShown
 		end
 	end;
 	local onEquipped = function(mouse)
@@ -245,6 +247,10 @@ local createtool = function()
 	end);
 	local destroy = function()
 		mousedown = false;
+		if settings().Physics.AreOwnersShown == viewnetworkowner then
+			settings().Physics.AreOwnersShown = false;
+			viewnetworkowner = false
+		end
 		if (BP ~= nil) then
 			BP:Remove();
 		end
