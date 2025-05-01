@@ -85,7 +85,7 @@ local createtool = function()
 	end
 	local throwPart = function(part, force)
     		local mouse = plr:GetMouse()
-		local mousePos = mouse.Hit.p
+		local mousePos = mouse.Hit.Position
     		local direction = (mousePos - primary.Position).Unit
    		local impulse = direction * force
     		part:ApplyImpulse(impulse)
