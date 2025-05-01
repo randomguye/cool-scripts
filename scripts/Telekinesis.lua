@@ -306,7 +306,7 @@ spawn(function()
 	local hum
 	pcall(function()
 		while w() do
-			if plr.Character ~= nil then
+			if plr.Character then
 				char = plr.Character
 				hum = WaitForChildWhichIsA(char, "Humanoid")
 				if not (plr.Backpack:FindFirstChild(name) or char:FindFirstChild(name)) then
