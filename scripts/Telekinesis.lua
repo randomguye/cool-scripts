@@ -8,10 +8,19 @@ local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
+
+local function WaitForChildWhichIsA(parent, className)
+    local child = parent:FindFirstChildWhichIsA(className)
+    while not child or not child:IsA(className) do
+        child = parent.ChildAdded:Wait()
+    end
+    return child
+end
+
 local createtool = function()
 	w();
 	local char = plr.Character;
-	local human = char:FindFirstChildOfClass("Humanoid");
+	local human = WaitForChildWhichIsA(char, "Humanoid");
 	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head");
 	local object = nil;
 	local mousedown = false;
@@ -295,16 +304,18 @@ end)
 spawn(function()
 	local char
 	local hum
-	while w() do
-		if plr.Character ~= nil then
-			char = plr.Character
-			hum = char:FindFirstChildOfClass("Humanoid")
-			if not (plr.Backpack:FindFirstChild(name) or plr.Character:FindFirstChild(name)) then
-				if hum.Health <= 0 then return end
-				createtool()
+	pcall(function()
+		while w() do
+			if plr.Character ~= nil then
+				char = plr.Character
+				hum = WaitForChildWhichIsA(char, "Humanoid")
+				if not (plr.Backpack:FindFirstChild(name) or char:FindFirstChild(name)) then
+					if hum.Health <= 0 then return end
+					createtool()
+				end
 			end
 		end
-	end
+	end)
 end)
 
 --Credits
