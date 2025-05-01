@@ -84,8 +84,7 @@ local createtool = function()
 		tool:Remove();
 	end
 	local throwPart = function(part, force)
-    		local mouse = plr:GetMouse()
-		local mousePos = mouse.Hit.Position
+		local mousePos = plr:GetMouse().Hit.p
     		local direction = (mousePos - primary.Position).Unit
    		local impulse = direction * force
     		part:ApplyImpulse(impulse)
@@ -226,9 +225,8 @@ local createtool = function()
 			--throwPart(object, 100)
 			--w();
 			--dist = orgdist;
-			mousedown = false;
-			w();
 			throwPart(object, 100)
+			mousedown = false;
 		end
 		if (key == "j") then
 			--local orgdist = dist;
@@ -236,9 +234,8 @@ local createtool = function()
 			--throwPart(object, 5000)
 			--w();
 			--dist = orgdist;
-			mousedown = false;
-			w();
 			throwPart(object, 100)
+			mousedown = false;
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
