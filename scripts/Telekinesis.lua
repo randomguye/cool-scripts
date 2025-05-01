@@ -257,7 +257,7 @@ local createtool = function()
 		end
 		tool:Remove();
 	end
-	if human and not (primary == nil or human == nil or char == nil or tool == nil or object == nil) then
+	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
 	human.Died:connect(function()
 		destroy();
 	end);
