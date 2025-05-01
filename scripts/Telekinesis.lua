@@ -292,11 +292,19 @@ end;
 pcall(function()
 	createtool();
 end)
-plr.CharacterAdded:Connect(function()
-	pcall(function()
-		createtool();
-	end)
-end);
+spawn(function()
+	local char
+	local hum
+	while w() do
+	if plr.Character ~= nil then
+		char = plr.Character
+		hum = char:FindFirstChildOfClass("Humanoid")
+		if not (plr.Backpack:FindFirstChild(name) or plr.Character:FindFirstChild(name)) then
+			if hum.Health <= 0 then return end
+			createtool()
+		end
+	end
+end)
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by Solstice.");
