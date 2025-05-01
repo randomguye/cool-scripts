@@ -140,13 +140,23 @@ local createtool = function()
 		selectionhighlight.Adornee = nil;
 	end;
 	local onKeyDown = function(key, mouse)
-		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) or (object == nil) then return end
 		local key = key:lower();
 		local yesh = false;
+
+		if (key == "r") then
+			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
+			viewnetworkowner = settings().Physics.AreOwnersShown
+		end
+
+		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) or (object == nil) then return end
+		
 		if (key == "q") then
 			if (dist >= 5) then
 				dist = dist - 5;
 			end
+		end
+		if (key == "e") then
+			dist = dist + 5;
 		end
 		if (key == "u") then
 			if (dist ~= 1) then
@@ -203,17 +213,10 @@ local createtool = function()
 			dist = orgdist;
 			mousedown = false;
 		end
-		if (key == "e") then
-			dist = dist + 5;
-		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
 				dist = 17.5;
 			end
-		end
-		if (key == "r") then
-			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
-			viewnetworkowner = settings().Physics.AreOwnersShown
 		end
 	end;
 	local onEquipped = function(mouse)
