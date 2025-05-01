@@ -101,6 +101,7 @@ local createtool = function()
 				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
 				p.Parent = tool;
 				if (object == nil) then
+                    mouse.TargetFilter = nil
 					if (mouse.Target == nil) then
 						local lv = _CF_new(primary.Position, mouse.Hit.p);
 						p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
@@ -138,6 +139,7 @@ local createtool = function()
 				end
 				break;
 			end
+            mouse.TargetFilter = game
 			pcall(function()
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
 				BP.Parent = object;
@@ -199,14 +201,20 @@ local createtool = function()
 					return nil;
 				end
 			end
-			object.Velocity = _VTR_new(0, 0, 0);
-			object.RotVelocity = _VTR_new(0, 0, 0);
-			local BG = _Ins("BodyGyro");
-			BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
-			BG.CFrame = _CF_new(object.CFrame.p);
-			BG.P = BG.P * 15;
-			BG.Parent = object;
-			debris:AddItem(BG, 0.5);
+            spawn(function()
+                local curobj = object
+			    local BG = _Ins("BodyGyro");
+			    BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
+			    --BG.CFrame = _CF_new(object.CFrame.p);
+			    BG.P = BG.P * 15;
+			    BG.Parent = curobj;
+                repeat w()
+                    if (curobj == nil) or (mousedown == false) then break end 
+                    curobj.Velocity = _VTR_new(0, 0, 0)
+                    curobj.RotVelocity = _VTR_new(0, 0, 0)
+                until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
+                BG:Remove()
+            end)
 		end
 		if (key == "y") then
 			if (dist ~= 100) then
@@ -214,23 +222,29 @@ local createtool = function()
 			end
 		end
 		if (key == "f") then
-			local orgobj = object
-			local mousePos = plr:GetMouse().Hit.Position
 			--local orgdist = dist;
 			--dist = dist + 100;
 			--throwPart(object, 100)
 			--w();
 			--dist = orgdist;
+            local orgobj = object
+            local mouse = plr:GetMouse()
+            mouse.TargetFilter = game
+			local mousePos = mouse.Hit.Position
+            local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-			w();
-			orgobj:ApplyImpulse(primary.Position:Lerp(mousePos,100))
+            w()
+            orgobj.AssemblyLinearVelocity = direction * 1000
 		end
 		if (key == "j") then
-			local orgobj = object
-			local mousePos = plr:GetMouse().Hit.Position
+            local orgobj = object
+            local mouse = plr:GetMouse()
+            mouse.TargetFilter = game
+			local mousePos = mouse.Hit.Position
+            local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-			w();
-			orgobj:ApplyImpulse(primary.Position:Lerp(mousePos,5000))
+            w()
+            orgobj.AssemblyLinearVelocity = direction * 50000
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
