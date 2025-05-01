@@ -51,7 +51,7 @@ local createtool = function()
 	pointlight.Color = Color3.fromRGB(255, 255, 255);
 	local selectionbox = _Ins("SelectionBox", cam);
 	selectionbox.LineThickness = 0.025;
-	selectionbox.SurfaceTransparency = 0.7;
+	selectionbox.SurfaceTransparency = 0.9;
 	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
     	selectionbox.Adornee = nil;
@@ -105,13 +105,8 @@ local createtool = function()
 				local t = mouse.Target;
 				if (t.Anchored == false) then
 					object = t;
-					if (object.Transparency > 0.996) then
-						selectionbox.Adornee = object;
-                        selectionhighlight.Adornee = nil;
-					else
-						selectionhighlight.Adornee = object;
-                        selectionbox.Adornee = nil;
-					end
+					selectionbox.Adornee = object;
+					selectionhighlight.Adornee = object;
 					dist = (object.Position - primary.Position).magnitude;
 					break;
 				end
