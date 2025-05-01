@@ -10,11 +10,11 @@ local w = task.wait;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local function WaitForChildWhichIsA(parent, className)
-    local child = parent:FindFirstChildWhichIsA(className)
-    while not child or not child:IsA(className) do
-        child = parent.ChildAdded:Wait()
-    end
-    return child
+	local child = parent:FindFirstChildWhichIsA(className)
+	while not child or not child:IsA(className) do
+		child = parent.ChildAdded:Wait()
+	end
+	return child
 end
 
 local createtool = function()
@@ -31,7 +31,7 @@ local createtool = function()
 	local viewnetworkowner = false
 
 	if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
-	
+
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
@@ -63,7 +63,7 @@ local createtool = function()
 	selectionbox.SurfaceTransparency = 0.9;
 	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
-    	selectionbox.Adornee = nil;
+	selectionbox.Adornee = nil;
 	local selectionhighlight = _Ins("Highlight", selectionbox);
 	selectionhighlight.FillTransparency = 0.7;
 	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -110,7 +110,7 @@ local createtool = function()
 				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
 				p.Parent = tool;
 				if (object == nil) then
-                    mouse.TargetFilter = nil
+					mouse.TargetFilter = nil
 					if (mouse.Target == nil) then
 						local lv = _CF_new(primary.Position, mouse.Hit.p);
 						p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
@@ -148,7 +148,7 @@ local createtool = function()
 				end
 				break;
 			end
-            mouse.TargetFilter = game
+			mouse.TargetFilter = game
 			pcall(function()
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
 				BP.Parent = object;
@@ -174,7 +174,7 @@ local createtool = function()
 		end
 
 		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) or (object == nil) then return end
-		
+
 		if (key == "q") then
 			if (dist >= 5) then
 				dist = dist - 5;
@@ -210,20 +210,20 @@ local createtool = function()
 					return nil;
 				end
 			end
-            spawn(function()
-                local curobj = object
-			    local BG = _Ins("BodyGyro");
-			    BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
-			    --BG.CFrame = _CF_new(object.CFrame.p);
-			    BG.P = BG.P * 15;
-			    BG.Parent = curobj;
-                repeat w()
-                    if (curobj == nil) or (mousedown == false) then break end 
-                    curobj.Velocity = _VTR_new(0, 0, 0)
-                    curobj.RotVelocity = _VTR_new(0, 0, 0)
-                until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
-                BG:Remove()
-            end)
+			spawn(function()
+				local curobj = object
+				local BG = _Ins("BodyGyro");
+				BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
+				--BG.CFrame = _CF_new(object.CFrame.p);
+				BG.P = BG.P * 15;
+				BG.Parent = curobj;
+				repeat w()
+					if (curobj == nil) or (mousedown == false) then break end 
+					curobj.Velocity = _VTR_new(0, 0, 0)
+					curobj.RotVelocity = _VTR_new(0, 0, 0)
+				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
+				BG:Remove()
+			end)
 		end
 		if (key == "y") then
 			if (dist ~= 100) then
@@ -236,24 +236,24 @@ local createtool = function()
 			--throwPart(object, 100)
 			--w();
 			--dist = orgdist;
-            local orgobj = object
-            local mouse = plr:GetMouse()
-            mouse.TargetFilter = game
+			local orgobj = object
+			local mouse = plr:GetMouse()
+			mouse.TargetFilter = game
 			local mousePos = mouse.Hit.Position
-            local direction = (mousePos - primary.Position).Unit
+			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-            w()
-            orgobj.AssemblyLinearVelocity = direction * 1000
+			w()
+			orgobj.AssemblyLinearVelocity = direction * 1000
 		end
 		if (key == "j") then
-            local orgobj = object
-            local mouse = plr:GetMouse()
-            mouse.TargetFilter = game
+			local orgobj = object
+			local mouse = plr:GetMouse()
+			mouse.TargetFilter = game
 			local mousePos = mouse.Hit.Position
-            local direction = (mousePos - primary.Position).Unit
+			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-            w()
-            orgobj.AssemblyLinearVelocity = direction * 50000
+			w()
+			orgobj.AssemblyLinearVelocity = direction * 50000
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
@@ -287,9 +287,9 @@ local createtool = function()
 		mousedown = false;
 	end);
 	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
-	human.Died:connect(function()
-		destroy();
-	end);
+		human.Died:connect(function()
+			destroy();
+		end);
 	else
 		destroy();
 	end
@@ -301,21 +301,24 @@ end;
 pcall(function()
 	createtool();
 end)
-spawn(function()
-	local char
-	local hum
-	pcall(function()
-		while w() do
-			if plr.Character then
-				char = plr.Character
-				hum = WaitForChildWhichIsA(char, "Humanoid")
-				if plr.Backpack:FindFirstChild(name) or char:FindFirstChild(name) then return end
-				if hum.Health <= 0 then return end
+pcall(function()
+	while w(1) do
+		if not plr then
+			break
+		end
+		local backpack = plr:FindFirstChild("Backpack")
+		local character = plr.Character
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		local isInBackpack = backpack and backpack:FindFirstChild(TOOL_NAME)
+		local isEquipped = character and character:FindFirstChild(TOOL_NAME)
+		if not isInBackpack and not isEquipped then
+			if character and humanoid and humanoid.Health > 0 and backpack then
 				createtool()
 			end
 		end
-	end)
+	end
 end)
+
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by Solstice.");
