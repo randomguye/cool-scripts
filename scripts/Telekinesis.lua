@@ -241,7 +241,7 @@ local createtool = function()
 	tool.Unequipped:connect(function()
 		mousedown = false;
 	end);
-	local destroy = function()
+	local function destroy()
 		mousedown = false;
 		if settings().Physics.AreOwnersShown == viewnetworkowner then
 			settings().Physics.AreOwnersShown = false;
