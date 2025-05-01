@@ -83,12 +83,6 @@ local createtool = function()
 		end
 		tool:Remove();
 	end
-	local throwPart = function(part, force)
-		local mousePos = plr:GetMouse().Hit.p
-    		local direction = (mousePos - primary.Position).Unit
-   		local impulse = direction * force
-    		part:ApplyImpulse(impulse)
-	end
 	local ObjConnect = function(part)
 		if (part == object) then
 			objval = p;
