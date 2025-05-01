@@ -20,10 +20,6 @@ local createtool = function()
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
 	local viewnetworkowner = false
-
-	w(1);
-	if (primary == nil) or (human == nil) or (char == nil) then return end
-	
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
@@ -273,9 +269,13 @@ local createtool = function()
 	end
 	mas:Remove();
 end;
-createtool();
-plr.CharacterAdded:Connect(function()
+pcall(function()
 	createtool();
+end)
+plr.CharacterAdded:Connect(function()
+	pcall(function()
+		createtool();
+	end)
 end);
 
 --Credits
