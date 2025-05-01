@@ -83,17 +83,17 @@ local createtool = function()
 		end
 		tool:Remove();
 	end
-	local ObjConnect = function(part)
-		if (part == object) then
-			objval = p;
-		end
-	end;
 	local throwPart = function(part, force)
     		local mousePos = uis:GetMouse().ScreenPointToRay(Window.Size.X/2, Window.Size.Y/2).Origin
     		local direction = (mousePos - part.Position).Unit
    		local impulse = direction * force
     		part:ApplyImpulse(impulse)
 	end
+	local ObjConnect = function(part)
+		if (part == object) then
+			objval = p;
+		end
+	end;
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 		if (mousedown == true) then
