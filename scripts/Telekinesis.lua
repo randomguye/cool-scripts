@@ -220,22 +220,26 @@ local createtool = function()
 			end
 		end
 		if (key == "f") then
+			local orgobj = object
 			--local orgdist = dist;
 			--dist = dist + 100;
 			--throwPart(object, 100)
 			--w();
 			--dist = orgdist;
-			throwPart(object, 100)
 			mousedown = false;
+			w();
+			throwPart(orgobj, 100)
 		end
 		if (key == "j") then
+			local orgobj = object
 			--local orgdist = dist;
 			--dist = 5000;
 			--throwPart(object, 5000)
 			--w();
 			--dist = orgdist;
-			throwPart(object, 100)
 			mousedown = false;
+			w();
+			throwPart(orgobj, 5000)
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
