@@ -19,6 +19,10 @@ local createtool = function()
 	local dist = nil;
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
+	local viewnetworkowner = false
+	
+	if (primary == nil) or (human == nil) or (char == nil) then return end
+	
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
@@ -50,7 +54,7 @@ local createtool = function()
 	selectionbox.SurfaceTransparency = 0.7;
 	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
-    selectionbox.Adornee = nil;
+    	selectionbox.Adornee = nil;
 	local selectionhighlight = _Ins("Highlight", selectionbox);
 	selectionhighlight.FillTransparency = 0.7;
 	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -69,6 +73,7 @@ local createtool = function()
 		end
 	end;
 	local onButton1Down = function(mouse)
+		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 		if (mousedown == true) then
 			return;
 		end
@@ -77,6 +82,7 @@ local createtool = function()
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
+				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
 				p.Parent = tool;
 				if (object == nil) then
 					if (mouse.Target == nil) then
@@ -94,6 +100,7 @@ local createtool = function()
 			p:Remove();
 		end));
 		while mousedown == true do
+			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
 				if (t.Anchored == false) then
@@ -112,6 +119,7 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
+			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 			if ((object.Parent == nil) or (object == nil)) then
 				if ((BP.Parent == nil) or (BP == nil)) then
 					local regenBP = cloneBP:Clone();
@@ -135,6 +143,7 @@ local createtool = function()
 		selectionhighlight.Adornee = nil;
 	end;
 	local onKeyDown = function(key, mouse)
+		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) or (object == nil) then return end
 		local key = key:lower();
 		local yesh = false;
 		if (key == "q") then
@@ -234,7 +243,7 @@ local createtool = function()
 	tool.Unequipped:connect(function()
 		mousedown = false;
 	end);
-	human.Died:connect(function()
+	local destroy = function()
 		mousedown = false;
 		if (BP ~= nil) then
 			BP:Remove();
@@ -245,7 +254,14 @@ local createtool = function()
 			objval:Remove();
 		end
 		tool:Remove();
+	end
+	if human and not (primary == nil or human == nil or char == nil or tool == nil or object == nil) then
+	human.Died:connect(function()
+		destroy();
 	end);
+	else
+		destroy();
+	end
 	for i, v in pairs(mas:GetChildren()) do
 		v.Parent = plr.Backpack;
 	end
