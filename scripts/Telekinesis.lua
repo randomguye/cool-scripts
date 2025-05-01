@@ -243,7 +243,7 @@ local createtool = function()
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
 			w()
-			orgobj.AssemblyLinearVelocity = direction * 1000
+			orgobj.AssemblyLinearVelocity = direction * 500
 		end
 		if (key == "j") then
 			local orgobj = object
@@ -253,7 +253,7 @@ local createtool = function()
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
 			w()
-			orgobj.AssemblyLinearVelocity = direction * 50000
+			orgobj.AssemblyLinearVelocity = direction * 25000
 		end
 		if (key == "x") then
 			if (dist ~= 17.5) then
