@@ -205,6 +205,9 @@ local createtool = function()
 				dist = 17.5;
 			end
 		end
+		if (key == "r") then
+			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
+		end
 	end;
 	local onEquipped = function(mouse)
 		local keymouse = mouse;
