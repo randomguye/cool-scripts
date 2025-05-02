@@ -6,7 +6,9 @@ local vers = "V8";
 print(name .. " " .. vers .. " loaded. Made by starri.");
 
 --Part Claim
-loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
+if gethiddenproperty and sethiddenproperty then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
+end
 
 
 
