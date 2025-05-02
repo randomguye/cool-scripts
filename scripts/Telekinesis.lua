@@ -231,11 +231,11 @@ local createtool = function()
 				if (object == nil) then
 					mouse.TargetFilter = nil
 					if (mouse.Target == nil) then
-						local lv = _CF_new(primary.Position, uis:GetMouseLocation());
+						local lv = _CF_new(primary.Position, mouse.Hit.p);
 						p.CFrame = p.CFrame:Lerp(_CF_new(primary.Position + (lv.lookVector * 1000)), 0.75);
 						point.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000)
 					else
-						p.CFrame = p.CFrame:Lerp(_CF_new(uis:GetMouseLocation()), 0.75);
+						p.CFrame = p.CFrame:Lerp(_CF_new(mouse.Hit.p), 0.75);
 						point.CFrame = _CF_new(uis:GetMouseLocation()
 					end
 				else
@@ -267,7 +267,7 @@ local createtool = function()
 			mouse.TargetFilter = game
 			pcall(function()
 				if object == nil then return end
-				local lv = _CF_new(primary.Position, uis:GetMouseLocation());
+				local lv = _CF_new(primary.Position, mouse.Hit.p);
 				local BPClone = curBP or BP:Clone()
 				BPClone.Parent = object;
 				BPClone.Position = primary.Position + (lv.lookVector * dist);
