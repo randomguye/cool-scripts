@@ -360,7 +360,7 @@ local createtool = function()
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
 			w()
-			orgobj.AssemblyLinearVelocity = direction * 500
+			orgobj.Velocity = direction * 750
 		end
 		if (key == "j") then
 			local orgobj = object
