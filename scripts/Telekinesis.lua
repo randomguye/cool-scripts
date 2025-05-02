@@ -170,7 +170,7 @@ selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
 selectionhighlight.Adornee = nil;
 local BP = _Ins("BodyPosition");
 BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
-BP.P = BP.P * 5;
+BP.P = BP.P * 3;
 
 local function WaitForChildWhichIsA(parent, className)
 	local child = parent:FindFirstChildWhichIsA(className)
