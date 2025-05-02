@@ -232,11 +232,9 @@ local createtool = function()
 					mouse.TargetFilter = nil
 					if (mouse.Target == nil) then
 						local lv = _CF_new(primary.Position, mouse.Hit.p);
-						p.CFrame = p.CFrame:Lerp(_CF_new(primary.Position + (lv.lookVector * 1000)), 0.75);
-						point.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000)
+						p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
 					else
-						p.CFrame = p.CFrame:Lerp(_CF_new(mouse.Hit.p), 0.75);
-						point.CFrame = _CF_new(mouse.Hit.p)
+						p.CFrame = _CF_new(mouse.Hit.p);
 					end
 				else
 					break;
