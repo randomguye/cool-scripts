@@ -236,7 +236,7 @@ local createtool = function()
 						point.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000)
 					else
 						p.CFrame = p.CFrame:Lerp(_CF_new(mouse.Hit.p), 0.75);
-						point.CFrame = _CF_new(uis:GetMouseLocation()
+						point.CFrame = _CF_new(mouse.Hit.p)
 					end
 				else
 					break;
