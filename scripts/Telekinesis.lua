@@ -1,13 +1,86 @@
---Solstice
+--starri
 local name = "Telekinesis";
 local vers = "V8";
+
+--Credits
+print(name .. " " .. vers .. " loaded. Made by starri.");
+
+--Part Claim
+loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local randomguid = string.lower(game:GetService("HttpService"):GenerateGUID(false));
 local plr = game:GetService("Players").LocalPlayer;
 local uis = game:GetService("UserInputService");
+local cservice = game:GetService("CollectionService")
 local debris = game:GetService("Debris");
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
+
+local point = _Ins("Part", plr);
+point.CanCollide = false;
+point.Locked = true;
+point.Anchored = true;
+point.CanQuery = false;
+point.Shape = "Ball";
+point.BrickColor = BrickColor.White();
+point.Size = _VTR_new(0, 0, 0);
+point.Material = Enum.Material.Neon;
+point.Transparency = 0.996;
+local mesh = _Ins("SpecialMesh", point);
+mesh.MeshId = "rbxassetid://1111494591"
+mesh.Scale = _VTR_new(-0.025, -0.025, -0.025);
+local highlight = _Ins("Highlight", point);
+highlight.FillTransparency = 0.7;
+highlight.FillColor = Color3.fromRGB(255, 255, 255);
+highlight.Adornee = point;
+local pointlight = _Ins("PointLight", point);
+pointlight.Range = 7.5;
+pointlight.Color = Color3.fromRGB(255, 255, 255);
+local selectionbox = _Ins("SelectionBox", cam);
+selectionbox.LineThickness = 0.015;
+selectionbox.SurfaceTransparency = 0.9;
+selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
+selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
+selectionbox.Adornee = nil;
+local selectionhighlight = _Ins("Highlight", selectionbox);
+selectionhighlight.FillTransparency = 0.7;
+selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
+selectionhighlight.Adornee = nil;
+local BP = _Ins("BodyPosition");
+BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
+BP.P = BP.P * 5;
 
 local function WaitForChildWhichIsA(parent, className)
 	local child = parent:FindFirstChildWhichIsA(className)
@@ -22,13 +95,14 @@ local createtool = function()
 	local char = plr.Character;
 	local human = WaitForChildWhichIsA(char, "Humanoid");
 	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head");
-	local object = nil;
+	local viewnetworkowner = false
 	local mousedown = false;
 	local found = false;
 	local dist = nil;
+	local curBP = nil;
+	local object = nil;
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
-	local viewnetworkowner = false
 
 	if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 
@@ -37,66 +111,21 @@ local createtool = function()
 	tool.Name = name;
 	tool.ToolTip = name .. " " .. vers;
 	tool.Parent = mas;
-	local point = _Ins("Part");
-	point.CanCollide = false;
-	point.Locked = true;
-	point.Anchored = true;
-	point.CanQuery = false;
-	point.Shape = "Ball";
-	point.BrickColor = BrickColor.White();
-	point.Size = _VTR_new(0, 0, 0);
-	point.Material = Enum.Material.Neon;
-	point.Transparency = 0.996;
-	local mesh = _Ins("SpecialMesh");
-	mesh.MeshId = "rbxassetid://1111494591"
-	mesh.Scale = _VTR_new(-0.025, -0.025, -0.025);
-	mesh.Parent = point;
-	local highlight = _Ins("Highlight", point);
-	highlight.FillTransparency = 0.7;
-	highlight.FillColor = Color3.fromRGB(255, 255, 255);
-	highlight.Adornee = point;
-	local pointlight = _Ins("PointLight", point);
-	pointlight.Range = 7.5;
-	pointlight.Color = Color3.fromRGB(255, 255, 255);
-	local selectionbox = _Ins("SelectionBox", cam);
-	selectionbox.LineThickness = 0.015;
-	selectionbox.SurfaceTransparency = 0.9;
-	selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
-	selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
-	selectionbox.Adornee = nil;
-	local selectionhighlight = _Ins("Highlight", selectionbox);
-	selectionhighlight.FillTransparency = 0.7;
-	selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
-	selectionhighlight.Adornee = nil;
-	local objval = _Ins("ObjectValue");
-	objval.Value = nil;
-	objval.Name = "objval";
-	objval.Parent = plr;
-	local BP = _Ins("BodyPosition");
-	BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
-	BP.P = BP.P * 3;
-	local cloneBP = BP:Clone();
+	cservice:AddTag(tool, randomguid)
 	local destroy = function()
 		mousedown = false;
 		if settings().Physics.AreOwnersShown == viewnetworkowner then
 			settings().Physics.AreOwnersShown = false;
 			viewnetworkowner = false
 		end
-		if (BP ~= nil) then
-			BP:Remove();
+		if (curBP ~= nil) then
+			curBP:Destroy();
 		end
-		point:Remove();
-		selectionbox:Remove();
-		if (objval ~= nil) then
-			objval:Remove();
-		end
-		tool:Remove();
+		point.Parent = plr
+		selectionbox.Adornee = nil
+		selectionhighlight.Adornee = nil
+		tool:Destroy();
 	end
-	local ObjConnect = function(part)
-		if (part == object) then
-			objval = p;
-		end
-	end;
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 		if (mousedown == true) then
@@ -118,12 +147,11 @@ local createtool = function()
 						p.CFrame = _CF_new(mouse.Hit.p);
 					end
 				else
-					ObjConnect(object);
 					break;
 				end
 				w();
 			end
-			p:Remove();
+			p:Destroy();
 		end));
 		while mousedown == true do
 			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
@@ -142,25 +170,24 @@ local createtool = function()
 		while mousedown == true do
 			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 			if ((object.Parent == nil) or (object == nil)) then
-				if ((BP.Parent == nil) or (BP == nil)) then
-					local regenBP = cloneBP:Clone();
-					BP = regenBP;
-				end
 				break;
 			end
 			mouse.TargetFilter = game
 			pcall(function()
+				if object == nil then return end
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
-				BP.Parent = object;
-				BP.Position = primary.Position + (lv.lookVector * dist);
-				w();
+				local BPClone = curBP or BP:Clone()
+				BPClone.Parent = object;
+				BPClone.Position = primary.Position + (lv.lookVector * dist);
+				curBP = BPClone
 			end);
+			w();
 		end
-		BP:Remove();
+		if curBP ~= nil then
+			curBP:Destroy();
+		end
+		curBP = nil
 		object = nil;
-		if (objval ~= nil) then
-			objval.Value = nil;
-		end
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
 	end;
@@ -222,7 +249,7 @@ local createtool = function()
 					curobj.Velocity = _VTR_new(0, 0, 0)
 					curobj.RotVelocity = _VTR_new(0, 0, 0)
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
-				BG:Remove()
+				BG:Destroy()
 			end)
 		end
 		if (key == "y") then
@@ -296,32 +323,56 @@ local createtool = function()
 	for i, v in pairs(mas:GetChildren()) do
 		v.Parent = plr.Backpack;
 	end
-	mas:Remove();
+	mas:Destroy();
 end;
 pcall(function()
 	createtool();
-end)
-pcall(function()
+	
 	while w(1) do
 		if not plr then
 			break
 		end
-		local backpack = plr:FindFirstChild("Backpack")
+		local backpack = plr:FindFirstChildOfClass("Backpack")
 		local character = plr.Character
 		local humanoid = character and WaitForChildWhichIsA(character, "Humanoid")
-		local isInBackpack = backpack and backpack:FindFirstChild(name)
-		local isEquipped = character and character:FindFirstChild(name)
-		if not isInBackpack and not isEquipped then
-			if character and humanoid and humanoid.Health > 0 and backpack then
+		local canReceiveTool = character and humanoid and humanoid.Health > 0 and backpack
+		local itemCount = 0
+		if backpack then
+			for _, item in backpack:GetChildren() do
+				if cservice:HasTag(item, randomguid) then
+					itemCount = itemCount + 1
+				end
+			end
+		end
+		if character then
+			for _, item in character:GetChildren() do
+				if item:IsA("Tool") and cservice:HasTag(item, randomguid) then
+					itemCount = itemCount + 1
+				end
+			end
+		end
+		if itemCount == 0 then
+			if canReceiveTool then
+				createtool()
+			end
+		elseif itemCount > 1 then
+			if backpack then
+				for _, item in backpack:GetChildren() do
+					if cservice:HasTag(item, randomguid) then
+						item:Destroy()
+					end
+				end
+			end
+			if character then
+				for _, item in character:GetChildren() do
+					if item:IsA("Tool") and cservice:HasTag(item, randomguid) then
+						item:Destroy()
+					end
+				end
+			end
+			if canReceiveTool then
 				createtool()
 			end
 		end
 	end
 end)
-
-
---Credits
-print(name .. " " .. vers .. " loaded. Made by Solstice.");
-
---Part Claim
-loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
