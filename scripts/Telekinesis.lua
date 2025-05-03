@@ -1,9 +1,9 @@
---starri
+--hello_dark54
 local name = "Telekinesis";
 local vers = "V8";
 
 --Credits
-print(name .. " " .. vers .. " loaded. Made by starri.");
+print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
 
 --Part Claim
 if gethiddenproperty and sethiddenproperty then
