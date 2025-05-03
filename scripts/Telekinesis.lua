@@ -183,9 +183,14 @@ ElectronicpingshortWav.Name = "ElectronicPing"
 ElectronicpingshortWav.SoundId = "rbxassetid://12221990"
 ElectronicpingshortWav.Volume = 0.25
 ElectronicpingshortWav.Parent = Sounds
+local Explode = Instance.new("Sound")
+Explode.Name = "Explode"
+Explode.SoundId = "rbxasset://Sounds/Launching rocket.wav"
+Explode.Volume = 0.25
+Explode.Parent = Sounds
 local CollideWav = Instance.new("Sound")
 CollideWav.Name = "Collide"
-CollideWav.SoundId = "rbxasset://Sounds/Launching rocket.wav"
+CollideWav.SoundId = "rbxasset://Sounds/collide.wav"
 CollideWav.Volume = 0.25
 CollideWav.Parent = Sounds
 local ClickfastWav = Instance.new("Sound")
@@ -454,6 +459,13 @@ local createtool = function()
 				orgobj.Velocity = direction * 5000
 				CollideWav:Play()
 			end
+		end
+		if (key == "j") then
+			local orgobj = object;
+			mousedown = false;
+			w()
+			orgobj.Velocity = orgobj.Velocity * 1.7*math.pow(10, 308)
+			CollideWav:Play()
 		end
 	end;
 	local onEquipped = function(mouse)
