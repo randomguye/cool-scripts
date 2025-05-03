@@ -462,7 +462,7 @@ local createtool = function()
 		end
 		if (key == "j") then
 			local orgobj = object;
-			local direction = Vector3.new(0,-1,0)
+			local direction = Vector3.new(0,-1,0);
 			mousedown = false;
 			w()
 			orgobj.Velocity = direction * 99999
@@ -537,8 +537,9 @@ pcall(function()
 		end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
 		local character = plr.Character
+		local primary = character.PrimaryPart or character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Head")
 		local humanoid = character and WaitForChildWhichIsA(character, "Humanoid")
-		local canReceiveTool = character and humanoid and humanoid.Health > 0 and backpack
+		local canReceiveTool = character and primary and humanoid and humanoid.Health > 0 and backpack
 		local itemCount = 0
 		if backpack then
 			for _, item in backpack:GetChildren() do
