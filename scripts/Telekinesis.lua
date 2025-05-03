@@ -464,16 +464,19 @@ local createtool = function()
 			local orgobj = object;
 			local direction = Vector3.new(0,-10000,0);
 			local startTime = tick()
+			local BX = _Ins("BodyVelocity");
+			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
+			BX.Velocity = _VTR_new(0, -100000, 0);
+			BX.Parent = orgobj;
 			mousedown = false;
 			while true do
 				if orgobj == nil or orgobj.Parent == nil then CollideWav:Play() break end
+				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
 				if elapsedTime >= 15 then 
+					BX:Destroy()
 					break 
-				else	
-					orgobj.Velocity = direction
-					--orgobj.RotVelocity = orgobj.Velocity * direction * 50
 				end
 				w()
 			end
