@@ -265,7 +265,7 @@ local createtool = function()
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) or (human == nil) or (char == nil) then UnSelectable:Play() return end
+	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then UnSelectable:Play() return end
 	BassWav:Play()
 
 	local mas = _Ins("Model", plr);
@@ -291,7 +291,7 @@ local createtool = function()
 		tool:Destroy();
 	end
 	local onButton1Down = function(mouse)
-		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
+		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
 		if (mousedown == true) then
 			UnSelectable:Play()
 			return;
@@ -302,7 +302,7 @@ local createtool = function()
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
-				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+				if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 				p.Parent = tool;
 				if (object == nil) then
 					mouse.TargetFilter = nil
@@ -320,7 +320,7 @@ local createtool = function()
 			p:Destroy();
 		end));
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
 				if (t.Anchored == false) then
@@ -334,7 +334,7 @@ local createtool = function()
 			w();
 		end
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
 				break;
@@ -372,7 +372,7 @@ local createtool = function()
 			viewnetworkowner = settings().Physics.AreOwnersShown
 		end
 
-		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) or (object == nil) then return end
+		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) or (object == nil) then return end
 
 		if (key == "q") then
 			if (dist >= 5) then
@@ -469,11 +469,11 @@ local createtool = function()
 				if orgobj == nil or orgobj.Parent == nil then CollideWav:Play() break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				if elapsedTime >= 10 then 
+				if elapsedTime >= 15 then 
 					break 
 				else	
-					orgobj.Velocity = orgobj.Velocity * direction * 25000
-					orgobj.RotVelocity = orgobj.Velocity * direction * 25000
+					orgobj.Velocity = orgobj.Velocity * direction * 10000
+					orgobj.RotVelocity = orgobj.Velocity * direction * 10000
 				end
 				w()
 			end
@@ -525,7 +525,7 @@ local createtool = function()
 		Bzzt:Play()
 		mousedown = false;
 	end);
-	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
+	if human and not (primary == nil or human == nil or human.Health < 1 or char == nil or tool == nil) then
 		human.Died:Connect(function()
 			destroy();
 		end);
