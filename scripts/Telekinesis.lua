@@ -462,7 +462,7 @@ local createtool = function()
 		end
 		if (key == "j") then
 			local orgobj = object;
-			local direction = Vector3.new(0,-10,0);
+			local direction = Vector3.new(0,-100,0);
 			local startTime = tick()
 			mousedown = false;
 			while true do
@@ -473,7 +473,7 @@ local createtool = function()
 					break 
 				else	
 					orgobj.Velocity = orgobj.Velocity * direction * 50
-					orgobj.RotVelocity = orgobj.Velocity * direction * 50
+					--orgobj.RotVelocity = orgobj.Velocity * direction * 50
 				end
 				w()
 			end
