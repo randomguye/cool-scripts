@@ -462,10 +462,10 @@ local createtool = function()
 		end
 		if (key == "j") then
 			local orgobj = object;
-			local direction = Vector3.new(0,1,0)
+			local direction = Vector3.new(0,-1,0)
 			mousedown = false;
 			w()
-			orgobj.RotVelocity = direction * 299792458
+			orgobj.RotVelocity = direction * 9999999
 			CollideWav:Play()
 		end
 	end;
