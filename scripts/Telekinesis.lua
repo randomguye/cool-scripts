@@ -465,8 +465,8 @@ local createtool = function()
 			local direction = Vector3.new(0,-1,0);
 			mousedown = false;
 			w()
-			orgobj.Velocity = direction * 75000
-			orgobj.RotVelocity = direction * 75000
+			orgobj.Velocity = direction * 50000
+			orgobj.RotVelocity = direction * 50000
 			CollideWav:Play()
 		end
 	end;
