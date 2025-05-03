@@ -327,7 +327,7 @@ local createtool = function()
 			end
 			w();
 		end
-		if object ~= nil then
+		if object ~= nil and mousedown == true then
 			KerplunkWav:Play()
 		end
 		while mousedown == true do
@@ -349,11 +349,9 @@ local createtool = function()
 		end
 		if curBP ~= nil then
 			curBP:Destroy();
-		end
-		curBP = nil
-		if object ~= nil then
 			HitWav:Play()
 		end
+		curBP = nil
 		object = nil;
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
