@@ -457,7 +457,7 @@ local createtool = function()
 			else
 				w()
 				orgobj.Velocity = direction * 5000
-				CollideWav:Play()
+				Explode:Play()
 			end
 		end
 		if (key == "j") then
@@ -466,19 +466,16 @@ local createtool = function()
 			local startTime = tick()
 			mousedown = false;
 			while true do
-				if orgobj == nil or orgobj.Parent == nil then break end
+				if orgobj == nil or orgobj.Parent == nil then CollideWav:Play() break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
 				if elapsedTime >= 10 then 
 					break 
 				else	
-					orgobj.Velocity = orgobj.Velocity * direction * 50000
-					orgobj.RotVelocity = orgobj.Velocity * direction * 50000
+					orgobj.Velocity = orgobj.Velocity * direction * 25000
+					orgobj.RotVelocity = orgobj.Velocity * direction * 25000
 				end
 				w()
-			end
-			if orgobj == nil or orgobj.Parent == nil then
-				CollideWav:Play()
 			end
 		end
 	end;
