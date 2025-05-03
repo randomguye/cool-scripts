@@ -464,7 +464,7 @@ local createtool = function()
 			local orgobj = object;
 			mousedown = false;
 			w()
-			orgobj.Velocity = orgobj.Velocity * 9999999999
+			orgobj.Velocity = Vector3.new(math.huge, math.huge, math.huge)
 			CollideWav:Play()
 		end
 	end;
