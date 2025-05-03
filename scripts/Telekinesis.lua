@@ -466,7 +466,7 @@ local createtool = function()
 			local startTime = tick()
 			mousedown = false;
 			while true do
-				if orgobj == nil then break end
+				if orgobj == nil or orgobj.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
 				if elapsedTime >= 10 then 
@@ -477,7 +477,7 @@ local createtool = function()
 				end
 				w()
 			end
-			if orgobj == nil then
+			if orgobj == nil or orgobj.Parent == nil then
 				CollideWav:Play()
 			end
 		end
