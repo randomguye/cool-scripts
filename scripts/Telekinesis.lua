@@ -465,7 +465,7 @@ local createtool = function()
 			local direction = Vector3.new(0,-1,0);
 			local startTime = tick()
 			mousedown = false;
-			while orgobj ~= nil do
+			while true do
 				if orgobj == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
