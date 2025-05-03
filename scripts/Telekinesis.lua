@@ -462,7 +462,7 @@ local createtool = function()
 		end
 		if (key == "j") then
 			local orgobj = object;
-			local direction = Vector3.new(0,-99999,0);
+			local direction = Vector3.new(0,-10000,0);
 			local startTime = tick()
 			mousedown = false;
 			while true do
