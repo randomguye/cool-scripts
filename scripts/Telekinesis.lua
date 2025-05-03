@@ -254,14 +254,15 @@ local createtool = function()
 	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head");
 	local viewnetworkowner = false
 	local mousedown = false;
+	local ctrlpressed = false;
 	local found = false;
 	local dist = nil;
 	local curBP = nil;
 	local object = nil;
-	
+
 	if (primary == nil) or (human == nil) or (char == nil) then UnSelectable:Play() return end
 	BassWav:Play()
-	
+
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
 	tool.RequiresHandle = false;
@@ -438,31 +439,21 @@ local createtool = function()
 			end)
 		end
 		if (key == "f") then
-			--local orgdist = dist;
-			--dist = dist + 100;
-			--throwPart(object, 100)
-			--w();
-			--dist = orgdist;
-			local orgobj = object
-			local mouse = plr:GetMouse()
-			mouse.TargetFilter = game
-			local mousePos = mouse.Hit.Position
-			local direction = (mousePos - primary.Position).Unit
+			local orgobj = object;
+			local mouse = plr:GetMouse();
+			mouse.TargetFilter = game;
+			local mousePos = mouse.Hit.Position;
+			local direction = (mousePos - primary.Position).Unit;
 			mousedown = false;
-			w()
-			orgobj.Velocity = direction * 1000
-			Paintball:Play()
-		end
-		if (key == "j") then
-			local orgobj = object
-			local mouse = plr:GetMouse()
-			mouse.TargetFilter = game
-			local mousePos = mouse.Hit.Position
-			local direction = (mousePos - primary.Position).Unit
-			mousedown = false;
-			w()
-			orgobj.AssemblyLinearVelocity = direction * 5000
-			CollideWav:Play()
+			if not ctrlpressed then
+				w()
+				orgobj.Velocity = direction * 1000
+				Paintball:Play()
+			else
+				w()
+				orgobj.Velocity = direction * 5000
+				CollideWav:Play()
+			end
 		end
 	end;
 	local onEquipped = function(mouse)
@@ -474,6 +465,25 @@ local createtool = function()
 		mouse.KeyDown:connect(function(key)
 			onKeyDown(key, mouse);
 		end);
+		uis.InputBegan:Connect(function(input, gpe)
+			if gpe then
+				return
+			end
+			if input.UserInputType == Enum.UserInputType.Keyboard then
+				local keyCode = input.KeyCode
+				if keyCode == Enum.KeyCode.LeftControl or keyCode == Enum.KeyCode.RightControl then
+					ctrlpressed = true
+				end
+			end
+		end)
+		uis.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.Keyboard then
+				local keyCode = input.KeyCode
+				if keyCode == Enum.KeyCode.LeftControl or keyCode == Enum.KeyCode.RightControl then
+					ctrlpressed = false
+				end
+			end
+		end)
 		if mb then
 			uis.TouchLongPress:Connect(function()
 				onKeyDown("f", mouse);
