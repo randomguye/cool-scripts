@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V8";
+local vers = "V9";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -126,7 +126,7 @@ end
 
 
 
-
+task.wait()
 
 local randomguid = string.lower(game:GetService("HttpService"):GenerateGUID(false));
 local plr = game:GetService("Players").LocalPlayer;
@@ -171,8 +171,75 @@ selectionhighlight.Adornee = nil;
 local BP = _Ins("BodyPosition");
 BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 BP.P = BP.P * 3;
+local Sounds = Instance.new("Folder", plr)
+Sounds.Name = "Sounds"
+local SwitchWav = Instance.new("Sound")
+SwitchWav.Name = "Switch"
+SwitchWav.SoundId = "rbxassetid://12222170"
+SwitchWav.Volume = 0.25
+SwitchWav.Parent = Sounds
+local ElectronicpingshortWav = Instance.new("Sound")
+ElectronicpingshortWav.Name = "ElectronicPing"
+ElectronicpingshortWav.SoundId = "rbxassetid://12221990"
+ElectronicpingshortWav.Volume = 0.25
+ElectronicpingshortWav.Parent = Sounds
+local CollideWav = Instance.new("Sound")
+CollideWav.Name = "Collide"
+CollideWav.SoundId = "rbxasset://Sounds/Launching rocket.wav"
+CollideWav.Volume = 0.25
+CollideWav.Parent = Sounds
+local ClickfastWav = Instance.new("Sound")
+ClickfastWav.Name = "ClickFast"
+ClickfastWav.SoundId = "rbxassetid://12221976"
+ClickfastWav.Volume = 0.25
+ClickfastWav.Parent = Sounds
+local BassWav = Instance.new("Sound")
+BassWav.Name = "Bass"
+BassWav.SoundId = "rbxassetid://12221944"
+BassWav.Volume = 0.25
+BassWav.Parent = Sounds
+local KerplunkWav = Instance.new("Sound")
+KerplunkWav.Name = "Kerplunk"
+KerplunkWav.SoundId = "rbxassetid://12222054"
+KerplunkWav.Volume = 0.25
+KerplunkWav.Parent = Sounds
+local HitWav = Instance.new("Sound")
+HitWav.Name = "hit.wav"
+HitWav.SoundId = "rbxasset://Sounds/hit.wav"
+HitWav.Volume = 0.25
+HitWav.Parent = Sounds
+local OldMouseClick = Instance.new("Sound")
+OldMouseClick.Name = "OldMouseClick"
+OldMouseClick.SoundId = "http://roblox.com/asset/?id=10209834"
+OldMouseClick.Volume = 0.25
+OldMouseClick.Parent = Sounds
+local Button = Instance.new("Sound")
+Button.Name = "Button"
+Button.SoundId = "http://www.roblox.com/asset/?id=12221967"
+Button.Volume = 0.25
+Button.Parent = Sounds
+local UnSelectable = Instance.new("Sound")
+UnSelectable.Name = "Un-Selectable"
+UnSelectable.SoundId = "http://roblox.com/asset/?id=10209668"
+UnSelectable.Volume = 0.25
+UnSelectable.Parent = Sounds
+local Bzzt = Instance.new("Sound")
+Bzzt.Name = "Bzzt"
+Bzzt.SoundId = "http://www.roblox.com/asset/?id=11998777 "
+Bzzt.Volume = 0.25
+Bzzt.Parent = Sounds
+local Bzzt2 = Instance.new("Sound")
+Bzzt2.Name = "Bzzt2"
+Bzzt2.SoundId = "http://www.roblox.com/asset/?id=11998796 "
+Bzzt2.Volume = 0.25
+Bzzt2.Parent = Sounds
+local Paintball = Instance.new("Sound")
+Paintball.Name = "Paintball"
+Paintball.SoundId = "rbxasset://sounds//paintball.wav"
+Paintball.Volume = 0.25
+Paintball.Parent = Sounds
 
-local function WaitForChildWhichIsA(parent, className)
+local WaitForChildWhichIsA = function(parent, className)
 	local child = parent:FindFirstChildWhichIsA(className)
 	while not child or not child:IsA(className) do
 		child = parent.ChildAdded:Wait()
@@ -191,11 +258,12 @@ local createtool = function()
 	local dist = nil;
 	local curBP = nil;
 	local object = nil;
+	
+	if (primary == nil) or (human == nil) or (char == nil) then UnSelectable:Play() return end
+	BassWav:Play()
+	
 	local mas = _Ins("Model", plr);
 	local tool = _Ins("Tool");
-
-	if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
-
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
 	tool.Name = name;
@@ -219,10 +287,12 @@ local createtool = function()
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
 		if (mousedown == true) then
+			UnSelectable:Play()
 			return;
 		end
 		mousedown = true;
 		coroutine.resume(coroutine.create(function()
+			ClickfastWav:Play()
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
@@ -257,9 +327,11 @@ local createtool = function()
 			end
 			w();
 		end
+		KerplunkWav:Play()
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
+			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
 			if ((object.Parent == nil) or (object == nil)) then
+				UnSelectable:Play()
 				break;
 			end
 			mouse.TargetFilter = game
@@ -280,12 +352,14 @@ local createtool = function()
 		object = nil;
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
+		HitWav:Play()
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
 		local yesh = false;
 
 		if (key == "r") then
+			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
 			viewnetworkowner = settings().Physics.AreOwnersShown
 		end
@@ -294,14 +368,29 @@ local createtool = function()
 
 		if (key == "q") then
 			if (dist >= 5) then
+				SwitchWav:Play()
 				dist = dist - 5;
 			end
 		end
 		if (key == "e") then
+			SwitchWav:Play()
 			dist = dist + 5;
+		end
+		if (key == "y") then
+			if (dist ~= 100) then
+				SwitchWav:Play()
+				dist = 100;
+			end
+		end
+		if (key == "x") then
+			if (dist ~= 15) then
+				SwitchWav:Play()
+				dist = 15;
+			end
 		end
 		if (key == "u") then
 			if (dist ~= 1) then
+				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyGyro");
 				BX.MaxTorque = _VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.CFrame = BX.CFrame * CFrame.Angles(0, math.rad(45), 0);
@@ -311,6 +400,7 @@ local createtool = function()
 		end
 		if (key == "p") then
 			if (dist ~= 1) then
+				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyVelocity");
 				BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
 				BX.Velocity = _VTR_new(0, math.random(1, 5), 0);
@@ -320,13 +410,15 @@ local createtool = function()
 		end
 		if (key == "l") then
 			if (object == nil) then
+				UnSelectable:Play()
 				return;
 			end
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyGyro") then
-					return nil;
+					return;
 				end
 			end
+			ElectronicpingshortWav:Play()
 			spawn(function()
 				local curobj = object
 				local BG = _Ins("BodyGyro");
@@ -339,13 +431,9 @@ local createtool = function()
 					curobj.Velocity = _VTR_new(0, 0, 0)
 					curobj.RotVelocity = _VTR_new(0, 0, 0)
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
+				OldMouseClick:Play()
 				BG:Destroy()
 			end)
-		end
-		if (key == "y") then
-			if (dist ~= 100) then
-				dist = 100;
-			end
 		end
 		if (key == "f") then
 			--local orgdist = dist;
@@ -359,8 +447,8 @@ local createtool = function()
 			local mousePos = mouse.Hit.Position
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-			w()
 			orgobj.Velocity = direction * 1000
+			Paintball:Play()
 		end
 		if (key == "j") then
 			local orgobj = object
@@ -369,16 +457,12 @@ local createtool = function()
 			local mousePos = mouse.Hit.Position
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-			w()
 			orgobj.AssemblyLinearVelocity = direction * 50000
-		end
-		if (key == "x") then
-			if (dist ~= 17.5) then
-				dist = 17.5;
-			end
+			CollideWav:Play()
 		end
 	end;
 	local onEquipped = function(mouse)
+		Bzzt2:Play()
 		local keymouse = mouse;
 		mouse.Button1Down:connect(function()
 			onButton1Down(mouse);
@@ -401,6 +485,7 @@ local createtool = function()
 	end;
 	tool.Equipped:connect(onEquipped);
 	tool.Unequipped:connect(function()
+		Bzzt:Play()
 		mousedown = false;
 	end);
 	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
@@ -417,7 +502,7 @@ local createtool = function()
 end;
 pcall(function()
 	createtool();
-	
+
 	while w() do
 		if not plr then
 			break
@@ -466,3 +551,4 @@ pcall(function()
 		end
 	end
 end)
+
