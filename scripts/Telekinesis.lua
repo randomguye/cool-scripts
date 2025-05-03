@@ -472,7 +472,7 @@ local createtool = function()
 				if elapsedTime >= 15 then 
 					break 
 				else	
-					orgobj.Velocity = orgobj.Velocity * direction
+					orgobj.Velocity = direction
 					--orgobj.RotVelocity = orgobj.Velocity * direction * 50
 				end
 				w()
