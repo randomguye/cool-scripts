@@ -467,11 +467,14 @@ local createtool = function()
 			mousedown = false;
 			while orgobj ~= nil then
 				if orgobj == nil then break end
-				if elapsedTime >= 10 then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				orgobj.Velocity = direction * 9999999
-				orgobj.RotVelocity = direction * 9999999
+				if elapsedTime >= 10 then 
+					break 
+				else	
+					orgobj.Velocity = direction * 9999999
+					orgobj.RotVelocity = direction * 9999999
+				end
 				w(1)
 			end	
 			CollideWav:Play()
