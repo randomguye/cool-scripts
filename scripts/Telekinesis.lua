@@ -461,12 +461,16 @@ local createtool = function()
 			end
 		end
 		if (key == "j") then
+			for _, v in pairs(object:GetChildren()) do
+				if (v.className == "BodyVelocity") then
+					return;
+				end
+			end
 			local orgobj = object;
-			local direction = Vector3.new(0,-10000,0);
 			local startTime = tick()
 			local BX = _Ins("BodyVelocity");
 			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
-			BX.Velocity = _VTR_new(0, -100000, 0);
+			BX.Velocity = _VTR_new(0, -50000, 0);
 			BX.Parent = orgobj;
 			mousedown = false;
 			while true do
@@ -478,7 +482,7 @@ local createtool = function()
 					BX:Destroy()
 					break 
 				end
-				w()
+				w(1)
 			end
 		end
 	end;
