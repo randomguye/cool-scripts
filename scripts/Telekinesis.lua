@@ -472,12 +472,14 @@ local createtool = function()
 				if elapsedTime >= 10 then 
 					break 
 				else	
-					orgobj.Velocity = direction * 9999999
-					orgobj.RotVelocity = direction * 9999999
+					orgobj.Velocity = orgobj.Velocity * direction * 50000
+					orgobj.RotVelocity = orgobj.Velocity * direction * 50000
 				end
-				w(1)
-			end	
-			CollideWav:Play()
+				w()
+			end
+			if orgobj == nil then
+				CollideWav:Play()
+			end
 		end
 	end;
 	local onEquipped = function(mouse)
