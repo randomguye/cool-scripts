@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9";
+local vers = "V9.5";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -285,7 +285,7 @@ local createtool = function()
 		tool:Destroy();
 	end
 	local onButton1Down = function(mouse)
-		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then return end
+		if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
 		if (mousedown == true) then
 			UnSelectable:Play()
 			return;
@@ -296,7 +296,7 @@ local createtool = function()
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
-				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
+				if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 				p.Parent = tool;
 				if (object == nil) then
 					mouse.TargetFilter = nil
@@ -314,7 +314,7 @@ local createtool = function()
 			p:Destroy();
 		end));
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
+			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
 				if (t.Anchored == false) then
@@ -327,9 +327,11 @@ local createtool = function()
 			end
 			w();
 		end
-		KerplunkWav:Play()
+		if object ~= nil then
+			KerplunkWav:Play()
+		end
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then break end
+			if (primary == nil) or (human == nil) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
 				break;
@@ -349,10 +351,12 @@ local createtool = function()
 			curBP:Destroy();
 		end
 		curBP = nil
+		if object ~= nil then
+			HitWav:Play()
+		end
 		object = nil;
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
-		HitWav:Play()
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
@@ -447,6 +451,7 @@ local createtool = function()
 			local mousePos = mouse.Hit.Position
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
+			w()
 			orgobj.Velocity = direction * 1000
 			Paintball:Play()
 		end
@@ -457,7 +462,8 @@ local createtool = function()
 			local mousePos = mouse.Hit.Position
 			local direction = (mousePos - primary.Position).Unit
 			mousedown = false;
-			orgobj.AssemblyLinearVelocity = direction * 50000
+			w()
+			orgobj.AssemblyLinearVelocity = direction * 5000
 			CollideWav:Play()
 		end
 	end;
