@@ -459,10 +459,10 @@ local createtool = function()
 	local onEquipped = function(mouse)
 		Bzzt2:Play()
 		local keymouse = mouse;
-		mouse.Button1Down:connect(function()
+		mouse.Button1Down:Connect(function()
 			onButton1Down(mouse);
 		end);
-		mouse.KeyDown:connect(function(key)
+		mouse.KeyDown:Connect(function(key)
 			onKeyDown(key, mouse);
 		end);
 		uis.InputBegan:Connect(function(input, gpe)
@@ -492,18 +492,18 @@ local createtool = function()
 				mousedown = false;
 			end);
 		else
-			mouse.Button1Up:connect(function()
+			mouse.Button1Up:Connect(function()
 				mousedown = false;
 			end);
 		end
 	end;
-	tool.Equipped:connect(onEquipped);
-	tool.Unequipped:connect(function()
+	tool.Equipped:Connect(onEquipped);
+	tool.Unequipped:Connect(function()
 		Bzzt:Play()
 		mousedown = false;
 	end);
 	if human and not (primary == nil or human == nil or char == nil or tool == nil) then
-		human.Died:connect(function()
+		human.Died:Connect(function()
 			destroy();
 		end);
 	else
