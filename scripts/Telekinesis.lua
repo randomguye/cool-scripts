@@ -463,10 +463,17 @@ local createtool = function()
 		if (key == "j") then
 			local orgobj = object;
 			local direction = Vector3.new(0,-1,0);
+			local startTime = tick()
 			mousedown = false;
-			w()
-			orgobj.Velocity = direction * 50000
-			orgobj.RotVelocity = direction * 50000
+			while orgobj ~= nil then
+				if orgobj == nil then break end
+				if elapsedTime >= 10 then break end
+				local currentTime = tick()
+				local elapsedTime = currentTime - startTime
+				orgobj.Velocity = direction * 9999999
+				orgobj.RotVelocity = direction * 9999999
+				w(1)
+			end	
 			CollideWav:Play()
 		end
 	end;
