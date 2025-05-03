@@ -470,7 +470,7 @@ local createtool = function()
 			local startTime = tick()
 			local BX = _Ins("BodyVelocity");
 			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
-			BX.Velocity = _VTR_new(0, -10000, 0);
+			BX.Velocity = _VTR_new(0, -7500, 0);
 			BX.Parent = orgobj;
 			mousedown = false;
 			while true do
