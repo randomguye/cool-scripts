@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V10";
+local vers = "V9";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
