@@ -268,7 +268,7 @@ local createtool = function(ft)
 	local object = nil;
 
 	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then
-		if not ft then
+		if not ft == true then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
 			return
@@ -562,7 +562,7 @@ local createtool = function(ft)
 		v.Parent = plr.Backpack;
 	end
 	mas:Destroy();
-	if ft then
+	if ft == true then
 		success = true
 	end
 end;
