@@ -259,7 +259,6 @@ local createtool = function(ft)
 	local char = plr.Character;
 	local human = WaitForChildWhichIsA(char, "Humanoid");
 	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head");
-	local viewnetworkowner = false
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -289,10 +288,6 @@ local createtool = function(ft)
 	cservice:AddTag(tool, randomguid)
 	local destroy = function()
 		mousedown = false;
-		if settings().Physics.AreOwnersShown == viewnetworkowner then
-			settings().Physics.AreOwnersShown = false;
-			viewnetworkowner = false
-		end
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
@@ -384,7 +379,6 @@ local createtool = function(ft)
 			if not ctrlpressed then return end
 			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
-			viewnetworkowner = settings().Physics.AreOwnersShown
 		end
 
 		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) or (object == nil) then return end
