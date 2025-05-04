@@ -436,7 +436,7 @@ local createtool = function(ft)
 		if (key == "l") then
 			if not IsNetworkOwner(object) then UnSelectable:Play() return end
 			for _, v in pairs(object:GetChildren()) do
-				if (v.className == "BodyGyro") then
+				if (v.className == "BodyGyro") and cservice:HasTag(v, randomguid) then
 					UnSelectable:Play()
 					return;
 				end
@@ -449,6 +449,7 @@ local createtool = function(ft)
 				--BG.CFrame = _CF_new(object.CFrame.p);
 				BG.P = BG.P * 100;
 				BG.Parent = curobj;
+				cservice:AddTag(BG, randomguid)
 				repeat w()
 					if (curobj == nil) or (mousedown == false) then break end 
 					curobj.Velocity = _VTR_new(0, 0, 0)
@@ -478,7 +479,7 @@ local createtool = function(ft)
 		if (key == "j") then
 			if not IsNetworkOwner(object) then UnSelectable:Play() return end
 			for _, v in pairs(object:GetChildren()) do
-				if (v.className == "BodyVelocity") then
+				if (v.className == "BodyVelocity") and cservice:HasTag(v, randomguid) then
 					UnSelectable:Play()
 					return;
 				end
@@ -489,6 +490,7 @@ local createtool = function(ft)
 			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
 			BX.Velocity = _VTR_new(0, -10000, 0);
 			BX.Parent = orgobj;
+			cservice:AddTag(BX, randomguid)
 			mousedown = false;
 			ElectronicpingshortWav:Play()
 			while true do
