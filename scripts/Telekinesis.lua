@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9.5";
+local vers = "V10";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -132,13 +132,62 @@ local randomguid = string.lower(game:GetService("HttpService"):GenerateGUID(fals
 local plr = game:GetService("Players").LocalPlayer;
 local uis = game:GetService("UserInputService");
 local cservice = game:GetService("CollectionService")
+local sgui = game:GetService("StarterGui")
 local debris = game:GetService("Debris");
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
-local point = _Ins("Part", plr);
+local ScriptFolder = _Ins("Folder", game)
+ScriptFolder.Name = "TelekinesisMain"
+local SelectionFolder = _Ins("Folder", ScriptFolder)
+SelectionFolder.Name = "SelectionObjects"
+local Sounds = Instance.new("Folder", ScriptFolder)
+Sounds.Name = "Sounds"
+local SwitchWav = Instance.new("Sound", Sounds)
+SwitchWav.SoundId = "rbxassetid://12222170"
+SwitchWav.Volume = 0.1
+local ElectronicpingshortWav = Instance.new("Sound", Sounds)
+ElectronicpingshortWav.SoundId = "rbxassetid://12221990"
+ElectronicpingshortWav.Volume = 0.1
+local Explode = Instance.new("Sound", Sounds)
+Explode.SoundId = "rbxasset://Sounds/Launching rocket.wav"
+Explode.Volume = 0.5
+local CollideWav = Instance.new("Sound", Sounds)
+CollideWav.SoundId = "rbxasset://Sounds/collide.wav"
+CollideWav.Volume = 0.25
+local ClickfastWav = Instance.new("Sound", Sounds)
+ClickfastWav.SoundId = "rbxassetid://12221976"
+ClickfastWav.Volume = 0.1
+local BassWav = Instance.new("Sound", Sounds)
+BassWav.SoundId = "rbxassetid://12221944"
+BassWav.Volume = 0.05
+local KerplunkWav = Instance.new("Sound", Sounds)
+KerplunkWav.SoundId = "rbxassetid://12222054"
+KerplunkWav.Volume = 0.1
+local HitWav = Instance.new("Sound", Sounds)
+HitWav.SoundId = "rbxasset://Sounds/hit.wav"
+HitWav.Volume = 0.025
+local OldMouseClick = Instance.new("Sound", Sounds)
+OldMouseClick.SoundId = "http://roblox.com/asset/?id=10209834"
+OldMouseClick.Volume = 0.05
+local Button = Instance.new("Sound", Sounds)
+Button.SoundId = "http://www.roblox.com/asset/?id=12221967"
+Button.Volume = 0.15
+local UnSelectable = Instance.new("Sound", Sounds)
+UnSelectable.SoundId = "http://roblox.com/asset/?id=10209668"
+UnSelectable.Volume = 0.15
+local Bzzt = Instance.new("Sound", Sounds)
+Bzzt.SoundId = "http://www.roblox.com/asset/?id=11998777 "
+Bzzt.Volume = 0.15
+local Bzzt2 = Instance.new("Sound", Sounds)
+Bzzt2.SoundId = "http://www.roblox.com/asset/?id=11998796 "
+Bzzt2.Volume = 0.15
+local Paintball = Instance.new("Sound", Sounds)
+Paintball.SoundId = "rbxasset://sounds//paintball.wav"
+Paintball.Volume = 0.5
+local point = _Ins("Part", SelectionFolder);
 point.CanCollide = false;
 point.Locked = true;
 point.Anchored = true;
@@ -158,91 +207,19 @@ highlight.Adornee = point;
 local pointlight = _Ins("PointLight", point);
 pointlight.Range = 7.5;
 pointlight.Color = Color3.fromRGB(255, 255, 255);
-local selectionbox = _Ins("SelectionBox", cam);
+local selectionbox = _Ins("SelectionBox", SelectionFolder);
 selectionbox.LineThickness = 0.015;
 selectionbox.SurfaceTransparency = 0.9;
 selectionbox.Color3 = Color3.fromRGB(255, 255, 255);
 selectionbox.SurfaceColor3 = Color3.fromRGB(255, 255, 255);
 selectionbox.Adornee = nil;
-local selectionhighlight = _Ins("Highlight", selectionbox);
+local selectionhighlight = _Ins("Highlight", SelectionFolder);
 selectionhighlight.FillTransparency = 0.7;
 selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
 selectionhighlight.Adornee = nil;
-local BP = _Ins("BodyPosition");
+local BP = _Ins("BodyPosition", SelectionFolder);
 BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 BP.P = BP.P * 3;
-local Sounds = Instance.new("Folder", plr)
-Sounds.Name = "Sounds"
-local SwitchWav = Instance.new("Sound")
-SwitchWav.Name = "Switch"
-SwitchWav.SoundId = "rbxassetid://12222170"
-SwitchWav.Volume = 0.1
-SwitchWav.Parent = Sounds
-local ElectronicpingshortWav = Instance.new("Sound")
-ElectronicpingshortWav.Name = "ElectronicPing"
-ElectronicpingshortWav.SoundId = "rbxassetid://12221990"
-ElectronicpingshortWav.Volume = 0.1
-ElectronicpingshortWav.Parent = Sounds
-local Explode = Instance.new("Sound")
-Explode.Name = "Explode"
-Explode.SoundId = "rbxasset://Sounds/Launching rocket.wav"
-Explode.Volume = 0.5
-Explode.Parent = Sounds
-local CollideWav = Instance.new("Sound")
-CollideWav.Name = "Collide"
-CollideWav.SoundId = "rbxasset://Sounds/collide.wav"
-CollideWav.Volume = 0.5
-CollideWav.Parent = Sounds
-local ClickfastWav = Instance.new("Sound")
-ClickfastWav.Name = "ClickFast"
-ClickfastWav.SoundId = "rbxassetid://12221976"
-ClickfastWav.Volume = 0.15
-ClickfastWav.Parent = Sounds
-local BassWav = Instance.new("Sound")
-BassWav.Name = "Bass"
-BassWav.SoundId = "rbxassetid://12221944"
-BassWav.Volume = 0.15
-BassWav.Parent = Sounds
-local KerplunkWav = Instance.new("Sound")
-KerplunkWav.Name = "Kerplunk"
-KerplunkWav.SoundId = "rbxassetid://12222054"
-KerplunkWav.Volume = 0.15
-KerplunkWav.Parent = Sounds
-local HitWav = Instance.new("Sound")
-HitWav.Name = "Hit"
-HitWav.SoundId = "rbxasset://Sounds/hit.wav"
-HitWav.Volume = 0.05
-HitWav.Parent = Sounds
-local OldMouseClick = Instance.new("Sound")
-OldMouseClick.Name = "OldMouseClick"
-OldMouseClick.SoundId = "http://roblox.com/asset/?id=10209834"
-OldMouseClick.Volume = 0.15
-OldMouseClick.Parent = Sounds
-local Button = Instance.new("Sound")
-Button.Name = "Button"
-Button.SoundId = "http://www.roblox.com/asset/?id=12221967"
-Button.Volume = 0.15
-Button.Parent = Sounds
-local UnSelectable = Instance.new("Sound")
-UnSelectable.Name = "Un-Selectable"
-UnSelectable.SoundId = "http://roblox.com/asset/?id=10209668"
-UnSelectable.Volume = 0.15
-UnSelectable.Parent = Sounds
-local Bzzt = Instance.new("Sound")
-Bzzt.Name = "Bzzt"
-Bzzt.SoundId = "http://www.roblox.com/asset/?id=11998777 "
-Bzzt.Volume = 0.15
-Bzzt.Parent = Sounds
-local Bzzt2 = Instance.new("Sound")
-Bzzt2.Name = "Bzzt2"
-Bzzt2.SoundId = "http://www.roblox.com/asset/?id=11998796 "
-Bzzt2.Volume = 0.15
-Bzzt2.Parent = Sounds
-local Paintball = Instance.new("Sound")
-Paintball.Name = "Paintball"
-Paintball.SoundId = "rbxasset://sounds//paintball.wav"
-Paintball.Volume = 0.5
-Paintball.Parent = Sounds
 
 local WaitForChildWhichIsA = function(parent, className)
 	local child = parent:FindFirstChildWhichIsA(className)
@@ -250,6 +227,30 @@ local WaitForChildWhichIsA = function(parent, className)
 		child = parent.ChildAdded:Wait()
 	end
 	return child
+end
+
+local SendNotification = function(title, text, duration, button1, button2, icon)
+	local notificationData = {
+		Title = title or "Notification",
+		Text = text or "This is a notification.",
+		Duration = duration or 5
+	}
+
+	if button1 then
+		notificationData.Button1 = button1
+	end
+	if button2 then
+		notificationData.Button2 = button2
+	end
+	if icon then
+		notificationData.Icon = icon
+	end
+
+	sgui:SetCore("SendNotification", notificationData)
+end
+
+local IsNetworkOwner = function(part)
+	return not part:IsGrounded() and part.AssemblyRootPart.ReceiveAge == 0
 end
 
 local createtool = function()
@@ -265,7 +266,7 @@ local createtool = function()
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then UnSelectable:Play() return end
+	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then UnSelectable:Play() return false end
 	BassWav:Play()
 
 	local mas = _Ins("Model", plr);
@@ -285,7 +286,7 @@ local createtool = function()
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
-		point.Parent = plr
+		point.Parent = SelectionFolder
 		selectionbox.Adornee = nil
 		selectionhighlight.Adornee = nil
 		tool:Destroy();
@@ -294,7 +295,7 @@ local createtool = function()
 		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
 		if (mousedown == true) then
 			UnSelectable:Play()
-			mousedown = not mousedown
+			mousedown = false
 			return;
 		end
 		mousedown = true;
@@ -319,6 +320,7 @@ local createtool = function()
 				w();
 			end
 			p:Destroy();
+			OldMouseClick:Play()
 		end));
 		while mousedown == true do
 			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
@@ -368,6 +370,7 @@ local createtool = function()
 		local yesh = false;
 
 		if (key == "r") then
+			if not ctrlpressed then return end
 			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
 			viewnetworkowner = settings().Physics.AreOwnersShown
@@ -433,14 +436,13 @@ local createtool = function()
 				local BG = _Ins("BodyGyro");
 				BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 				--BG.CFrame = _CF_new(object.CFrame.p);
-				BG.P = BG.P * 15;
+				BG.P = BG.P * 100;
 				BG.Parent = curobj;
 				repeat w()
 					if (curobj == nil) or (mousedown == false) then break end 
 					curobj.Velocity = _VTR_new(0, 0, 0)
 					curobj.RotVelocity = _VTR_new(0, 0, 0)
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
-				OldMouseClick:Play()
 				BG:Destroy()
 			end)
 		end
@@ -474,16 +476,18 @@ local createtool = function()
 			BX.Velocity = _VTR_new(0, -10000, 0);
 			BX.Parent = orgobj;
 			mousedown = false;
+			ElectronicpingshortWav:Play()
 			while true do
 				if orgobj == nil or orgobj.Parent == nil then CollideWav:Play() break end
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				if elapsedTime >= 15 then 
+				if elapsedTime >= 15 and BX ~= nil and orgobj ~= then 
 					BX:Destroy()
+					UnSelectable:Play()
 					break 
 				end
-				w(1)
+				w()
 			end
 		end
 	end;
@@ -544,9 +548,13 @@ local createtool = function()
 		v.Parent = plr.Backpack;
 	end
 	mas:Destroy();
+	return true
 end;
 pcall(function()
-	createtool();
+	local tool = createtool()
+	if tool == true then
+		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close", nil, http://www.roblox.com/asset/?id=11365545933)
+	end
 
 	while w() do
 		if not plr then
