@@ -256,9 +256,14 @@ end
 
 local createtool = function(ft)
 	w();
+	
+	point.Parent = SelectionFolder
+	selectionbox.Adornee = nil
+	selectionhighlight.Adornee = nil
+	
 	local char = plr.Character;
 	local human = WaitForChildWhichIsA(char, "Humanoid");
-	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head");
+	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head") or cam;
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -266,7 +271,7 @@ local createtool = function(ft)
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then
+	if (primary == nil) or (tool == nil) then
 		if ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
@@ -291,13 +296,12 @@ local createtool = function(ft)
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
-		point.Parent = SelectionFolder
-		selectionbox.Adornee = nil
-		selectionhighlight.Adornee = nil
-		tool:Destroy();
+		if (tool ~= nil then
+			tool:Destroy();
+		end
 	end
 	local onButton1Down = function(mouse)
-		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
+		if (primary == nil) or (tool == nil) then UnSelectable:Play() return end
 		if (mousedown == true) then
 			UnSelectable:Play()
 			mousedown = false
@@ -309,7 +313,7 @@ local createtool = function(ft)
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
-				if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+				if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 				p.Parent = tool;
 				if (object == nil) then
 					mouse.TargetFilter = nil
@@ -332,7 +336,7 @@ local createtool = function(ft)
 			end
 		end));
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
 				if (t.Anchored == false) then
@@ -346,7 +350,7 @@ local createtool = function(ft)
 			w();
 		end
 		while mousedown == true do
-			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
 				SendNotification("Unselected", "Part was destroyed.", nil, "Close")
@@ -382,7 +386,7 @@ local createtool = function(ft)
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
 		end
 
-		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) or (object == nil) then return end
+		if (primary == nil) or (tool == nil) or (object == nil) then return end
 
 		if (key == "q") then
 			if (dist >= 5) then
@@ -548,13 +552,6 @@ local createtool = function(ft)
 		Bzzt:Play()
 		mousedown = false;
 	end);
-	if human and not (primary == nil or human == nil or human.Health < 1 or char == nil or tool == nil) then
-		human.Died:Connect(function()
-			destroy();
-		end);
-	else
-		destroy();
-	end
 	for i, v in pairs(mas:GetChildren()) do
 		v.Parent = plr.Backpack;
 	end
@@ -562,6 +559,23 @@ local createtool = function(ft)
 	if ft == true then
 		success = true
 	end
+	spawn(function()
+		while w(1) do
+			if (primary == nil) then
+				local check = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head") or cam;
+				if check then
+					primary = check
+				else
+					destroy()
+				end
+			elseif (tool == nil) then
+				destroy()
+			elseif (plr == nil) then
+				destroy()
+				script:Destroy()
+			end
+		end
+	end)
 end;
 pcall(function()
 	createtool(true)
