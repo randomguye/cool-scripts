@@ -137,6 +137,7 @@ local debris = game:GetService("Debris");
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
+local success = false
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game)
@@ -272,7 +273,8 @@ local createtool = function(ft)
 			SendNotification("Failed to create tool", nil, nil, "Close")
 			return
 		else
-			return false
+			success = false
+			return
 		end
 	end
 	BassWav:Play()
@@ -561,12 +563,12 @@ local createtool = function(ft)
 	end
 	mas:Destroy();
 	if ft then
-		return true
+		success = true
 	end
 end;
 pcall(function()
-	local tool = createtool(true)
-	if tool == true then
+	createtool(true)
+	if success == true then
 		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
