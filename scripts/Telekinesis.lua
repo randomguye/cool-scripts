@@ -253,7 +253,7 @@ local IsNetworkOwner = function(part)
 	return not part:IsGrounded() and part.AssemblyRootPart.ReceiveAge == 0
 end
 
-local createtool = function()
+local createtool = function(ft)
 	w();
 	local char = plr.Character;
 	local human = WaitForChildWhichIsA(char, "Humanoid");
@@ -266,7 +266,15 @@ local createtool = function()
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then UnSelectable:Play() return false end
+	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then
+		if not ft then
+			UnSelectable:Play() 
+			SendNotification("Failed to create tool", nil, nil, "Close")
+			return
+		else
+			return false
+		end
+	end
 	BassWav:Play()
 
 	local mas = _Ins("Model", plr);
@@ -340,6 +348,7 @@ local createtool = function()
 			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
+				SendNotification("Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
 			mouse.TargetFilter = game
@@ -402,6 +411,7 @@ local createtool = function()
 		end
 		if (key == "u") then
 			if (dist ~= 1) then
+				if not IsNetworkOwner(object) then UnSelectable:Play() return end
 				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyGyro");
 				BX.MaxTorque = _VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
@@ -412,6 +422,7 @@ local createtool = function()
 		end
 		if (key == "p") then
 			if (dist ~= 1) then
+				if not IsNetworkOwner(object) then UnSelectable:Play() return end
 				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyVelocity");
 				BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
@@ -421,12 +432,10 @@ local createtool = function()
 			end
 		end
 		if (key == "l") then
-			if (object == nil) then
-				UnSelectable:Play()
-				return;
-			end
+			if not IsNetworkOwner(object) then UnSelectable:Play() return end
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyGyro") then
+					UnSelectable:Play()
 					return;
 				end
 			end
@@ -447,6 +456,7 @@ local createtool = function()
 			end)
 		end
 		if (key == "f") then
+			if not IsNetworkOwner(object) then UnSelectable:Play() return end
 			local orgobj = object;
 			local mouse = plr:GetMouse();
 			mouse.TargetFilter = game;
@@ -464,8 +474,10 @@ local createtool = function()
 			end
 		end
 		if (key == "j") then
+			if not IsNetworkOwner(object) then UnSelectable:Play() return end
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyVelocity") then
+					UnSelectable:Play()
 					return;
 				end
 			end
@@ -548,12 +560,19 @@ local createtool = function()
 		v.Parent = plr.Backpack;
 	end
 	mas:Destroy();
-	return true
+	if ft then
+		return true
+	end
 end;
 pcall(function()
-	local tool = createtool()
+	local tool = createtool(true)
 	if tool == true then
-		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close", nil, http://www.roblox.com/asset/?id=11365545933)
+		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
+	else
+		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
+		ScriptFolder:Destroy()
+		script:Destroy()
+		return
 	end
 
 	while w() do
