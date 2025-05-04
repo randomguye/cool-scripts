@@ -268,7 +268,7 @@ local createtool = function(ft)
 	local object = nil;
 
 	if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) then
-		if not ft == true then
+		if ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
 			return
@@ -496,7 +496,7 @@ local createtool = function(ft)
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				if elapsedTime >= 15 and BX ~= nil and orgobj ~= then 
+				if elapsedTime >= 15 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
 					UnSelectable:Play()
 					break 
