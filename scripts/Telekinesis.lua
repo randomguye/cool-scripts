@@ -294,6 +294,7 @@ local createtool = function()
 		if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() return end
 		if (mousedown == true) then
 			UnSelectable:Play()
+			mousedown = not mousedown
 			return;
 		end
 		mousedown = true;
