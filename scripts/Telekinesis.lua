@@ -180,10 +180,10 @@ local UnSelectable = Instance.new("Sound", Sounds)
 UnSelectable.SoundId = "http://roblox.com/asset/?id=10209668"
 UnSelectable.Volume = 0.15
 local Bzzt = Instance.new("Sound", Sounds)
-Bzzt.SoundId = "http://www.roblox.com/asset/?id=11998777 "
+Bzzt.SoundId = "http://www.roblox.com/asset/?id=11998777"
 Bzzt.Volume = 0.15
 local Bzzt2 = Instance.new("Sound", Sounds)
-Bzzt2.SoundId = "http://www.roblox.com/asset/?id=11998796 "
+Bzzt2.SoundId = "http://www.roblox.com/asset/?id=11998796"
 Bzzt2.Volume = 0.15
 local Paintball = Instance.new("Sound", Sounds)
 Paintball.SoundId = "rbxasset://sounds//paintball.wav"
