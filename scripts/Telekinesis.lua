@@ -325,7 +325,11 @@ local createtool = function(ft)
 				w();
 			end
 			p:Destroy();
-			OldMouseClick:Play()
+			if object == nil then
+				OldMouseClick:Play()
+			else
+				KerplunkWav:Play()
+			end
 		end));
 		while mousedown == true do
 			if (primary == nil) or (human == nil) or (human.Health < 1) or (char == nil) or (tool == nil) then UnSelectable:Play() break end
@@ -351,9 +355,6 @@ local createtool = function(ft)
 			mouse.TargetFilter = game
 			pcall(function()
 				if object == nil then return end
-				if curBP == nil and object ~= nil then
-					KerplunkWav:Play()
-				end
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
 				local BPClone = curBP or BP:Clone()
 				BPClone.Parent = object;
