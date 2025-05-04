@@ -172,7 +172,7 @@ HitWav.SoundId = "rbxasset://Sounds/hit.wav"
 HitWav.Volume = 0.025
 local OldMouseClick = Instance.new("Sound", Sounds)
 OldMouseClick.SoundId = "http://roblox.com/asset/?id=10209834"
-OldMouseClick.Volume = 0.05
+OldMouseClick.Volume = 0.025
 local Button = Instance.new("Sound", Sounds)
 Button.SoundId = "http://www.roblox.com/asset/?id=12221967"
 Button.Volume = 0.15
