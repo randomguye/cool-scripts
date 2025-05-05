@@ -686,7 +686,7 @@ pcall(function()
 		return
 	end
 
-	while w(1) do
+	while w(.1) do
 		if not plr then
 			break
 		end
