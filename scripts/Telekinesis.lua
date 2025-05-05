@@ -258,7 +258,7 @@ end
 local createtool = function(ft)
 	w();
 
-	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+	local primary = plr.Character or workspace:FindFirstChild(plr.Name) and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -422,6 +422,19 @@ local createtool = function(ft)
 			else
 				SendNotification("Notifications Enabled", "Enabled Notifications.", 1, "Close", nil, nil, true)
 			end
+		end
+
+		if (key == "t") then
+			local mouse = plr:GetMouse();
+			local char = plr.Character or workspace:FindFirstChild(plr.Name)
+			local hrp = char and char:FindFirstChild("HumanoidRootPart")
+			if not char or not hrp then
+				SendNotification("Failed to TP", "HumanoidRootPart is missing.", nil, "Close")
+				return
+			end
+			local coords = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
+			hrp.CFrame = coords
+			SendNotification("Teleport", "Teleported to " .. mouse.Hit.p, nil, "Close")
 		end
 
 		if (primary == nil) or (tool == nil) or (object == nil) then return end
@@ -627,7 +640,7 @@ local createtool = function(ft)
 	spawn(function()
 		while w() do
 			if (primary == nil) then
-				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+				local check = plr.Character or workspace:FindFirstChild(plr.Name) and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 				if check then
 					primary = check
 				else
