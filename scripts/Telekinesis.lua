@@ -365,7 +365,7 @@ local createtool = function(ft)
 					partclaimed = false
 				end
 			else
-				if partclaimed == false and IsNetworkOwner(object) then
+				if partclaimed == false and IsNetworkOwner(object) == true then
 					SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
 					partclaimed = true
 				end
