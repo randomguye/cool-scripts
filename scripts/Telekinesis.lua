@@ -198,6 +198,7 @@ point.BrickColor = BrickColor.White();
 point.Size = _VTR_new(0, 0, 0);
 point.Material = Enum.Material.Neon;
 point.Transparency = 0.996;
+point.Position = _VTR_new(math.huge, math.huge, math.huge)
 local mesh = _Ins("SpecialMesh", point);
 mesh.MeshId = "rbxassetid://1111494591"
 mesh.Scale = _VTR_new(-0.025, -0.025, -0.025);
@@ -258,7 +259,7 @@ end
 local createtool = function(ft)
 	w();
 
-	local primary = plr.Character or workspace:FindFirstChild(plr.Name) and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -432,7 +433,7 @@ local createtool = function(ft)
 				SendNotification("Failed to TP", "HumanoidRootPart is missing.", 2.5, "Close")
 				return
 			end
-			hrp.CFrame = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
+			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 		end
 
@@ -639,7 +640,7 @@ local createtool = function(ft)
 	spawn(function()
 		while w() do
 			if (primary == nil) then
-				local check = plr.Character or workspace:FindFirstChild(plr.Name) and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 				if check then
 					primary = check
 				else
