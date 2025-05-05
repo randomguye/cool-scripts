@@ -329,7 +329,7 @@ local createtool = function(ft)
 				OldMouseClick:Play()
 			else
 				KerplunkWav:Play()
-				SendNotification("Part Selected", "Selected " .. object.Name .. ".", 2.5, "Close")
+				SendNotification("Part Selected", "Selected " .. object.Name .. ".", 1, "Close")
 			end
 		end));
 		while mousedown == true do
