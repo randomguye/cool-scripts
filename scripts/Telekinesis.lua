@@ -302,7 +302,6 @@ local createtool = function(ft)
 		if (mousedown == true) then
 			UnSelectable:Play()
 			mousedown = false
-			SendNotification("Stopped", "This action is already in progress.", 2.5, "Close")
 			return;
 		end
 		mousedown = true;
@@ -331,9 +330,9 @@ local createtool = function(ft)
 				OldMouseClick:Play()
 			else
 				KerplunkWav:Play()
-				SendNotification("Part Selected", "Selected " .. object.Name .. ".", 1, "Close")
+				SendNotification("Part Selected", "Selected \"" .. object.Name .. "\".", 1, "Close")
 				if not IsNetworkOwner(object) then
-					SendNotification("Selected Part Not Claimed", "You currently have no network ownership over the selected part.", 0.5, "Close")
+					SendNotification("Selected Part Not Claimed", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 				end
 			end
 		end));
@@ -370,9 +369,9 @@ local createtool = function(ft)
 				if currentnetworkstate ~= lastnetworkstate then
 					if currenttime >= lastnotiftime + 0.5 then
 						if not currentnetworkstate then
-							SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+							SendNotification("Part Unclaimed", "Lost network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 						else
-							SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+							SendNotification("Part Claimed", "Successfully claimed selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 						end
 						lastnotiftime = currenttime
 					end
@@ -408,9 +407,9 @@ local createtool = function(ft)
 			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
 			if settings().Physics.AreOwnersShown == true then
-				SendNotification("NetworkOwners", "NetworkOwners Enabled", 1, "Close", nil, nil, true)
+				SendNotification("NetworkOwners", "NetworkOwners Enabled.", 1, "Close", nil, nil, true)
 			else
-				SendNotification("NetworkOwners", "NetworkOwners Disabled", 1, "Close", nil, nil, true)
+				SendNotification("NetworkOwners", "NetworkOwners Disabled.", 1, "Close", nil, nil, true)
 			end
 		end
 
@@ -453,7 +452,7 @@ local createtool = function(ft)
 			if (dist ~= 1) then
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
-					SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+					SendNotification("Unable to perform action", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 					return 
 				end	
 				ElectronicpingshortWav:Play()
@@ -468,7 +467,7 @@ local createtool = function(ft)
 			if (dist ~= 1) then
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
-					SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+					SendNotification("Unable to perform action", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 					return 
 				end	
 				ElectronicpingshortWav:Play()
@@ -482,7 +481,7 @@ local createtool = function(ft)
 		if (key == "l") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
-				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				SendNotification("Unable to perform action", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 				return 
 			end	
 			for _, v in pairs(object:GetChildren()) do
@@ -511,7 +510,7 @@ local createtool = function(ft)
 		if (key == "f") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
-				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				SendNotification("Unable to perform action", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 				return 
 			end	
 			local orgobj = object;
@@ -533,12 +532,13 @@ local createtool = function(ft)
 		if (key == "j") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
-				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				SendNotification("Unable to perform action", "You currently do not have network ownership of the selected part: \'" .. object.Name .. "\'.", 0.5, "Close")
 				return 
 			end	
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyVelocity") and cservice:HasTag(v, randomguid) then
 					UnSelectable:Play()
+					SendNotification("Unable to perform action", "Part is already being destroyed.", 0.5, "Close")
 					return;
 				end
 			end
@@ -555,7 +555,7 @@ local createtool = function(ft)
 			while true do
 				if orgobj == nil or orgobj.Parent == nil then
 					CollideWav:Play()
-					SendNotification("Part Destroyed", "Destroyed " .. objname .. ".", 2.5, "Close")
+					SendNotification("Part Destroyed", "Destroyed selected part: \'" .. objname .. "\'.", 2.5, "Close")
 					break
 				end
 				if BX == nil or BX.Parent == nil then break end
@@ -564,7 +564,7 @@ local createtool = function(ft)
 				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
 					UnSelectable:Play()
-					SendNotification("Failed to destroy", "Failed to destroy " .. objname .. ".", 1, "Close")
+					SendNotification("Failed to destroy", "Failed to destroy selected part: \'" .. objname .. "\'.", 1, "Close")
 					break 
 				end
 				w()
