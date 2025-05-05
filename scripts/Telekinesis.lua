@@ -481,6 +481,7 @@ local createtool = function(ft)
 				end
 			end
 			local orgobj = object;
+			local objname = object.Name;
 			local startTime = tick()
 			local BX = _Ins("BodyVelocity");
 			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
@@ -490,13 +491,18 @@ local createtool = function(ft)
 			mousedown = false;
 			ElectronicpingshortWav:Play()
 			while true do
-				if orgobj == nil or orgobj.Parent == nil then CollideWav:Play() break end
+				if orgobj == nil or orgobj.Parent == nil then
+					CollideWav:Play()
+					SendNotification("Part Destroyed", "Destroyed " .. objname .. ".", 2.5, "Close")
+					break
+				end
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
 				if elapsedTime >= 15 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
 					UnSelectable:Play()
+					SendNotification("Failed to destroy", "Failed to destroy " .. objname .. ".", 1, "Close")
 					break 
 				end
 				w()
