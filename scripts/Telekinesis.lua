@@ -351,8 +351,12 @@ local createtool = function(ft)
 			end
 			w();
 		end
-		local lastnetworkstate = IsNetworkOwner(object)
-		local lastnotiftime = 0
+		local lastnetworkstate
+		local lastnotiftime
+		if object ~= nil then
+			lastnetworkstate = IsNetworkOwner(object)
+			lastnotiftime = 0
+		end
 		while mousedown == true do
 			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
@@ -360,18 +364,20 @@ local createtool = function(ft)
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
-			local currentnetworkstate = IsNetworkOwner(object)
-			local currenttime = tick()
-			if currentnetworkstate ~= lastnetworkstate then
-				if currenttime >= lastnotiftime + 1 then
-					if currentOwnershipState == true then
-						SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
-					else
-						SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil)
+				local currentnetworkstate = IsNetworkOwner(object)
+				local currenttime = tick()
+				if currentnetworkstate ~= lastnetworkstate then
+					if currenttime >= lastnotiftime + 1 then
+						if currentOwnershipState == true then
+							SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+						else
+							SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+						end
+						lastnotiftime = currentTime
 					end
-					lastnotiftime = currentTime
+					currentnetworkstate = currentnetworkstate
 				end
-				currentnetworkstate = currentnetworkstate
 			end
 
 			mouse.TargetFilter = game
