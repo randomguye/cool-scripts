@@ -338,7 +338,7 @@ local createtool = function(ft)
 			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
-				if (t.Anchored == false) then
+				if not (t:IsGrounded()) then
 					object = t;
 					selectionbox.Adornee = object;
 					selectionhighlight.Adornee = object;
