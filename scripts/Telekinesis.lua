@@ -330,7 +330,7 @@ local createtool = function(ft)
 				OldMouseClick:Play()
 			else
 				KerplunkWav:Play()
-				SendNotification("Part Selected", "Selected \"" .. object.Name .. "\".", 1, "Close")
+				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
 				if not IsNetworkOwner(object) then
 					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				end
