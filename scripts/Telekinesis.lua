@@ -259,7 +259,7 @@ end
 local createtool = function(ft)
 	w();
 
-	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam.CFrame
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
