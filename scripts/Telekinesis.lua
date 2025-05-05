@@ -435,6 +435,7 @@ local createtool = function(ft)
 			end
 			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
+			ElectronicpingshortWav:Play()
 		end
 
 		if (primary == nil) or (tool == nil) or (object == nil) then return end
