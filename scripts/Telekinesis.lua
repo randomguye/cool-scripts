@@ -499,7 +499,7 @@ local createtool = function(ft)
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				if elapsedTime >= 15 and BX ~= nil and orgobj ~= nil then 
+				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy " .. objname .. ".", 1, "Close")
