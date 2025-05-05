@@ -364,7 +364,7 @@ local createtool = function(ft)
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
-			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil)
+			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
 				local currentnetworkstate = IsNetworkOwner(object)
 				local currenttime = tick()
 				if currentnetworkstate ~= lastnetworkstate then
