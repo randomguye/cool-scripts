@@ -544,6 +544,8 @@ local createtool = function(ft)
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
 			mousedown = false;
+			orgobj.Velocity = Vector3.zero
+			orgobj.RotVelocity = Vector3.zero
 			if not ctrlpressed then
 				w()
 				orgobj.Velocity = direction * 750
