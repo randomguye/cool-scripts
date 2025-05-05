@@ -641,7 +641,7 @@ local createtool = function(ft)
 	spawn(function()
 		while w() do
 			if (primary == nil) then
-				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam.CFrame
 				if check then
 					primary = check
 				else
