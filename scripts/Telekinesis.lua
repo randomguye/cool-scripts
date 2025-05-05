@@ -367,7 +367,7 @@ local createtool = function(ft)
 				local currentnetworkstate = IsNetworkOwner(object)
 				local currenttime = tick()
 				if currentnetworkstate ~= lastnetworkstate then
-					if currenttime >= lastnotiftime + 0.5 then
+					if currenttime >= lastnotiftime + 0.25 then
 						if not currentnetworkstate then
 							SendNotification("Part Unclaimed", "Lost network ownership of the selected part: \'" .. object.Name .. "\'.", 0.75, "Close")
 						else
