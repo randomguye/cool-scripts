@@ -141,7 +141,7 @@ local notifs = true;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
-ScriptFolder.Name = "TelekinesisMain"
+ScriptFolder.Name = randomguid
 local SelectionFolder = _Ins("Folder", ScriptFolder)
 SelectionFolder.Name = "SelectionObjects"
 local Sounds = Instance.new("Folder", ScriptFolder)
@@ -369,7 +369,7 @@ local createtool = function(ft)
 				local currenttime = tick()
 				if currentnetworkstate ~= lastnetworkstate then
 					if currenttime >= lastnotiftime + 0.25 then
-						if not currentnetworkstate then
+						if not IsNetworkOwner(object) then
 							SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
 						else
 							SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
