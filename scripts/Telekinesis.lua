@@ -332,9 +332,11 @@ local createtool = function(ft)
 			else
 				KerplunkWav:Play()
 				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
-				if not IsNetworkOwner(object) then
-					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
-				end
+				pcall(function()
+					if not IsNetworkOwner(object) then
+						SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+					end
+				end)
 			end
 		end));
 		while mousedown == true do
@@ -353,10 +355,12 @@ local createtool = function(ft)
 		end
 		local lastnetworkstate
 		local lastnotiftime
-		if (object ~= nil and object.Parent ~= nil) then
-			lastnetworkstate = IsNetworkOwner(object)
-			lastnotiftime = 0
-		end
+		pcall(function()
+			if (object ~= nil and object.Parent ~= nil) then
+				lastnetworkstate = IsNetworkOwner(object)
+				lastnotiftime = 0
+			end
+		end)
 		while mousedown == true do
 			if (primary == nil or tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
@@ -465,6 +469,7 @@ local createtool = function(ft)
 		end
 		if (key == "u") then
 			if (dist ~= 1) then
+				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -480,6 +485,7 @@ local createtool = function(ft)
 		end
 		if (key == "p") then
 			if (dist ~= 1) then
+				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -494,6 +500,7 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "l") then
+			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -523,6 +530,7 @@ local createtool = function(ft)
 			end)
 		end
 		if (key == "f") then
+			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -545,6 +553,7 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "j") then
+			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
