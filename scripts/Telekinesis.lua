@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9.5";
+local vers = "V9";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -362,13 +362,13 @@ local createtool = function(ft)
 			if not IsNetworkOwner(object) then
 				if partclaimed == true then
 					SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					partclaimed = false
 				end
-				partclaimed = false
 			else
 				if partclaimed == false then
 					SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					partclaimed = true
 				end
-				partclaimed = true
 			end
 				
 			mouse.TargetFilter = game
