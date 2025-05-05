@@ -429,12 +429,12 @@ local createtool = function(ft)
 			local char = plr.Character or workspace:FindFirstChild(plr.Name)
 			local hrp = char and char:FindFirstChild("HumanoidRootPart")
 			if not char or not hrp then
-				SendNotification("Failed to TP", "HumanoidRootPart is missing.", nil, "Close")
+				SendNotification("Failed to TP", "HumanoidRootPart is missing.", 2.5, "Close")
 				return
 			end
 			local coords = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			hrp.CFrame = coords
-			SendNotification("Teleport", "Teleported to " .. mouse.Hit.p, nil, "Close")
+			SendNotification("Teleport", "Teleported to " .. mouse.Hit.X .. ", " .. mouse.Hit.Y + 3 .. ", " .. mouse.Hit.Z, 2.5, "Close")
 		end
 
 		if (primary == nil) or (tool == nil) or (object == nil) then return end
