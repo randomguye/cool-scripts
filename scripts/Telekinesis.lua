@@ -300,6 +300,7 @@ local createtool = function(ft)
 		if (mousedown == true) then
 			UnSelectable:Play()
 			mousedown = false
+			SendNotification("Stopped", "This action is already in progress.", 2.5, "Close")
 			return;
 		end
 		mousedown = true;
@@ -328,6 +329,7 @@ local createtool = function(ft)
 				OldMouseClick:Play()
 			else
 				KerplunkWav:Play()
+				SendNotification("Part Selected", "Selected " .. object.Name .. ".", 2.5, "Close")
 			end
 		end));
 		while mousedown == true do
@@ -348,7 +350,7 @@ local createtool = function(ft)
 			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
-				SendNotification("Unselected", "Part was destroyed.", nil, "Close")
+				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
 			mouse.TargetFilter = game
@@ -561,10 +563,12 @@ local createtool = function(ft)
 				if check then
 					primary = check
 				else
+					SendNotification("Tool Destroyed", "PrimaryPart is missing.", nil, "Close")
 					destroy()
 					break
 				end
 			elseif (tool == nil) then
+				SendNotification("Tool Destroyed", "Tool was destroyed.", 1, "Close")
 				destroy()
 				break
 			elseif (plr == nil) then
