@@ -256,10 +256,6 @@ end
 local createtool = function(ft)
 	w();
 
-	point.Parent = SelectionFolder
-	selectionbox.Adornee = nil
-	selectionhighlight.Adornee = nil
-
 	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 	local mousedown = false;
 	local ctrlpressed = false;
@@ -289,6 +285,9 @@ local createtool = function(ft)
 	cservice:AddTag(tool, randomguid)
 	local destroy = function()
 		mousedown = false;
+		point.Parent = SelectionFolder
+		selectionbox.Adornee = nil
+		selectionhighlight.Adornee = nil
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
@@ -563,9 +562,11 @@ local createtool = function(ft)
 					primary = check
 				else
 					destroy()
+					break
 				end
 			elseif (tool == nil) then
 				destroy()
+				break
 			elseif (plr == nil) then
 				destroy()
 				script:Destroy()
