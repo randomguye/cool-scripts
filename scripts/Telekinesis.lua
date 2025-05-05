@@ -259,7 +259,7 @@ end
 local createtool = function(ft)
 	w();
 
-	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam.CFrame
+	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -311,7 +311,7 @@ local createtool = function(ft)
 			local p = point:Clone();
 			p.Parent = cam;
 			while mousedown == true do
-				if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
+				if (primary == nil or tool == nil) then UnSelectable:Play() break end
 				p.Parent = tool;
 				if (object == nil) then
 					mouse.TargetFilter = nil
@@ -338,7 +338,7 @@ local createtool = function(ft)
 			end
 		end));
 		while mousedown == true do
-			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil or tool == nil) then UnSelectable:Play() break end
 			if (mouse.Target ~= nil) then
 				local t = mouse.Target;
 				if not (t:IsGrounded()) then
@@ -358,7 +358,7 @@ local createtool = function(ft)
 			lastnotiftime = 0
 		end
 		while mousedown == true do
-			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
+			if (primary == nil or tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
 				UnSelectable:Play()
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
@@ -438,7 +438,7 @@ local createtool = function(ft)
 			ElectronicpingshortWav:Play()
 		end
 
-		if (primary == nil) or (tool == nil) or (object == nil) then return end
+		if (primary == nil or tool == nil or object == nil) then return end
 
 		if (key == "q") then
 			if (dist >= 5) then
@@ -641,7 +641,7 @@ local createtool = function(ft)
 	spawn(function()
 		while w() do
 			if (primary == nil) then
-				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam.CFrame
+				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 				if check then
 					primary = check
 				else
@@ -677,7 +677,7 @@ pcall(function()
 			break
 		end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
-		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 		local canReceiveTool = primary and backpack
 		local itemCount = 0
 		if backpack then
