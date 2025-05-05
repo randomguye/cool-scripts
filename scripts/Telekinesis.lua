@@ -272,7 +272,7 @@ local createtool = function(ft)
 	local object = nil;
 
 	if (primary == nil) or (tool == nil) then
-		if ft == false then
+		if ft and ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
 			return
@@ -556,24 +556,25 @@ local createtool = function(ft)
 		v.Parent = plr.Backpack;
 	end
 	mas:Destroy();
-	if ft == true then
+	if ft and ft == true then
 		success = true
 	end
 	spawn(function()
 		while w(1) do
-			if (primary == nil) then
-				local check = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head") or cam;
-				if check then
-					primary = check
-				else
-					destroy()
-				end
-			elseif (tool == nil) then
-				destroy()
-			elseif (plr == nil) then
-				destroy()
-				script:Destroy()
-			end
+    			if (primary == nil) then
+        		local check = char and (char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head")) or cam
+        		if check then
+           			primary = check
+        		else
+            			destroy()
+        		end
+    			elseif (tool == nil) then
+        			destroy()
+    			elseif (plr == nil) then
+        			destroy()
+        			script:Destroy()
+				break
+   			end
 		end
 	end)
 end;
@@ -588,7 +589,7 @@ pcall(function()
 		return
 	end
 
-	while w() do
+	while w(1) do
 		if not plr then
 			break
 		end
