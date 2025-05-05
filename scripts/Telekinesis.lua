@@ -261,9 +261,7 @@ local createtool = function(ft)
 	selectionbox.Adornee = nil
 	selectionhighlight.Adornee = nil
 	
-	local char = plr.Character;
-	local human = WaitForChildWhichIsA(char, "Humanoid");
-	local primary = char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head") or cam;
+	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 	local mousedown = false;
 	local ctrlpressed = false;
 	local found = false;
@@ -560,9 +558,9 @@ local createtool = function(ft)
 		success = true
 	end
 	spawn(function()
-		while w(1) do
+		while w() do
     			if (primary == nil) then
-        		local check = char and (char.PrimaryPart or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head")) or cam
+        		local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
         		if check then
            			primary = check
         		else
@@ -594,10 +592,8 @@ pcall(function()
 			break
 		end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
-		local character = plr.Character
-		local primary = character.PrimaryPart or character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Head")
-		local humanoid = character and WaitForChildWhichIsA(character, "Humanoid")
-		local canReceiveTool = character and primary and humanoid and humanoid.Health > 0 and backpack
+		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+		local canReceiveTool = primary and backpack
 		local itemCount = 0
 		if backpack then
 			for _, item in backpack:GetChildren() do
