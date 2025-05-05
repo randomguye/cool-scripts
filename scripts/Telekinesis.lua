@@ -434,7 +434,7 @@ local createtool = function(ft)
 			end
 			local coords = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			hrp.CFrame = coords
-			SendNotification("Teleport", "Teleported to " .. coords, 2.5, "Close")
+			SendNotification("Teleport", "Teleported to mouse position., 2.5, "Close")
 		end
 
 		if (primary == nil) or (tool == nil) or (object == nil) then return end
