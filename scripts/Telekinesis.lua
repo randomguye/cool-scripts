@@ -377,13 +377,16 @@ local createtool = function(ft)
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
-		local yesh = false;
 
 		if (key == "n") then
 			if not ctrlpressed then return end
 			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
-			SendNotification("NetworkOwners", settings().Physics.AreOwnersShown, 1, "Close", nil, nil, true)
+			if settings().Physics.AreOwnersShown == true then
+				SendNotification("NetworkOwners", "NetworkOwners Enabled", 1, "Close", nil, nil, true)
+			else
+				SendNotification("NetworkOwners", "NetworkOwners Disabled", 1, "Close", nil, nil, true)
+			end
 		end
 		
 		if (key == "m") then
