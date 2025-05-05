@@ -365,10 +365,10 @@ local createtool = function(ft)
 			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
 				local currentnetworkstate = IsNetworkOwner(object)
 				if currentnetworkstate ~= lastnetworkstate then
-					if currentOwnershipState then
-						SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
-					else
+					if not currentOwnershipState then
 						SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					else
+						SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
 					end
 					currentnetworkstate = currentnetworkstate
 				end
