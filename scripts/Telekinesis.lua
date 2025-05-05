@@ -360,12 +360,12 @@ local createtool = function(ft)
 			end
 			local partclaimed = true
 			if not IsNetworkOwner(object) then
-				if partclaimed == true then
+				if partclaimed == true and not IsNetworkOwner(object) then
 					SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
 					partclaimed = false
 				end
 			else
-				if partclaimed == false then
+				if partclaimed == false and IsNetworkOwner(object) then
 					SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
 					partclaimed = true
 				end
