@@ -438,8 +438,8 @@ local createtool = function(ft)
 				SendNotification("Failed to TP", "HumanoidRootPart is missing.", 2.5, "Close")
 				return
 			end
-			hrp.Velocity = Vector3.Zero
-			hrp.RotVelocity = Vector3.Zero
+			hrp.Velocity = Vector3.zero
+			hrp.RotVelocity = Vector3.zero
 			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 			ElectronicpingshortWav:Play()
@@ -525,8 +525,8 @@ local createtool = function(ft)
 				cservice:AddTag(BG, randomguid)
 				repeat w()
 				if (curobj == nil) or (mousedown == false) then break end 
-					curobj.Velocity = Vector3.Zero
-					curobj.RotVelocity = Vector3.Zero
+					curobj.Velocity = Vector3.zero
+					curobj.RotVelocity = Vector3.zero
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
 				BG:Destroy()
 			end)
