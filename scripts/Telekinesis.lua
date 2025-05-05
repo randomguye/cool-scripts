@@ -510,7 +510,7 @@ local createtool = function(ft)
 				local BG = _Ins("BodyGyro");
 				BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 				--BG.CFrame = _CF_new(object.CFrame.p);
-				BG.P = BG.P * 100;
+				BG.P = BG.P * 30;
 				BG.Parent = curobj;
 				cservice:AddTag(BG, randomguid)
 				repeat w()
