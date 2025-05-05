@@ -137,6 +137,7 @@ local debris = game:GetService("Debris");
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
+local notifs = true;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game)
@@ -229,7 +230,8 @@ local WaitForChildWhichIsA = function(parent, className)
 	return child
 end
 
-local SendNotification = function(title, text, duration, button1, button2, icon)
+local SendNotification = function(title, text, duration, button1, button2, icon, toggled)
+	if not notifs and not toggled then return end
 	local notificationData = {
 		Title = title or "Notification",
 		Text = text or "This is a notification.",
@@ -377,10 +379,22 @@ local createtool = function(ft)
 		local key = key:lower();
 		local yesh = false;
 
-		if (key == "r") then
+		if (key == "n") then
 			if not ctrlpressed then return end
 			Button:Play()
 			settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown;
+			SendNotification("NetworkOwners", settings().Physics.AreOwnersShown, 1, "Close", nil, nil, true)
+		end
+		
+		if (key == "m") then
+			if not ctrlpressed then return end
+			Button:Play()
+			notifs = not notifs
+			if notifs == false then
+				SendNotification("Notifications Disabled", "Disabled Notifications.", 1, "Close", nil, nil, true)
+			else
+				SendNotification("Notifications Enabled", "Enabled Notifications.", 1, "Close", nil, nil, true)
+			end
 		end
 
 		if (primary == nil) or (tool == nil) or (object == nil) then return end
