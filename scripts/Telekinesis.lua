@@ -427,6 +427,7 @@ local createtool = function(ft)
 
 		if (key == "t") then
 			local mouse = plr:GetMouse();
+			mouse.TargetFilter = nil;
 			local char = plr.Character or workspace:FindFirstChild(plr.Name)
 			local hrp = char and char:FindFirstChild("HumanoidRootPart")
 			if not char or not hrp then
