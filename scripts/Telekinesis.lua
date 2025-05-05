@@ -351,6 +351,8 @@ local createtool = function(ft)
 			end
 			w();
 		end
+		local lastnetworkstate = IsNetworkOwner(object)
+		local lastnotiftime = 0
 		while mousedown == true do
 			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
@@ -358,19 +360,20 @@ local createtool = function(ft)
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
-			local partclaimed = true
-			if not IsNetworkOwner(object) then
-				if partclaimed == true and not IsNetworkOwner(object) then
-					SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
-					partclaimed = false
+			local currentnetworkstate = IsNetworkOwner(object)
+			local currenttime = tick()
+			if currentnetworkstate ~= lastnetworkstate then
+				if currenttime >= lastnotiftime + 1 then
+					if currentOwnershipState == true then
+						SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					else
+						SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					end
+					lastnotiftime = currentTime
 				end
-			else
-				if partclaimed == false and IsNetworkOwner(object) == true then
-					SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
-					partclaimed = true
-				end
+				currentnetworkstate = currentnetworkstate
 			end
-				
+
 			mouse.TargetFilter = game
 			pcall(function()
 				if object == nil then return end
@@ -404,7 +407,7 @@ local createtool = function(ft)
 				SendNotification("NetworkOwners", "NetworkOwners Disabled", 1, "Close", nil, nil, true)
 			end
 		end
-		
+
 		if (key == "m") then
 			if not ctrlpressed then return end
 			Button:Play()
