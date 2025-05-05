@@ -140,7 +140,7 @@ local w = task.wait;
 local notifs = true;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
-local ScriptFolder = _Ins("Folder", game)
+local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
 ScriptFolder.Name = "TelekinesisMain"
 local SelectionFolder = _Ins("Folder", ScriptFolder)
 SelectionFolder.Name = "SelectionObjects"
