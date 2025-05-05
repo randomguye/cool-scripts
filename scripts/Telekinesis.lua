@@ -409,7 +409,11 @@ local createtool = function(ft)
 		end
 		if (key == "u") then
 			if (dist ~= 1) then
-				if not IsNetworkOwner(object) then UnSelectable:Play() return end
+				if not IsNetworkOwner(object) then 
+					UnSelectable:Play() 
+					SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+					return 
+				end	
 				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyGyro");
 				BX.MaxTorque = _VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
@@ -420,7 +424,11 @@ local createtool = function(ft)
 		end
 		if (key == "p") then
 			if (dist ~= 1) then
-				if not IsNetworkOwner(object) then UnSelectable:Play() return end
+				if not IsNetworkOwner(object) then 
+					UnSelectable:Play() 
+					SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+					return 
+				end	
 				ElectronicpingshortWav:Play()
 				local BX = _Ins("BodyVelocity");
 				BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
@@ -430,7 +438,11 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "l") then
-			if not IsNetworkOwner(object) then UnSelectable:Play() return end
+			if not IsNetworkOwner(object) then 
+				UnSelectable:Play() 
+				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				return 
+			end	
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyGyro") and cservice:HasTag(v, randomguid) then
 					UnSelectable:Play()
@@ -455,7 +467,11 @@ local createtool = function(ft)
 			end)
 		end
 		if (key == "f") then
-			if not IsNetworkOwner(object) then UnSelectable:Play() return end
+			if not IsNetworkOwner(object) then 
+				UnSelectable:Play() 
+				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				return 
+			end	
 			local orgobj = object;
 			local mouse = plr:GetMouse();
 			mouse.TargetFilter = game;
@@ -473,7 +489,11 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "j") then
-			if not IsNetworkOwner(object) then UnSelectable:Play() return end
+			if not IsNetworkOwner(object) then 
+				UnSelectable:Play() 
+				SendNotification("Unable to perform action", "You do not have network ownership over this part.", 1, "Close")
+				return 
+			end	
 			for _, v in pairs(object:GetChildren()) do
 				if (v.className == "BodyVelocity") and cservice:HasTag(v, randomguid) then
 					UnSelectable:Play()
