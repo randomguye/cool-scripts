@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9";
+local vers = "V9.5";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -137,7 +137,6 @@ local debris = game:GetService("Debris");
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
-local success = false
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game)
@@ -256,11 +255,11 @@ end
 
 local createtool = function(ft)
 	w();
-	
+
 	point.Parent = SelectionFolder
 	selectionbox.Adornee = nil
 	selectionhighlight.Adornee = nil
-	
+
 	local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
 	local mousedown = false;
 	local ctrlpressed = false;
@@ -269,14 +268,13 @@ local createtool = function(ft)
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) or (tool == nil) then
+	if (primary == nil) then
 		if ft and ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
 			return
 		else
-			success = false
-			return
+			return false
 		end
 	end
 	BassWav:Play()
@@ -294,7 +292,7 @@ local createtool = function(ft)
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
-		if (tool ~= nil then
+		if (tool ~= nil) then
 			tool:Destroy();
 		end
 	end
@@ -555,30 +553,30 @@ local createtool = function(ft)
 	end
 	mas:Destroy();
 	if ft and ft == true then
-		success = true
+		return true
 	end
 	spawn(function()
 		while w() do
-    			if (primary == nil) then
-        		local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
-        		if check then
-           			primary = check
-        		else
-            			destroy()
-        		end
-    			elseif (tool == nil) then
-        			destroy()
-    			elseif (plr == nil) then
-        			destroy()
-        			script:Destroy()
+			if (primary == nil) then
+				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head")) or cam
+				if check then
+					primary = check
+				else
+					destroy()
+				end
+			elseif (tool == nil) then
+				destroy()
+			elseif (plr == nil) then
+				destroy()
+				script:Destroy()
 				break
-   			end
+			end
 		end
 	end)
 end;
 pcall(function()
-	createtool(true)
-	if success == true then
+	local tool = createtool(true)
+	if tool == true then
 		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
