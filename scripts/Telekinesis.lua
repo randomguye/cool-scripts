@@ -1,6 +1,6 @@
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9.5";
+local vers = "V9";
 
 --Credits
 print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
@@ -600,8 +600,8 @@ pcall(function()
 				end
 			end
 		end
-		if character then
-			for _, item in character:GetChildren() do
+		if plr.Character then
+			for _, item in plr.Character:GetChildren() do
 				if item:IsA("Tool") and cservice:HasTag(item, randomguid) then
 					itemCount = itemCount + 1
 				end
@@ -619,8 +619,8 @@ pcall(function()
 					end
 				end
 			end
-			if character then
-				for _, item in character:GetChildren() do
+			if plr.Character then
+				for _, item in plr.Character:GetChildren() do
 					if item:IsA("Tool") and cservice:HasTag(item, randomguid) then
 						item:Destroy()
 					end
@@ -632,4 +632,3 @@ pcall(function()
 		end
 	end
 end)
-
