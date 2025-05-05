@@ -333,7 +333,7 @@ local createtool = function(ft)
 				KerplunkWav:Play()
 				SendNotification("Part Selected", "Selected " .. object.Name .. ".", 1, "Close")
 				if not IsNetworkOwner(object) then
-					SendNotification("Selected Part Not Claimed", "You currently have no network ownership over the selected part.", 0.25, "Close")
+					SendNotification("Selected Part Not Claimed", "You currently have no network ownership over the selected part.", 0.5, "Close")
 				end
 			end
 		end));
@@ -358,6 +358,19 @@ local createtool = function(ft)
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
 			end
+			local partclaimed = true
+			if not IsNetworkOwner(object) then
+				if partclaimed == true then
+					SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
+				end
+				partclaimed = false
+			else
+				if partclaimed == false then
+					SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+				end
+				partclaimed = true
+			end
+				
 			mouse.TargetFilter = game
 			pcall(function()
 				if object == nil then return end
