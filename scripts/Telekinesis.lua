@@ -327,7 +327,7 @@ local createtool = function(ft)
 				w();
 			end
 			p:Destroy();
-			if object == nil then
+			if (object == nil or object.Parent == nil) then
 				OldMouseClick:Play()
 			else
 				KerplunkWav:Play()
@@ -353,7 +353,7 @@ local createtool = function(ft)
 		end
 		local lastnetworkstate
 		local lastnotiftime
-		if object ~= nil then
+		if (object ~= nil and object.Parent ~= nil) then
 			lastnetworkstate = IsNetworkOwner(object)
 			lastnotiftime = 0
 		end
