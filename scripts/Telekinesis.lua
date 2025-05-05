@@ -352,10 +352,8 @@ local createtool = function(ft)
 			w();
 		end
 		local lastnetworkstate
-		local lastnotiftime
 		if object ~= nil then
 			lastnetworkstate = IsNetworkOwner(object)
-			lastnotiftime = 0
 		end
 		while mousedown == true do
 			if (primary == nil) or (tool == nil) then UnSelectable:Play() break end
@@ -366,15 +364,11 @@ local createtool = function(ft)
 			end
 			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
 				local currentnetworkstate = IsNetworkOwner(object)
-				local currenttime = tick()
 				if currentnetworkstate ~= lastnetworkstate then
-					if currenttime >= lastnotiftime + 1 then
-						if currentOwnershipState == true then
-							SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
-						else
-							SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
-						end
-						lastnotiftime = currentTime
+					if currentOwnershipState then
+						SendNotification("Part Claimed", "Successfully claimed selected part \"" .. object.Name .. "\".", 0.5, "Close")
+					else
+						SendNotification("Part Unclaimed", "Lost network ownership over the selected part \"" .. object.Name .. "\".", 0.5, "Close")
 					end
 					currentnetworkstate = currentnetworkstate
 				end
