@@ -622,6 +622,7 @@ pcall(function()
 		end
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
+		warn("Failed to initiate script.")
 		killscript()
 		return
 	end
