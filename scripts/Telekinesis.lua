@@ -300,6 +300,7 @@ local createtool = function(ft)
 	end
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (tool == nil) then UnSelectable:Play() return end
+		local success, errormessage = pcall(function()
 		if (mousedown == true) then
 			UnSelectable:Play()
 			mousedown = false
@@ -332,11 +333,9 @@ local createtool = function(ft)
 			else
 				KerplunkWav:Play()
 				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
-				pcall(function()
-					if not IsNetworkOwner(object) then
-						SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
-					end
-				end)
+				if not IsNetworkOwner(object) then
+					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+				end
 			end
 		end));
 		while mousedown == true do
@@ -355,12 +354,10 @@ local createtool = function(ft)
 		end
 		local lastnetworkstate
 		local lastnotiftime
-		pcall(function()
-			if (object ~= nil and object.Parent ~= nil) then
-				lastnetworkstate = IsNetworkOwner(object)
-				lastnotiftime = 0
-			end
-		end)
+		if (object ~= nil and object.Parent ~= nil) then
+			lastnetworkstate = IsNetworkOwner(object)
+			lastnotiftime = 0
+		end
 		while mousedown == true do
 			if (primary == nil or tool == nil) then UnSelectable:Play() break end
 			if ((object.Parent == nil) or (object == nil)) then
@@ -385,14 +382,12 @@ local createtool = function(ft)
 			end
 
 			mouse.TargetFilter = game
-			pcall(function()
-				if object == nil then return end
-				local lv = _CF_new(primary.Position, mouse.Hit.p);
-				local BPClone = curBP or BP:Clone()
-				BPClone.Parent = object;
-				BPClone.Position = primary.Position + (lv.lookVector * dist);
-				curBP = BPClone
-			end);
+			if object == nil then return end
+			local lv = _CF_new(primary.Position, mouse.Hit.p);
+			local BPClone = curBP or BP:Clone()
+			BPClone.Parent = object;
+			BPClone.Position = primary.Position + (lv.lookVector * dist);
+			curBP = BPClone
 			w();
 		end
 		if curBP ~= nil then
@@ -403,6 +398,7 @@ local createtool = function(ft)
 		object = nil;
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
+		end)
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
@@ -445,7 +441,7 @@ local createtool = function(ft)
 			ElectronicpingshortWav:Play()
 		end
 
-		if (primary == nil or tool == nil or object == nil) then return end
+		if (primary == nil or tool == nil or object.Parent == nil or object == nil) then return end
 
 		if (key == "q") then
 			if (dist >= 5) then
@@ -471,7 +467,6 @@ local createtool = function(ft)
 		end
 		if (key == "p") then
 			if (dist ~= 1) then
-				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -487,7 +482,6 @@ local createtool = function(ft)
 		end
 		if (key == "l") then
 			if (dist ~= 1) then
-				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -502,7 +496,6 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "c") then
-			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -532,7 +525,6 @@ local createtool = function(ft)
 			end)
 		end
 		if (key == "f") then
-			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -558,7 +550,6 @@ local createtool = function(ft)
 		end
 		if (key == "g") then
 			if not ctrlpressed then return end
-			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
