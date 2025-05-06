@@ -140,6 +140,11 @@ local w = task.wait;
 local notifs = true;
 local tkcollisions = true;
 local destroying = false;
+local ctrlpressed = false;
+local mousedown = false;
+local curtool = nil
+local curpoint = nil
+local curBP = nil
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
@@ -226,12 +231,24 @@ BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge *
 BP.P = BP.P * 3;
 
 local killscript = function()
+	mousedown = false;
+	ctrlpressed = false
 	destroying = true
-	CollideWav.PlayOnRemove = true
-	if destroy then
-		destroy()
+	if not (CollideWav ~= nil and Sounds ~= nil) then
+		CollideWav.PlayOnRemove = true
 	end
-	ScriptFolder:Destroy()
+	if curBP ~= nil then
+		curBP:Destroy()
+	end
+	if curtool ~= nil then
+		curtool:Destroy()
+	end
+	if curpoint ~= nil then
+		curpoint:Destroy()
+	end
+	if ScriptFolder ~= nil then
+		ScriptFolder:Destroy()
+	end
 	script:Destroy()
 end
 
@@ -276,7 +293,6 @@ local createtool = function(ft)
 	local ctrlpressed = false;
 	local found = false;
 	local dist = nil;
-	local curBP = nil;
 	local object = nil;
 
 	if (primary == nil or ScriptFolder == nil) then
@@ -298,16 +314,21 @@ local createtool = function(ft)
 	tool.ToolTip = name .. " " .. vers;
 	tool.Parent = mas;
 	cservice:AddTag(tool, randomguid)
+	curtool = tool
 	local destroy = function()
+		if ScriptFolder == nil then return end
 		mousedown = false;
-		point.Parent = SelectionFolder
+		ctrlpressed = false
 		selectionbox.Adornee = nil
 		selectionhighlight.Adornee = nil
 		if (curBP ~= nil) then
 			curBP:Destroy();
 		end
-		if (tool ~= nil) then
-			tool:Destroy();
+		if (curtool ~= nil) then
+			curtool:Destroy();
+		end
+		if (curpoint ~= nil) then
+			curpoint:();
 		end
 	end
 	local onButton1Down = function(mouse)
@@ -322,7 +343,7 @@ local createtool = function(ft)
 		coroutine.resume(coroutine.create(function()
 			ClickfastWav:Play()
 			local p = point:Clone();
-			p.Parent = cam;
+			curpoint = p
 			while mousedown == true do
 				if (primary == nil or tool == nil) then UnSelectable:Play() break end
 				p.Parent = tool;
@@ -699,10 +720,10 @@ local createtool = function(ft)
 				destroy()
 				break
 			elseif (plr == nil) then
-				destroy()
-				ScriptFolder:Destroy()
-				script:Destroy()
+				killscript()
 				break
+			elseif (ScriptFolder == nil) then
+				killscript()
 			end
 		end
 	end)
