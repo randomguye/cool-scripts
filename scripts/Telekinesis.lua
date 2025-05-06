@@ -9,7 +9,7 @@ local httpservice = cloneref(game:GetService("HttpService"))
 local uis = cloneref(game:GetService("UserInputService"));
 local cservice = cloneref(game:GetService("CollectionService"))
 local coregui = cloneref(game:GetService("CoreGui"))
---local sgui = cloneref(game:GetService("StarterGui"))
+local sgui = cloneref(game:GetService("StarterGui"))
 local debris = cloneref(game:GetService("Debris"));
 local players = cloneref(game:GetService("Players"))
 local randomguid = string.lower(httpservice:GenerateGUID(false));
@@ -160,7 +160,7 @@ local SendNotification = function(title, text, duration, button1, button2, icon,
 		notificationData.Icon = icon
 	end
 
-	coregui:SetCore("SendNotification", notificationData)
+	sgui:SetCore("SendNotification", notificationData)
 end
 
 local IsNetworkOwner = function(part)
@@ -188,7 +188,7 @@ local createtool = function(ft)
 	end
 	BassWav:Play()
 
-	local mas = _Ins("Model", plr);
+	local mas = _Ins("Model");
 	local tool = _Ins("Tool");
 	tool.RequiresHandle = false;
 	tool.CanBeDropped = false;
