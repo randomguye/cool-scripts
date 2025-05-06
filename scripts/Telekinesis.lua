@@ -247,10 +247,6 @@ local createtool = function(ft)
 					OldMouseClick:Play()
 				else
 					KerplunkWav:Play()
-					SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
-					if not IsNetworkOwner(object) then
-						SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
-					end
 				end
 			end));
 			while mousedown == true do
@@ -272,6 +268,10 @@ local createtool = function(ft)
 			if (object ~= nil) then
 				lastnetworkstate = IsNetworkOwner(object)
 				lastnotiftime = 0
+				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
+				if object and not IsNetworkOwner(object) then
+					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+				end
 			end
 			while mousedown == true do
 				if (primary == nil or tool == nil) then UnSelectable:Play() break end
@@ -319,6 +319,9 @@ local createtool = function(ft)
 			selectionhighlight.Adornee = nil;
 			mouse.TargetFilter = nil
 		end)
+		if errormessage then
+			warn(errormessage)
+		end
 	end;
 	local onKeyDown = function(key, mouse)
 		local key = key:lower();
@@ -473,14 +476,12 @@ local createtool = function(ft)
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
 			mousedown = false;
-			orgobj.Velocity = Vector3.zero
-			orgobj.RotVelocity = Vector3.zero
+			w()
+			if orgobj == nil then return end
 			if not ctrlpressed then
-				w()
 				orgobj.Velocity = direction * 750
 				Paintball:Play()
 			else
-				w()
 				orgobj.Velocity = direction * 5000
 				Explode:Play()
 			end
