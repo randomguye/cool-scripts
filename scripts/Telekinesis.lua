@@ -447,7 +447,7 @@ local createtool = function(ft)
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 			ElectronicpingshortWav:Play()
 		end
-		if (key == Enum.KeyCode.Zero) then
+		if (key == "p") then
 			if not ctrlpressed then return end
 			if destroying then return end
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
@@ -492,7 +492,7 @@ local createtool = function(ft)
 				dist = 15;
 			end
 		end
-		if (key == "p") then
+		if (key == "u") then
 			if (dist ~= 1) then
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
