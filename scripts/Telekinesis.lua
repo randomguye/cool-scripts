@@ -556,7 +556,7 @@ local createtool = function(ft)
 				Explode:Play()
 			end
 		end
-		if (key == "j") then
+		if (key == "r") then
 			if not ctrlpressed then return end
 			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
