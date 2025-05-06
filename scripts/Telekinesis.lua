@@ -447,7 +447,7 @@ local createtool = function(ft)
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 			ElectronicpingshortWav:Play()
 		end
-		if (key == "zero") then
+		if (key == Enum.KeyCode.Zero) then
 			if not (ctrlpressed or destroying) then return end
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
 			CollideWav:Play()
