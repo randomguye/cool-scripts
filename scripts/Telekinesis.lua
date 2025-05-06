@@ -1,139 +1,19 @@
+if not game:IsLoaded() then game.Loaded:Wait() end
+
 --hello_dark54
 local name = "Telekinesis";
 local vers = "V9";
 
---Credits
-print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
-
---Part Claim
-if gethiddenproperty and sethiddenproperty then
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-task.wait()
-
-local randomguid = string.lower(game:GetService("HttpService"):GenerateGUID(false));
-local plr = game:GetService("Players").LocalPlayer;
-local uis = game:GetService("UserInputService");
-local cservice = game:GetService("CollectionService")
-local sgui = game:GetService("StarterGui")
-local debris = game:GetService("Debris");
+local cloneref = cloneref or function(o) return o end
+local httpservice = cloneref(game:GetService("HttpService"))
+local uis = cloneref(game:GetService("UserInputService"));
+local cservice = cloneref(game:GetService("CollectionService"))
+local coregui = cloneref(game:GetService("CoreGui"))
+--local sgui = cloneref(game:GetService("StarterGui"))
+local debris = cloneref(game:GetService("Debris"));
+local players = cloneref(game:GetService("Players"))
+local randomguid = string.lower(httpservice:GenerateGUID(false));
+local plr = players.LocalPlayer;
 local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
@@ -147,7 +27,7 @@ local curpoint = nil
 local curBP = nil
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
-local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
+local ScriptFolder = _Ins("Folder", coregui)
 ScriptFolder.Name = randomguid
 local SelectionFolder = _Ins("Folder", ScriptFolder)
 SelectionFolder.Name = "SelectionObjects"
@@ -280,7 +160,7 @@ local SendNotification = function(title, text, duration, button1, button2, icon,
 		notificationData.Icon = icon
 	end
 
-	sgui:SetCore("SendNotification", notificationData)
+	coregui:SetCore("SendNotification", notificationData)
 end
 
 local IsNetworkOwner = function(part)
@@ -733,7 +613,13 @@ end;
 pcall(function()
 	local tool = createtool(true)
 	if tool == true then
+		--Credits&PartClaim
 		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
+		print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
+		if gethiddenproperty and sethiddenproperty and not PARTCLAIM_LOADED then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
+			pcall(function() getgenv().PARTCLAIM_LOADED = true end)
+		end
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
 		killscript()
