@@ -249,7 +249,9 @@ local killscript = function()
 	if ScriptFolder ~= nil then
 		ScriptFolder:Destroy()
 	end
-	script:Destroy()
+	if script ~= nil then
+		script:Destroy()
+	end
 end
 
 local WaitForChildWhichIsA = function(parent, className)
@@ -480,7 +482,7 @@ local createtool = function(ft)
 		end
 		if (key == "p") then
 			if not ctrlpressed then return end
-			if destroying or object ~= nil then return end
+			if destroying == true or object ~= nil then return end
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
 			killscript()
 		end
@@ -734,8 +736,7 @@ pcall(function()
 		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
-		ScriptFolder:Destroy()
-		script:Destroy()
+		killscript()
 		return
 	end
 
