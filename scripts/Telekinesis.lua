@@ -448,7 +448,8 @@ local createtool = function(ft)
 			ElectronicpingshortWav:Play()
 		end
 		if (key == Enum.KeyCode.Zero) then
-			if not (ctrlpressed or destroying) then return end
+			if not ctrlpressed then return end
+			if destroying then return end
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
 			CollideWav:Play()
 			w()
