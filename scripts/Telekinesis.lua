@@ -449,7 +449,7 @@ local createtool = function(ft)
 		end
 		if (key == "p") then
 			if not ctrlpressed then return end
-			if destroying then return end
+			if destroying or object ~= nil then return end
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
 			CollideWav:Play()
 			w()
