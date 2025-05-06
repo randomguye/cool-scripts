@@ -138,6 +138,7 @@ local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local notifs = true;
+local tkcollisions = true;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
@@ -381,7 +382,11 @@ local createtool = function(ft)
 				end
 			end
 
-			mouse.TargetFilter = game
+			if tkcollisions == false then
+				mouse.TargetFilter = game
+			else
+				mouse.TargetFilter = nil
+			end
 			if object == nil then return end
 			local lv = _CF_new(primary.Position, mouse.Hit.p);
 			local BPClone = curBP or BP:Clone()
@@ -398,6 +403,7 @@ local createtool = function(ft)
 		object = nil;
 		selectionbox.Adornee = nil;
 		selectionhighlight.Adornee = nil;
+		mouse.TargetFilter = nil
 		end)
 	end;
 	local onKeyDown = function(key, mouse)
@@ -439,6 +445,17 @@ local createtool = function(ft)
 			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 			ElectronicpingshortWav:Play()
+		end
+
+		if (key == "k") then
+			if not ctrlpressed then return end
+			Button:Play()
+			tkcollisions = not tkcollisions
+			if notifs == false then
+				SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+			else
+				SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+			end
 		end
 
 		if (primary == nil or tool == nil or object.Parent == nil or object == nil) then return end
