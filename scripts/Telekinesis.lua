@@ -394,7 +394,7 @@ local createtool = function(ft)
 			SwitchWav:Play()
 			dist = dist + 5;
 		end
-		if (key == "z") then
+		if (key == "c") then
 			local setdist = 100
 			SwitchWav:Play()
 			if not ctrlpressed then
@@ -446,7 +446,7 @@ local createtool = function(ft)
 				mousedown = false;
 			end
 		end
-		if (key == "c") then
+		if (key == "g") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
