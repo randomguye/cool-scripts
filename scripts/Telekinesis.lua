@@ -164,7 +164,7 @@ local SendNotification = function(title, text, duration, button1, button2, icon,
 end
 
 local IsNetworkOwner = function(part)
-	if (part == nil) then return false end
+	if (part == nil or part.AssemblyRootPart == nil) then return false end
 	return not part:IsGrounded() and part.AssemblyRootPart.ReceiveAge == 0
 end
 
