@@ -328,114 +328,114 @@ local createtool = function(ft)
 			curtool:Destroy();
 		end
 		if (curpoint ~= nil) then
-			curpoint:();
+			curpoint:Destroy();
 		end
 	end
 	local onButton1Down = function(mouse)
 		if (primary == nil) or (tool == nil) then UnSelectable:Play() return end
 		local success, errormessage = pcall(function()
-		if (mousedown == true) then
-			UnSelectable:Play()
-			mousedown = false
-			return;
-		end
-		mousedown = true;
-		coroutine.resume(coroutine.create(function()
-			ClickfastWav:Play()
-			local p = point:Clone();
-			curpoint = p
+			if (mousedown == true) then
+				UnSelectable:Play()
+				mousedown = false
+				return;
+			end
+			mousedown = true;
+			coroutine.resume(coroutine.create(function()
+				ClickfastWav:Play()
+				local p = point:Clone();
+				curpoint = p
+				while mousedown == true do
+					if (primary == nil or tool == nil) then UnSelectable:Play() break end
+					p.Parent = tool;
+					if (object == nil) then
+						mouse.TargetFilter = nil
+						if (mouse.Target == nil) then
+							local lv = _CF_new(primary.Position, mouse.Hit.p);
+							p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
+						else
+							p.CFrame = _CF_new(mouse.Hit.p);
+						end
+					else
+						break;
+					end
+					w();
+				end
+				p:Destroy();
+				if (object == nil) then
+					OldMouseClick:Play()
+				else
+					KerplunkWav:Play()
+					SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
+					if not IsNetworkOwner(object) then
+						SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+					end
+				end
+			end));
 			while mousedown == true do
 				if (primary == nil or tool == nil) then UnSelectable:Play() break end
-				p.Parent = tool;
-				if (object == nil) then
-					mouse.TargetFilter = nil
-					if (mouse.Target == nil) then
-						local lv = _CF_new(primary.Position, mouse.Hit.p);
-						p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
-					else
-						p.CFrame = _CF_new(mouse.Hit.p);
+				if (mouse.Target ~= nil) then
+					local t = mouse.Target;
+					if not (t:IsGrounded()) then
+						object = t;
+						selectionbox.Adornee = object;
+						selectionhighlight.Adornee = object;
+						dist = (object.Position - primary.Position).magnitude;
+						break;
 					end
-				else
-					break;
 				end
 				w();
 			end
-			p:Destroy();
-			if (object == nil) then
-				OldMouseClick:Play()
-			else
-				KerplunkWav:Play()
-				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
-				if not IsNetworkOwner(object) then
-					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
-				end
+			local lastnetworkstate
+			local lastnotiftime
+			if (object ~= nil) then
+				lastnetworkstate = IsNetworkOwner(object)
+				lastnotiftime = 0
 			end
-		end));
-		while mousedown == true do
-			if (primary == nil or tool == nil) then UnSelectable:Play() break end
-			if (mouse.Target ~= nil) then
-				local t = mouse.Target;
-				if not (t:IsGrounded()) then
-					object = t;
-					selectionbox.Adornee = object;
-					selectionhighlight.Adornee = object;
-					dist = (object.Position - primary.Position).magnitude;
+			while mousedown == true do
+				if (primary == nil or tool == nil) then UnSelectable:Play() break end
+				if (object == nil) then
+					UnSelectable:Play()
+					SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 					break;
 				end
-			end
-			w();
-		end
-		local lastnetworkstate
-		local lastnotiftime
-		if (object ~= nil) then
-			lastnetworkstate = IsNetworkOwner(object)
-			lastnotiftime = 0
-		end
-		while mousedown == true do
-			if (primary == nil or tool == nil) then UnSelectable:Play() break end
-			if (object == nil) then
-				UnSelectable:Play()
-				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
-				break;
-			end
-			if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
-				local currentnetworkstate = IsNetworkOwner(object)
-				local currenttime = tick()
-				if currentnetworkstate ~= lastnetworkstate then
-					if currenttime >= lastnotiftime + 0.25 then
-						if not currentnetworkstate then
-							SendNotification("Part Unclaimed", "Lost ownership of the part: \'" .. object.Name .. "\'.", 0.75, "Close")
-						else
-							SendNotification("Part Claimed", "Successfully claimed part: \'" .. object.Name .. "\'.", 0.75, "Close")
+				if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
+					local currentnetworkstate = IsNetworkOwner(object)
+					local currenttime = tick()
+					if currentnetworkstate ~= lastnetworkstate then
+						if currenttime >= lastnotiftime + 0.25 then
+							if not currentnetworkstate then
+								SendNotification("Part Unclaimed", "Lost ownership of the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+							else
+								SendNotification("Part Claimed", "Successfully claimed part: \'" .. object.Name .. "\'.", 0.75, "Close")
+							end
+							lastnotiftime = currenttime
 						end
-						lastnotiftime = currenttime
+						lastnetworkstate = currentnetworkstate
 					end
-					lastnetworkstate = currentnetworkstate
 				end
-			end
 
-			if tkcollisions == false then
-				mouse.TargetFilter = game
-			else
-				mouse.TargetFilter = nil
+				if tkcollisions == false then
+					mouse.TargetFilter = game
+				else
+					mouse.TargetFilter = nil
+				end
+				if object == nil then return end
+				local lv = _CF_new(primary.Position, mouse.Hit.p);
+				local BPClone = curBP or BP:Clone()
+				BPClone.Parent = object;
+				BPClone.Position = primary.Position + (lv.lookVector * dist);
+				curBP = BPClone
+				w();
 			end
-			if object == nil then return end
-			local lv = _CF_new(primary.Position, mouse.Hit.p);
-			local BPClone = curBP or BP:Clone()
-			BPClone.Parent = object;
-			BPClone.Position = primary.Position + (lv.lookVector * dist);
-			curBP = BPClone
-			w();
-		end
-		if curBP ~= nil then
-			curBP:Destroy();
-			HitWav:Play()
-		end
-		curBP = nil
-		object = nil;
-		selectionbox.Adornee = nil;
-		selectionhighlight.Adornee = nil;
-		mouse.TargetFilter = nil
+			if curBP ~= nil then
+				curBP:Destroy();
+				HitWav:Play()
+			end
+			curBP = nil
+			object = nil;
+			selectionbox.Adornee = nil;
+			selectionhighlight.Adornee = nil;
+			mouse.TargetFilter = nil
 		end)
 	end;
 	local onKeyDown = function(key, mouse)
@@ -572,7 +572,7 @@ local createtool = function(ft)
 				BG.Parent = curobj;
 				cservice:AddTag(BG, randomguid)
 				repeat w()
-				if (curobj == nil) or (mousedown == false) then break end 
+					if (curobj == nil) or (mousedown == false) then break end 
 					curobj.Velocity = Vector3.zero
 					curobj.RotVelocity = Vector3.zero
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
