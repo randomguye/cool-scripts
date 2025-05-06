@@ -164,6 +164,7 @@ local SendNotification = function(title, text, duration, button1, button2, icon,
 end
 
 local IsNetworkOwner = function(part)
+	if (part == nil) then return false end
 	return not part:IsGrounded() and part.AssemblyRootPart.ReceiveAge == 0
 end
 
@@ -280,7 +281,7 @@ local createtool = function(ft)
 					SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 					break;
 				end
-				if object and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
+				if object ~= nil and (lastnetworkstate ~= nil and lastnotiftime ~= nil) then
 					local currentnetworkstate = IsNetworkOwner(object)
 					local currenttime = tick()
 					if currentnetworkstate ~= lastnetworkstate then
