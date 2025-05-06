@@ -598,8 +598,12 @@ local createtool = function(ft)
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
+				orgobj.Velocity = _VTR_new(0, -10000, 0);
+				orgobj.RotVelocity = _VTR_new(0, -10000, 0);
 				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
+					rgobj.Velocity = Vector3.zero
+					orgobj.RotVelocity = Vector3.zero
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy part: \'" .. objname .. "\'.", 1, "Close")
 					break 
