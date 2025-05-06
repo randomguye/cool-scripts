@@ -565,7 +565,7 @@ local createtool = function(ft)
 				Explode:Play()
 			end
 		end
-		if (key == "g") then
+		if (key == "j") then
 			if not ctrlpressed then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
