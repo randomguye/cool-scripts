@@ -269,7 +269,7 @@ local createtool = function(ft)
 	local curBP = nil;
 	local object = nil;
 
-	if (primary == nil) then
+	if (primary == nil or ScriptFolder == nil) then
 		if ft and ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
@@ -450,10 +450,12 @@ local createtool = function(ft)
 		if (key == "p") then
 			if not ctrlpressed then return end
 			if destroying or object ~= nil then return end
-			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
+			destroying = true
 			CollideWav:Play()
+			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
 			w()
 			destroy()
+			ScriptFolder:Destroy()
 			script:Destroy()
 		end
 
@@ -693,6 +695,11 @@ local createtool = function(ft)
 				break
 			elseif (plr == nil) then
 				destroy()
+				ScriptFolder:Destroy()
+				script:Destroy()
+				break
+			elseif (ScriptFolder == nil) then
+				destroy()
 				script:Destroy()
 				break
 			end
@@ -712,6 +719,7 @@ pcall(function()
 
 	while w(.1) do
 		if not plr then break end
+		if ScriptFolder == nil then break end
 		if destroying then break end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
 		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
