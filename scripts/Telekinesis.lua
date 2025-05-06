@@ -457,7 +457,7 @@ local createtool = function(ft)
 			SwitchWav:Play()
 			dist = dist + 5;
 		end
-		if (key == "y") then
+		if (key == "z") then
 			if (dist ~= 100) then
 				SwitchWav:Play()
 				dist = 100;
@@ -469,7 +469,7 @@ local createtool = function(ft)
 				dist = 15;
 			end
 		end
-		if (key == "u") then
+		if (key == "p") then
 			if (dist ~= 1) then
 				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
@@ -485,7 +485,7 @@ local createtool = function(ft)
 				BX.Parent = object;
 			end
 		end
-		if (key == "p") then
+		if (key == "l") then
 			if (dist ~= 1) then
 				if (object.Parent == nil or object == nil) then return end
 				if not IsNetworkOwner(object) then 
@@ -501,7 +501,7 @@ local createtool = function(ft)
 				mousedown = false;
 			end
 		end
-		if (key == "l") then
+		if (key == "c") then
 			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
@@ -556,7 +556,7 @@ local createtool = function(ft)
 				Explode:Play()
 			end
 		end
-		if (key == "r") then
+		if (key == "g") then
 			if not ctrlpressed then return end
 			if (object.Parent == nil or object == nil) then return end
 			if not IsNetworkOwner(object) then 
