@@ -395,15 +395,25 @@ local createtool = function(ft)
 			dist = dist + 5;
 		end
 		if (key == "z") then
-			if (dist ~= 100) then
-				SwitchWav:Play()
-				dist = 100;
+			local setdist = 100
+			SwitchWav:Play()
+			if not ctrlpressed then
+				if (dist ~= setdist) then
+					dist = setdist
+				end
+			else
+				dist = dist + setdist;
 			end
 		end
 		if (key == "x") then
-			if (dist ~= 15) then
-				SwitchWav:Play()
-				dist = 15;
+			local setdist = 15
+			SwitchWav:Play()
+			if not ctrlpressed then
+				if (dist ~= setdist) then
+					dist = setdist
+				end
+			else
+				dist = dist + setdist;
 			end
 		end
 		if (key == "u") then
