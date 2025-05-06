@@ -114,7 +114,7 @@ local killscript = function()
 	mousedown = false;
 	ctrlpressed = false
 	destroying = true
-	if not (CollideWav ~= nil and Sounds ~= nil) then
+	if not (CollideWav == nil and Sounds == nil) then
 		CollideWav.PlayOnRemove = true
 	end
 	if curBP ~= nil then
