@@ -139,6 +139,7 @@ local mb = uis.TouchEnabled;
 local w = task.wait;
 local notifs = true;
 local tkcollisions = true;
+local destroying = false;
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", game:GetService("CoreGui"))
@@ -446,6 +447,14 @@ local createtool = function(ft)
 			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
 			ElectronicpingshortWav:Play()
 		end
+		if (key == "zero") then
+			if not (ctrlpressed or destroying) then return end
+			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
+			CollideWav:Play()
+			w()
+			destroy()
+			script:Destroy()
+		end
 
 		if (key == "k") then
 			if not ctrlpressed then return end
@@ -667,6 +676,7 @@ local createtool = function(ft)
 	end
 	spawn(function()
 		while w() do
+			if destroying then break end
 			if (primary == nil) then
 				local check = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 				if check then
@@ -700,9 +710,8 @@ pcall(function()
 	end
 
 	while w(.1) do
-		if not plr then
-			break
-		end
+		if not plr then break end
+		if destroying then break end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
 		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 		local canReceiveTool = primary and backpack
