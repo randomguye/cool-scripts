@@ -225,6 +225,16 @@ local BP = _Ins("BodyPosition", SelectionFolder);
 BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
 BP.P = BP.P * 3;
 
+local killscript = function()
+	destroying = true
+	CollideWav.PlayOnRemove = true
+	if destroy then
+		destroy()
+	end
+	ScriptFolder:Destroy()
+	script:Destroy()
+end
+
 local WaitForChildWhichIsA = function(parent, className)
 	local child = parent:FindFirstChildWhichIsA(className)
 	while not child or not child:IsA(className) do
@@ -450,13 +460,8 @@ local createtool = function(ft)
 		if (key == "p") then
 			if not ctrlpressed then return end
 			if destroying or object ~= nil then return end
-			destroying = true
-			CollideWav:Play()
 			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
-			w()
-			destroy()
-			ScriptFolder:Destroy()
-			script:Destroy()
+			killscript()
 		end
 
 		if (key == "k") then
@@ -698,10 +703,6 @@ local createtool = function(ft)
 				ScriptFolder:Destroy()
 				script:Destroy()
 				break
-			elseif (ScriptFolder == nil) then
-				destroy()
-				script:Destroy()
-				break
 			end
 		end
 	end)
@@ -719,12 +720,16 @@ pcall(function()
 
 	while w(.1) do
 		if not plr then break end
-		if ScriptFolder == nil then break end
 		if destroying then break end
 		local backpack = plr:FindFirstChildOfClass("Backpack")
 		local primary = plr.Character and (plr.Character.PrimaryPart or plr.Character:FindFirstChild("HumanoidRootPart") or plr.Character:FindFirstChild("Head"))
 		local canReceiveTool = primary and backpack
 		local itemCount = 0
+		if ScriptFolder == nil then
+			SendNotification("Script Folder Destroyed!", "Destroying script..", 1, "Close")
+			killscript()
+			break
+		end
 		if backpack then
 			for _, item in backpack:GetChildren() do
 				if cservice:HasTag(item, randomguid) then
