@@ -361,7 +361,7 @@ local createtool = function(ft)
 		end
 		while mousedown == true do
 			if (primary == nil or tool == nil) then UnSelectable:Play() break end
-			if ((object.Parent == nil) or (object == nil)) then
+			if ((object == nil) or (object.Parent == nil)) then
 				UnSelectable:Play()
 				SendNotification("Part Unselected", "Part was destroyed.", nil, "Close")
 				break;
@@ -451,14 +451,14 @@ local createtool = function(ft)
 			if not ctrlpressed then return end
 			Button:Play()
 			tkcollisions = not tkcollisions
-			if notifs == false then
+			if tkcollisions == false then
 				SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
 			else
 				SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
 			end
 		end
 
-		if (primary == nil or tool == nil or object.Parent == nil or object == nil) then return end
+		if (primary == nil or tool == nil or object == nil or object.Parent == nil) then return end
 
 		if (key == "q") then
 			if (dist >= 5) then
