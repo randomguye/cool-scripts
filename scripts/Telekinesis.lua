@@ -522,7 +522,7 @@ local createtool = function(ft)
 				orgobj.RotVelocity = _VTR_new(0, -10000, 0);
 				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
-					rgobj.Velocity = Vector3.zero
+					orgobj.Velocity = Vector3.zero
 					orgobj.RotVelocity = Vector3.zero
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy part: \'" .. objname .. "\'.", 1, "Close")
