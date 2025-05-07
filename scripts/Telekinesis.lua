@@ -271,7 +271,7 @@ local createtool = function(ft)
 				lastnotiftime = 0
 				SendNotification("Part Selected", "Selected part: \'" .. object.Name .. "\'.", 1, "Close")
 				if object and not IsNetworkOwner(object) then
-					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
+					SendNotification("Selected Part Not Claimed", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.65, "Close")
 				end
 			end
 			while mousedown == true do
@@ -348,7 +348,16 @@ local createtool = function(ft)
 				SendNotification("Notifications Enabled", "Enabled Notifications.", 1, "Close", nil, nil, true)
 			end
 		end
-
+		if (key == "b") then
+			if not ctrlpressed then return end
+			Button:Play()
+			tkcollisions = not tkcollisions
+			if tkcollisions == false then
+				SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+			else
+				SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+			end
+		end
 		if (key == "t") then
 			local mouse = plr:GetMouse();
 			mouse.TargetFilter = nil;
@@ -361,27 +370,16 @@ local createtool = function(ft)
 			hrp.Velocity = Vector3.zero
 			hrp.RotVelocity = Vector3.zero
 			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
-			SendNotification("Teleport", "Teleported to mouse position.", 1, "Close")
+			SendNotification("Teleport", "Teleported to mouse position.", 0.5, "Close")
 			ElectronicpingshortWav:Play()
 		end
 		if (key == "p") then
 			if not ctrlpressed then return end
 			if destroying == true or object ~= nil then return end
-			SendNotification("Killed Script!", "DEATH.... guh", 5, "ok")
+			SendNotification("Killed Script!", "DEATH.... guh", nil, "ok")
 			killscript()
 		end
-
-		if (key == "k") then
-			if not ctrlpressed then return end
-			Button:Play()
-			tkcollisions = not tkcollisions
-			if tkcollisions == false then
-				SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
-			else
-				SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
-			end
-		end
-
+		
 		if (primary == nil or tool == nil or object == nil) then return end
 
 		if (key == "q") then
@@ -394,7 +392,7 @@ local createtool = function(ft)
 			SwitchWav:Play()
 			dist = dist + 5;
 		end
-		if (key == "c") then
+		if (key == "y") then
 			local setdist = 100
 			SwitchWav:Play()
 			if not ctrlpressed then
@@ -416,7 +414,7 @@ local createtool = function(ft)
 				dist = dist + setdist;
 			end
 		end
-		if (key == "u") then
+		if (key == "") then
 			if (dist ~= 1) then
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
@@ -431,7 +429,7 @@ local createtool = function(ft)
 				BX.Parent = object;
 			end
 		end
-		if (key == "l") then
+		if (key == "") then
 			if (dist ~= 1) then
 				if not IsNetworkOwner(object) then 
 					UnSelectable:Play() 
@@ -446,7 +444,7 @@ local createtool = function(ft)
 				mousedown = false;
 			end
 		end
-		if (key == "g") then
+		if (key == "l") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -498,7 +496,7 @@ local createtool = function(ft)
 			end
 		end
 		if (key == "j") then
-			if not ctrlpressed then return end
+			--if not ctrlpressed then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
