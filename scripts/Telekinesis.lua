@@ -370,7 +370,7 @@ local createtool = function(ft)
 			hrp.Velocity = Vector3.zero
 			hrp.RotVelocity = Vector3.zero
 			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
-			SendNotification("Teleport", "Teleported to mouse position.", 0.5, "Close")
+			SendNotification("Teleport", "Teleported to mouse position.", 0.25, "Close")
 			ElectronicpingshortWav:Play()
 		end
 		if (key == "p") then
@@ -392,7 +392,7 @@ local createtool = function(ft)
 			SwitchWav:Play()
 			dist = dist + 5;
 		end
-		if (key == "y") then
+		if (key == "r") then
 			local setdist = 100
 			SwitchWav:Play()
 			if not ctrlpressed then
@@ -444,7 +444,7 @@ local createtool = function(ft)
 				mousedown = false;
 			end
 		end
-		if (key == "l") then
+		if (key == "h") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -495,7 +495,7 @@ local createtool = function(ft)
 				Explode:Play()
 			end
 		end
-		if (key == "j") then
+		if (key == "l") then
 			--if not ctrlpressed then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
