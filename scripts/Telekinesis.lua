@@ -444,7 +444,7 @@ local createtool = function(ft)
 				mousedown = false;
 			end
 		end
-		if (key == "h") then
+		if (key == "g") then
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -495,7 +495,7 @@ local createtool = function(ft)
 				Explode:Play()
 			end
 		end
-		if (key == "l") then
+		if (key == "h") then
 			--if not ctrlpressed then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
