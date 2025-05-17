@@ -628,7 +628,6 @@ pcall(function()
 		print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
 		if gethiddenproperty and sethiddenproperty and not PARTCLAIM_LOADED then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
-			pcall(function() getgenv().PARTCLAIM_LOADED = true end)
 		end
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
