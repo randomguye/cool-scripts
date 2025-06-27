@@ -506,7 +506,7 @@ local createtool = function(ft)
 				local att = _Ins("Attachment", orgobj);
 				local BX = _Ins("LinearVelocity", Temp);
 				BX.ForceLimitsEnabled = false
-				BX.VectorVelocity = direction * 625
+				BX.VectorVelocity = direction * 600
 				BX.Attachment0 = att;
 				Paintball:Play()
 				debris:AddItem(BX, .01)
@@ -516,7 +516,7 @@ local createtool = function(ft)
 				local att = _Ins("Attachment", orgobj);
 				local BX = _Ins("LinearVelocity", Temp);
 				BX.ForceLimitsEnabled = false
-				BX.VectorVelocity = direction * 1000
+				BX.VectorVelocity = direction * 1200
 				BX.Attachment0 = att;
 				Explode:Play()
 				debris:AddItem(BX, .01)
