@@ -311,7 +311,6 @@ local createtool = function(ft)
 				--BPClone.Parent = object;
 				--BPClone.Position = primary.Position + (lv.lookVector * dist);
 				local attachment = cura or _Ins("Attachment", object)
-				attachment.Visible = true
 				BP.Position = primary.Position + (lv.lookVector * dist);
 				BP.Attachment0 = attachment
 				cura = attachment
@@ -442,7 +441,6 @@ local createtool = function(ft)
 					return 
 				end	
 				ElectronicpingshortWav:Play()
-				local att = _Ins("Attachment", object);
 				local BX = _Ins("AlignOrientation", temp);
 				BX.Mode = Enum.OrientationAlignmentMode.OneAttachment
 				BX.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
@@ -712,3 +710,4 @@ pcall(function()
 		end
 	end
 end)
+
