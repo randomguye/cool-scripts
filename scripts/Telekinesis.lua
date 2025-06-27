@@ -24,13 +24,15 @@ local ctrlpressed = false;
 local mousedown = false;
 local curtool = nil
 local curpoint = nil
-local curBP = nil
+local cura = nil
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
-local ScriptFolder = _Ins("Folder", coregui)
+local ScriptFolder = _Ins("Folder", workspace)
 ScriptFolder.Name = randomguid
 local SelectionFolder = _Ins("Folder", ScriptFolder)
 SelectionFolder.Name = "SelectionObjects"
+local Temp = _Ins("Folder", ScriptFolder)
+Temp.Name = "Temporary"
 local Sounds = Instance.new("Folder", ScriptFolder)
 Sounds.Name = "Sounds"
 local SwitchWav = Instance.new("Sound", Sounds)
@@ -106,9 +108,10 @@ local selectionhighlight = _Ins("Highlight", SelectionFolder);
 selectionhighlight.FillTransparency = 0.7;
 selectionhighlight.FillColor = Color3.fromRGB(255, 255, 255);
 selectionhighlight.Adornee = nil;
-local BP = _Ins("BodyPosition", SelectionFolder);
-BP.MaxForce = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
-BP.P = BP.P * 3;
+local BP = _Ins("AlignPosition", SelectionFolder);
+BP.Mode = Enum.PositionAlignmentMode.OneAttachment
+BP.MaxForce = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
+BP.Responsiveness = BP.Responsiveness * 3;
 
 local killscript = function()
 	mousedown = false;
@@ -117,8 +120,8 @@ local killscript = function()
 	if not (CollideWav == nil and Sounds == nil) then
 		CollideWav.PlayOnRemove = true
 	end
-	if curBP ~= nil then
-		curBP:Destroy()
+	if cura ~= nil then
+		cura:Destroy()
 	end
 	if curtool ~= nil then
 		curtool:Destroy()
@@ -204,8 +207,8 @@ local createtool = function(ft)
 		ctrlpressed = false
 		selectionbox.Adornee = nil
 		selectionhighlight.Adornee = nil
-		if (curBP ~= nil) then
-			curBP:Destroy();
+		if (cura ~= nil) then
+			cura:Destroy();
 		end
 		if (curtool ~= nil) then
 			curtool:Destroy();
@@ -304,18 +307,24 @@ local createtool = function(ft)
 				end
 				if object == nil then return end
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
-				local BPClone = curBP or BP:Clone()
-				BPClone.Parent = object;
-				BPClone.Position = primary.Position + (lv.lookVector * dist);
-				curBP = BPClone
+				--local BPClone = curBP or BP:Clone()
+				--BPClone.Parent = object;
+				--BPClone.Position = primary.Position + (lv.lookVector * dist);
+				local attachment = cura or _Ins("Attachment", object)
+				attachment.Visible = true
+				BP.Position = primary.Position + (lv.lookVector * dist);
+				BP.Attachment0 = attachment
+				cura = attachment
+				--curBP = BPClone
 				w();
 			end
-			if curBP ~= nil then
-				curBP:Destroy();
+			if cura ~= nil then
+				cura:Destroy();
 				HitWav:Play()
 			end
-			curBP = nil
+			cura = nil
 			object = nil;
+			BP.Attachment0 = nil
 			selectionbox.Adornee = nil;
 			selectionhighlight.Adornee = nil;
 			mouse.TargetFilter = nil
@@ -348,6 +357,17 @@ local createtool = function(ft)
 				SendNotification("Notifications Enabled", "Enabled Notifications.", 1, "Close", nil, nil, true)
 			end
 		end
+		
+		if (key == "v") then
+			if not ctrlpressed then return end
+			Button:Play()
+			if BP.Responsiveness <200 then
+				BP.Responsiveness = BP.Responsiveness + 10
+			else
+				BP.Responsiveness = 10
+			end
+			SendNotification("Telekinesis Strength", "Set Strength to " .. BP.Responsiveness/10, 0.35, "Close", nil, nil, true)
+		end
 		if (key == "b") then
 			if not ctrlpressed then return end
 			Button:Play()
@@ -379,7 +399,7 @@ local createtool = function(ft)
 			SendNotification("Killed Script!", "DEATH.... guh", nil, "ok")
 			killscript()
 		end
-		
+
 		if (primary == nil or tool == nil or object == nil) then return end
 
 		if (key == "q") then
@@ -422,11 +442,11 @@ local createtool = function(ft)
 					return 
 				end	
 				ElectronicpingshortWav:Play()
-				local BX = _Ins("BodyGyro");
-				BX.MaxTorque = _VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
+				local att = _Ins("Attachment", object);
+				local BX = _Ins("AlignOrientation", temp);
+				BX.Mode = Enum.OrientationAlignmentMode.OneAttachment
+				BX.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.CFrame = BX.CFrame * CFrame.Angles(0, math.rad(45), 0);
-				BX.D = 0;
-				BX.Parent = object;
 			end
 		end
 		if (key == "") then
@@ -437,10 +457,11 @@ local createtool = function(ft)
 					return 
 				end	
 				ElectronicpingshortWav:Play()
-				local BX = _Ins("BodyVelocity");
-				BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
-				BX.Velocity = _VTR_new(0, math.random(1, 5), 0);
-				BX.Parent = object;
+				local att = _Ins("Attachment", object);
+				local BX = _Ins("LinearVelocity", Temp);
+				BX.MaxForce = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
+				BX.VectorVelocity = _VTR_new(0, math.random(1, 5), 0);
+				BX.Attachment0 = att;
 				mousedown = false;
 			end
 		end
@@ -450,20 +471,15 @@ local createtool = function(ft)
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				return 
 			end	
-			for _, v in pairs(object:GetChildren()) do
-				if (v.className == "BodyGyro") and cservice:HasTag(v, randomguid) then
-					UnSelectable:Play()
-					return;
-				end
-			end
 			ElectronicpingshortWav:Play()
 			spawn(function()
 				local curobj = object
-				local BG = _Ins("BodyGyro");
-				BG.MaxTorque = _VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge);
+				local BG = _Ins("AlignOrientation", Temp);
+				BG.Mode = Enum.OrientationAlignmentMode.OneAttachment
+				BG.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 				--BG.CFrame = _CF_new(object.CFrame.p);
-				BG.P = BG.P * 30;
-				BG.Parent = curobj;
+				BG.Responsiveness = BG.Responsiveness * 30;
+				BG.Attachment0 = cura;
 				cservice:AddTag(BG, randomguid)
 				repeat w()
 					if (curobj == nil) or (mousedown == false) then break end 
@@ -488,11 +504,25 @@ local createtool = function(ft)
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				orgobj.Velocity = direction * 750
+				--orgobj.Velocity = direction * 750
+				local att = _Ins("Attachment", orgobj);
+				local BX = _Ins("LinearVelocity", Temp);
+				BX.ForceLimitsEnabled = false
+				BX.VectorVelocity = direction * 750
+				BX.Attachment0 = att;
 				Paintball:Play()
+				debris:AddItem(BX, .01)
+				debris:AddItem(att, .01)
 			else
-				orgobj.Velocity = direction * 5000
+				--orgobj.Velocity = direction * 5000
+				local att = _Ins("Attachment", orgobj);
+				local BX = _Ins("LinearVelocity", Temp);
+				BX.ForceLimitsEnabled = false
+				BX.VectorVelocity = direction * 5000
+				BX.Attachment0 = att;
 				Explode:Play()
+				debris:AddItem(BX, .01)
+				debris:AddItem(att, .01)
 			end
 		end
 		if (key == "h") then
@@ -502,20 +532,14 @@ local createtool = function(ft)
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				return 
 			end	
-			for _, v in pairs(object:GetChildren()) do
-				if (v.className == "BodyVelocity") and cservice:HasTag(v, randomguid) then
-					UnSelectable:Play()
-					SendNotification("Unable to perform action", "Part is already being destroyed.", 0.5, "Close")
-					return;
-				end
-			end
 			local orgobj = object;
 			local objname = object.Name;
 			local startTime = tick()
-			local BX = _Ins("BodyVelocity");
-			BX.MaxForce = _VTR_new(0, math.huge * math.huge, 0);
-			BX.Velocity = _VTR_new(0, -10000, 0);
-			BX.Parent = orgobj;
+			local att = _Ins("Attachment", orgobj);
+			local BX = _Ins("LinearVelocity", Temp);
+			BX.ForceLimitsEnabled = false
+			BX.VectorVelocity = _VTR_new(0, -10000, 0);
+			BX.Attachment0 = att;
 			cservice:AddTag(BX, randomguid)
 			mousedown = false;
 			ElectronicpingshortWav:Play()
@@ -528,10 +552,11 @@ local createtool = function(ft)
 				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				orgobj.Velocity = _VTR_new(0, -10000, 0);
-				orgobj.RotVelocity = _VTR_new(0, -10000, 0);
+				--orgobj.Velocity = _VTR_new(0, -10000, 0);
+				--orgobj.RotVelocity = _VTR_new(0, -10000, 0);
 				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
 					BX:Destroy()
+					att:Destroy()
 					orgobj.Velocity = Vector3.zero
 					orgobj.RotVelocity = Vector3.zero
 					UnSelectable:Play()
