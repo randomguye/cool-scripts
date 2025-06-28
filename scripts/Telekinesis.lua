@@ -521,7 +521,7 @@ local createtool = function(ft)
 				BG.Mode = Enum.OrientationAlignmentMode.OneAttachment
 				BG.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 				--BG.CFrame = _CF_new(object.CFrame.p);
-				BG.Responsiveness = BG.Responsiveness * 30;
+				BG.Responsiveness = BG.Responsiveness * BP.Responsiveness;
 				BG.Attachment0 = att;
 				cservice:AddTag(att, randomguid)
 				repeat w()
