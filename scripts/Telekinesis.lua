@@ -312,6 +312,7 @@ local createtool = function(ft)
 				--BPClone.Position = primary.Position + (lv.lookVector * dist);
 				local attachment = cura or _Ins("Attachment", object)
 				BP.Position = primary.Position + (lv.lookVector * dist);
+				BP.WorldOrientation = _VTR_new(0, 0, 0)
 				BP.Attachment0 = attachment
 				cura = attachment
 				--curBP = BPClone
@@ -441,10 +442,12 @@ local createtool = function(ft)
 					return 
 				end	
 				ElectronicpingshortWav:Play()
-				local BX = _Ins("AlignOrientation", temp);
+				local att = _Ins("Attachment", object);
+				local BX = _Ins("AlignOrientation", Temp);
 				BX.Mode = Enum.OrientationAlignmentMode.OneAttachment
 				BX.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.CFrame = BX.CFrame * CFrame.Angles(0, math.rad(45), 0);
+				BG.Attachment0 = att;
 			end
 		end
 		if (key == "") then
@@ -460,6 +463,11 @@ local createtool = function(ft)
 				BX.MaxForce = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.VectorVelocity = _VTR_new(0, math.random(1, 5), 0);
 				BX.Attachment0 = att;
+				spawn(function()
+					while att ~= nil do
+						att.WorldOrientation = _VTR_new(0,0,0)
+					end
+				end)
 				mousedown = false;
 			end
 		end
@@ -498,30 +506,27 @@ local createtool = function(ft)
 			mouse.TargetFilter = game;
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
+			local att = _Ins("Attachment", orgobj);
+			local BX = _Ins("LinearVelocity", Temp);
+			BX.ForceLimitsEnabled = false
+			BX.Attachment0 = att;
 			mousedown = false;
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				--orgobj.Velocity = direction * 750
-				local att = _Ins("Attachment", orgobj);
-				local BX = _Ins("LinearVelocity", Temp);
-				BX.ForceLimitsEnabled = false
 				BX.VectorVelocity = direction * 600
-				BX.Attachment0 = att;
 				Paintball:Play()
-				debris:AddItem(BX, .01)
-				debris:AddItem(att, .01)
 			else
-				--orgobj.Velocity = direction * 5000
-				local att = _Ins("Attachment", orgobj);
-				local BX = _Ins("LinearVelocity", Temp);
-				BX.ForceLimitsEnabled = false
 				BX.VectorVelocity = direction * 1200
-				BX.Attachment0 = att;
 				Explode:Play()
-				debris:AddItem(BX, .01)
-				debris:AddItem(att, .01)
 			end
+			spawn(function()
+				while att ~= nil then
+					att.WorldOrientation = _VTR_new(0,0,0)
+				end
+			end)
+			debris:AddItem(BX, .01)
+			debris:AddItem(att, .01)
 		end
 		if (key == "h") then
 			--if not ctrlpressed then return end
@@ -544,6 +549,12 @@ local createtool = function(ft)
 			while true do
 				if orgobj == nil or orgobj.Parent == nil then
 					CollideWav:Play()
+					if BX ~= nil then
+						BX:Destroy()
+					end	
+					if att ~= nil then
+						att:Destroy()
+					end
 					SendNotification("Part Destroyed", "Destroyed part: \'" .. objname .. "\'.", 2.5, "Close")
 					break
 				end
@@ -552,7 +563,8 @@ local createtool = function(ft)
 				local elapsedTime = currentTime - startTime
 				--orgobj.Velocity = _VTR_new(0, -10000, 0);
 				--orgobj.RotVelocity = _VTR_new(0, -10000, 0);
-				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil then 
+				att.WorldOrientation = _VTR_new(0,0,0)
+				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil and att ~= nil then 
 					BX:Destroy()
 					att:Destroy()
 					orgobj.Velocity = Vector3.zero
