@@ -481,12 +481,13 @@ local createtool = function(ft)
 			ElectronicpingshortWav:Play()
 			task.spawn(function()
 				local curobj = object
+				local att = _Ins("Attachment", curobj);
 				local BG = _Ins("AlignOrientation", Temp);
 				BG.Mode = Enum.OrientationAlignmentMode.OneAttachment
 				BG.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 				--BG.CFrame = _CF_new(object.CFrame.p);
 				BG.Responsiveness = BG.Responsiveness * 30;
-				BG.Attachment0 = cura;
+				BG.Attachment0 = att;
 				cservice:AddTag(BG, randomguid)
 				repeat w()
 					if (curobj == nil) or (cura == nil) or (mousedown == false) then break end 
@@ -494,6 +495,7 @@ local createtool = function(ft)
 					curobj.RotVelocity = Vector3.zero
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
 				BG:Destroy()
+				att:Destroy()
 			end)
 		end
 		if (key == "f") then
