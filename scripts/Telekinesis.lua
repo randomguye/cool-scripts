@@ -557,7 +557,7 @@ local createtool = function(ft)
 			local mouse = plr:GetMouse();
 			task.spawn(function()
 				if tkcollisions == false then
-					local objconnections = obj:GetConnectedParts(true)
+					local objconnections = orgobj:GetConnectedParts(true)
 					for i,v in pairs(objconnections) do
 						if v:IsA("BasePart") and v ~= nil then
 							table.insert(mouse.TargetFilter, v)
