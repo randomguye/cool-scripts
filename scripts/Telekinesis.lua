@@ -488,7 +488,7 @@ local createtool = function(ft)
 				BG.Attachment0 = cura;
 				cservice:AddTag(BG, randomguid)
 				repeat w()
-					if (curobj == nil) or (mousedown == false) then break end 
+					if (curobj == nil) or (cura == nil) or (mousedown == false) then break end 
 					curobj.Velocity = Vector3.zero
 					curobj.RotVelocity = Vector3.zero
 				until curobj.Rotation == Vector3.new(0,0,0) or curobj == nil or mousedown == false
@@ -507,11 +507,15 @@ local createtool = function(ft)
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
 			local att = _Ins("Attachment", orgobj);
+			spawn(function()
+				while att ~= nil then
+					att.WorldOrientation = _VTR_new(0,0,0)
+				end
+			end)
 			local BX = _Ins("LinearVelocity", Temp);
 			BX.ForceLimitsEnabled = false
 			BX.Attachment0 = att;
 			mousedown = false;
-			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
 				BX.VectorVelocity = direction * 600
@@ -520,11 +524,6 @@ local createtool = function(ft)
 				BX.VectorVelocity = direction * 1200
 				Explode:Play()
 			end
-			spawn(function()
-				while att ~= nil then
-					att.WorldOrientation = _VTR_new(0,0,0)
-				end
-			end)
 			debris:AddItem(BX, .01)
 			debris:AddItem(att, .01)
 		end
