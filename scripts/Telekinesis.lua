@@ -441,6 +441,17 @@ local createtool = function(ft)
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 					return 
 				end	
+				for _, v in pairs(object:GetChildren()) do
+
+					if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
+
+						UnSelectable:Play()
+
+						return;
+
+					end
+
+				end
 				ElectronicpingshortWav:Play()
 				local att = _Ins("Attachment", object);
 				local BX = _Ins("AlignOrientation", Temp);
@@ -448,6 +459,7 @@ local createtool = function(ft)
 				BX.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.CFrame = BX.CFrame * CFrame.Angles(0, math.rad(45), 0);
 				BX.Attachment0 = att;
+				cservice:AddTag(att, randomguid)
 			end
 		end
 		if (key == "") then
@@ -457,12 +469,24 @@ local createtool = function(ft)
 					SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 					return 
 				end	
+				for _, v in pairs(object:GetChildren()) do
+
+					if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
+
+						UnSelectable:Play()
+
+						return;
+
+					end
+
+				end
 				ElectronicpingshortWav:Play()
 				local att = _Ins("Attachment", object);
 				local BX = _Ins("LinearVelocity", Temp);
 				BX.MaxForce = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.VectorVelocity = _VTR_new(0, math.random(1, 5), 0);
 				BX.Attachment0 = att;
+				cservice:AddTag(att, randomguid)
 				task.spawn(function()
 					while att ~= nil do
 						att.WorldOrientation = _VTR_new(0,0,0)
@@ -478,6 +502,17 @@ local createtool = function(ft)
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				return 
 			end	
+			for _, v in pairs(object:GetChildren()) do
+
+				if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
+
+					UnSelectable:Play()
+
+					return;
+
+				end
+
+			end
 			ElectronicpingshortWav:Play()
 			task.spawn(function()
 				local curobj = object
@@ -488,7 +523,7 @@ local createtool = function(ft)
 				--BG.CFrame = _CF_new(object.CFrame.p);
 				BG.Responsiveness = BG.Responsiveness * 30;
 				BG.Attachment0 = att;
-				cservice:AddTag(BG, randomguid)
+				cservice:AddTag(att, randomguid)
 				repeat w()
 					if (curobj == nil) or (cura == nil) or (mousedown == false) then break end 
 					curobj.Velocity = Vector3.zero
@@ -522,10 +557,10 @@ local createtool = function(ft)
 			mousedown = false;
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				BX.VectorVelocity = direction * 600
+				BX.VectorVelocity = direction * 500
 				Paintball:Play()
 			else
-				BX.VectorVelocity = direction * 1200
+				BX.VectorVelocity = direction * 1000
 				Explode:Play()
 			end
 			debris:AddItem(BX, .01)
@@ -538,6 +573,17 @@ local createtool = function(ft)
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				return 
 			end	
+			for _, v in pairs(object:GetChildren()) do
+
+				if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
+
+					UnSelectable:Play()
+
+					return;
+
+				end
+
+			end
 			local orgobj = object;
 			local objname = object.Name;
 			local startTime = tick()
@@ -546,7 +592,7 @@ local createtool = function(ft)
 			BX.ForceLimitsEnabled = false
 			BX.VectorVelocity = _VTR_new(0, -10000, 0);
 			BX.Attachment0 = att;
-			cservice:AddTag(BX, randomguid)
+			cservice:AddTag(att, randomguid)
 			mousedown = false;
 			ElectronicpingshortWav:Play()
 			while true do
