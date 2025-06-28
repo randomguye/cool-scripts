@@ -557,10 +557,13 @@ local createtool = function(ft)
 			mousedown = false;
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				BX.VectorVelocity = direction * 500
+				local force = 10 * BP.Responsiveness
+				BX.VectorVelocity = direction * force
 				Paintball:Play()
-			else
-				BX.VectorVelocity = direction * 1000
+			else	
+				local amplified = BP.Responsiveness * 2
+				local force = 10 * amplified
+				BX.VectorVelocity = direction * force
 				Explode:Play()
 			end
 			debris:AddItem(BX, .01)
