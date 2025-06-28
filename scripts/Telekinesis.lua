@@ -313,7 +313,7 @@ local createtool = function(ft)
 				local attachment = cura or _Ins("Attachment", object)
 				BP.Position = primary.Position + (lv.lookVector * dist);
 				BP.Attachment0 = attachment
-				cura.WorldOrientation = _VTR_new(0, 0, 0)
+				attachment.WorldOrientation = _VTR_new(0, 0, 0)
 				cura = attachment
 				--curBP = BPClone
 				w();
@@ -447,7 +447,7 @@ local createtool = function(ft)
 				BX.Mode = Enum.OrientationAlignmentMode.OneAttachment
 				BX.MaxTorque = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.CFrame = BX.CFrame * CFrame.Angles(0, math.rad(45), 0);
-				BG.Attachment0 = att;
+				BX.Attachment0 = att;
 			end
 		end
 		if (key == "") then
