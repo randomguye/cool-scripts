@@ -312,8 +312,8 @@ local createtool = function(ft)
 				--BPClone.Position = primary.Position + (lv.lookVector * dist);
 				local attachment = cura or _Ins("Attachment", object)
 				BP.Position = primary.Position + (lv.lookVector * dist);
-				BP.WorldOrientation = _VTR_new(0, 0, 0)
 				BP.Attachment0 = attachment
+				cura.WorldOrientation = _VTR_new(0, 0, 0)
 				cura = attachment
 				--curBP = BPClone
 				w();
