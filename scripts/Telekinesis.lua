@@ -463,9 +463,10 @@ local createtool = function(ft)
 				BX.MaxForce = "inf"--_VTR_new(math.huge * math.huge, 0, math.huge * math.huge);
 				BX.VectorVelocity = _VTR_new(0, math.random(1, 5), 0);
 				BX.Attachment0 = att;
-				spawn(function()
+				task.spawn(function()
 					while att ~= nil do
 						att.WorldOrientation = _VTR_new(0,0,0)
+						w()
 					end
 				end)
 				mousedown = false;
@@ -478,7 +479,7 @@ local createtool = function(ft)
 				return 
 			end	
 			ElectronicpingshortWav:Play()
-			spawn(function()
+			task.spawn(function()
 				local curobj = object
 				local BG = _Ins("AlignOrientation", Temp);
 				BG.Mode = Enum.OrientationAlignmentMode.OneAttachment
@@ -507,9 +508,10 @@ local createtool = function(ft)
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
 			local att = _Ins("Attachment", orgobj);
-			spawn(function()
-				while att ~= nil then
+			task.spawn(function()
+				while att ~= nil do
 					att.WorldOrientation = _VTR_new(0,0,0)
+					w()
 				end
 			end)
 			local BX = _Ins("LinearVelocity", Temp);
@@ -629,7 +631,7 @@ local createtool = function(ft)
 	if ft and ft == true then
 		return true
 	end
-	spawn(function()
+	task.spawn(function()
 		while w() do
 			if destroying then break end
 			if (primary == nil) then
