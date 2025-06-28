@@ -116,7 +116,7 @@ local BP = _Ins("AlignPosition", ForcesFolder);
 BP.Mode = Enum.PositionAlignmentMode.OneAttachment
 BP.MaxForce = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 BP.Responsiveness = BP.Responsiveness * 3;
---BP.ApplyAtCenterOfMass = true
+BP.ApplyAtCenterOfMass = true
 
 local killscript = function()
 	mousedown = false;
@@ -619,7 +619,7 @@ local createtool = function(ft)
 			local att = _Ins("Attachment", orgobj);
 			local BX = _Ins("LinearVelocity", Temp);
 			BX.ForceLimitsEnabled = false
-			BX.VectorVelocity = _VTR_new(0, -1000 * BP.Responsiveness, 0);
+			BX.VectorVelocity = _VTR_new(0, -10000, 0);
 			BX.Attachment0 = att;
 			cservice:AddTag(att, randomguid)
 			mousedown = false;
