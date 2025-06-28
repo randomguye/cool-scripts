@@ -116,6 +116,7 @@ local BP = _Ins("AlignPosition", ForcesFolder);
 BP.Mode = Enum.PositionAlignmentMode.OneAttachment
 BP.MaxForce = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 BP.Responsiveness = BP.Responsiveness * 3;
+--BP.ApplyAtCenterOfMass = true
 
 local killscript = function()
 	mousedown = false;
@@ -310,6 +311,15 @@ local createtool = function(ft)
 					mouse.TargetFilter = nil
 				end
 				if object == nil then return end
+				if tkcollisions == false then
+					local objconnections = obj:GetConnectedParts(true)
+					for i,v in pairs(objconnections) do
+						if v:IsA("BasePart") and v ~= nil then
+							table.insert(mouse.TargetFilter, v)
+						end
+					end
+					table.insert(mouse.TargetFilter, object)
+				end
 				local lv = _CF_new(primary.Position, mouse.Hit.p);
 				--local BPClone = curBP or BP:Clone()
 				--BPClone.Parent = object;
@@ -545,7 +555,19 @@ local createtool = function(ft)
 			end	
 			local orgobj = object;
 			local mouse = plr:GetMouse();
-			mouse.TargetFilter = game;
+			task.spawn(function()
+				if tkcollisions == false then
+					local objconnections = obj:GetConnectedParts(true)
+					for i,v in pairs(objconnections) do
+						if v:IsA("BasePart") and v ~= nil then
+							table.insert(mouse.TargetFilter, v)
+						end
+					end
+					table.insert(mouse.TargetFilter, object)
+				else
+					mouse.TargetFilter = game;
+				end
+			end)
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
 			local att = _Ins("Attachment", orgobj);
@@ -597,7 +619,7 @@ local createtool = function(ft)
 			local att = _Ins("Attachment", orgobj);
 			local BX = _Ins("LinearVelocity", Temp);
 			BX.ForceLimitsEnabled = false
-			BX.VectorVelocity = _VTR_new(0, -10000, 0);
+			BX.VectorVelocity = _VTR_new(0, -1000 * BP.Responsiveness, 0);
 			BX.Attachment0 = att;
 			cservice:AddTag(att, randomguid)
 			mousedown = false;
