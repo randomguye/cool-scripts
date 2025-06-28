@@ -25,6 +25,7 @@ local mousedown = false;
 local curtool = nil
 local curpoint = nil
 local cura = nil
+local ignore = {plr.Character}
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", coregui)
@@ -117,6 +118,14 @@ BP.Mode = Enum.PositionAlignmentMode.OneAttachment
 BP.MaxForce = "inf"--_VTR_new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge); 
 BP.Responsiveness = BP.Responsiveness * 3;
 BP.ApplyAtCenterOfMass = true
+
+local rayResult = function(x, y)
+  	local unitRay = cam:ViewportPointToRay(x, y)
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = ignore
+	params.FilterType = Enum.RaycastFilterType.Exclude
+  	return workspace:Raycast(unitRay.Origin, unitRay.Direction * 1000, params)
+end
 
 local killscript = function()
 	mousedown = false;
@@ -231,6 +240,7 @@ local createtool = function(ft)
 				return;
 			end
 			mousedown = true;
+			local ignoredlist = {}
 			coroutine.resume(coroutine.create(function()
 				ClickfastWav:Play()
 				local p = point:Clone();
@@ -238,13 +248,14 @@ local createtool = function(ft)
 				while mousedown == true do
 					if (primary == nil or tool == nil) then UnSelectable:Play() break end
 					p.Parent = tool;
+					local mousePos = uis:GetMouseLocation()
+					local result = rayResult(mousePos.X, mousePos.Y)
 					if (object == nil) then
-						mouse.TargetFilter = nil
-						if (mouse.Target == nil) then
-							local lv = _CF_new(primary.Position, mouse.Hit.p);
-							p.CFrame = _CF_new(primary.Position + (lv.lookVector * 1000));
+						if result == nil then
+							local unitray = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+							p.CFrame = _CF_new(unitray.Origin + (unitray.Direction * 1000));
 						else
-							p.CFrame = _CF_new(mouse.Hit.p);
+							p.CFrame = _CF_new(result.Position);
 						end
 					else
 						break;
@@ -260,8 +271,10 @@ local createtool = function(ft)
 			end));
 			while mousedown == true do
 				if (primary == nil or tool == nil) then UnSelectable:Play() break end
-				if (mouse.Target ~= nil) then
-					local t = mouse.Target;
+				local mousePos = uis:GetMouseLocation()
+				local result = rayResult(mousePos.X, mousePos.Y)
+				if (result and result.Instance ~= nil) then
+					local t = result.Instance;
 					if not (t:IsGrounded()) then
 						object = t;
 						selectionbox.Adornee = object;
@@ -304,32 +317,30 @@ local createtool = function(ft)
 						lastnetworkstate = currentnetworkstate
 					end
 				end
-
-				if tkcollisions == false then
-					mouse.TargetFilter = game
-				else
-					mouse.TargetFilter = nil
-				end
 				if object == nil then return end
-				if tkcollisions == false then
-					local objconnections = obj:GetConnectedParts(true)
-					for i,v in pairs(objconnections) do
-						if v:IsA("BasePart") and v ~= nil then
-							table.insert(mouse.TargetFilter, v)
-						end
+				local mousePos = uis:GetMouseLocation()
+				local result = rayResult(mousePos.X, mousePos.Y)
+				local objconnections = object:GetConnectedParts(true)
+				for i,v in pairs(objconnections) do
+					if v:IsA("BasePart") and v ~= nil then
+						table.insert(ignore, v)
 					end
-					table.insert(mouse.TargetFilter, object)
 				end
-				local lv = _CF_new(primary.Position, mouse.Hit.p);
-				--local BPClone = curBP or BP:Clone()
-				--BPClone.Parent = object;
-				--BPClone.Position = primary.Position + (lv.lookVector * dist);
+				table.insert(ignore, object)
 				local attachment = cura or _Ins("Attachment", object)
-				BP.Position = primary.Position + (lv.lookVector * dist);
-				BP.Attachment0 = attachment
 				attachment.WorldOrientation = _VTR_new(0, 0, 0)
+				BP.Attachment0 = attachment
+				if result and not table.find(ignoredlist, result.Instance) then
+					local lv = _CF_new(primary.Position, result.Position);
+					BP.Position = primary.Position + (lv.lookVector * dist);
+					--local BPClone = curBP or BP:Clone()
+					--BPClone.Parent = object;
+					--BPClone.Position = primary.Position + (lv.lookVector * dist);
+				else
+					local lv = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+					BP.Position = primary.Position + (lv.Direction * dist)
+				end
 				cura = attachment
-				--curBP = BPClone
 				w();
 			end
 			if cura ~= nil then
@@ -341,7 +352,8 @@ local createtool = function(ft)
 			BP.Attachment0 = nil
 			selectionbox.Adornee = nil;
 			selectionhighlight.Adornee = nil;
-			mouse.TargetFilter = nil
+			table.clear(ignore)
+			table.insert(ignore, plr.Character)
 		end)
 		if errormessage then
 			warn(errormessage)
@@ -372,7 +384,7 @@ local createtool = function(ft)
 			end
 		end
 		
-		if (key == "v") then
+		if (key == "b") then
 			if not ctrlpressed then return end
 			Button:Play()
 			if BP.Responsiveness <200 then
@@ -382,7 +394,7 @@ local createtool = function(ft)
 			end
 			SendNotification("Telekinesis Strength", "Set Strength to " .. BP.Responsiveness/10, 0.35, "Close", nil, nil, true)
 		end
-		if (key == "b") then
+		if (key == "") then
 			if not ctrlpressed then return end
 			Button:Play()
 			tkcollisions = not tkcollisions
@@ -555,45 +567,22 @@ local createtool = function(ft)
 			end	
 			local orgobj = object;
 			local mouse = plr:GetMouse();
-			task.spawn(function()
-				if tkcollisions == false then
-					local objconnections = orgobj:GetConnectedParts(true)
-					for i,v in pairs(objconnections) do
-						if v:IsA("BasePart") and v ~= nil then
-							table.insert(mouse.TargetFilter, v)
-						end
-					end
-					table.insert(mouse.TargetFilter, object)
-				else
-					mouse.TargetFilter = game;
-				end
-			end)
+			mouse.TargetFilter = game
 			local mousePos = mouse.Hit.Position;
 			local direction = (mousePos - primary.Position).Unit;
-			local att = _Ins("Attachment", orgobj);
-			task.spawn(function()
-				while att ~= nil do
-					att.WorldOrientation = _VTR_new(0,0,0)
-					w()
-				end
-			end)
-			local BX = _Ins("LinearVelocity", Temp);
-			BX.ForceLimitsEnabled = false
-			BX.Attachment0 = att;
 			mousedown = false;
+			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
 				local force = 10 * BP.Responsiveness
-				BX.VectorVelocity = direction * force
+				orgobj.Velocity = direction * force
 				Paintball:Play()
 			else	
 				local amplified = BP.Responsiveness * 2
 				local force = 10 * amplified
-				BX.VectorVelocity = direction * force
+				orgobj.Velocity = direction * force
 				Explode:Play()
 			end
-			debris:AddItem(BX, .01)
-			debris:AddItem(att, .01)
 		end
 		if (key == "h") then
 			--if not ctrlpressed then return end
