@@ -232,7 +232,7 @@ local createtool = function(ft)
 	tool.CanBeDropped = false;
 	tool.Name = name;
 	tool.ToolTip = name .. " " .. vers;
-	tool.TextureId = "rbxassetid://267733386"
+	tool.TextureId = "rbxassetid://87584126977170"
 	tool.Parent = mas;
 	cservice:AddTag(tool, randomguid)
 	curtool = tool
