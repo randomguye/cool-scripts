@@ -18,6 +18,7 @@ local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local notifs = true;
+local applyatcenterofmass = true;
 --local tkcollisions = true;
 local destroying = false;
 local ctrlpressed = false;
@@ -26,7 +27,7 @@ local curtool = nil
 local curpoint = nil
 local cura = nil
 local ignore = {plr.Character}
-local destroying = {}
+local destroypart = {}
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", coregui)
@@ -424,6 +425,18 @@ local createtool = function(ft)
 		--		SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
 		--	end
 		--end
+		if (key == "v") then
+			if not ctrlpressed then return end
+			Button:Play()
+			applyatcenterofmass = not applyatcenterofmass
+			if tkcollisions == false then
+				BP.ApplyAtCenterOfMass = false
+				SendNotification("Telekinesis", "Disabled ApplyAtCenterOfMass.", 1, "Close", nil, nil, true)
+			else
+				BP.ApplyAtCenterOfMass = true
+		 		SendNotification("Telekinesis", "Enabled ApplyAtCenterOfMass.", 1, "Close", nil, nil, true)
+			end
+		end
 		if (key == "t") then
 			local mousePos = uis:GetMouseLocation()
 			local result = rayResult(mousePos.X, mousePos.Y)
@@ -604,7 +617,7 @@ local createtool = function(ft)
 		end
 		if (key == "h") then
 			--if not ctrlpressed then return end
-			if table.find(destroying, object) then return end
+			if table.find(destroypart, object) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -619,7 +632,7 @@ local createtool = function(ft)
 			local orgobj = object;
 			local objname = object.Name;
 			local startTime = tick()
-			table.insert(destroying, orgobj)
+			table.insert(destroypart, orgobj)
 			--local att = _Ins("Attachment", orgobj);
 			--local BX = _Ins("LinearVelocity", Temp);
 			--BX.ForceLimitsEnabled = false
@@ -653,7 +666,7 @@ local createtool = function(ft)
 					orgobj.AssemblyAngularVelocity = Vector3.zero
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy part: \'" .. objname .. "\'.", 1, "Close")
-					table.remove(destroying, orgobj)
+					table.remove(destroypart, orgobj)
 					break 
 				end
 				w()
