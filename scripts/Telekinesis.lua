@@ -107,17 +107,20 @@ pointlight.Color = Color3.fromRGB(255, 255, 255);
 local attachment0 = Instance.new("Attachment", point)
 local attachment1 = Instance.new("Attachment", point)
 local trail = Instance.new("Trail", point)
-trail.Texture = "rbxassetid://1448806393"
 trail.Color = ColorSequence.new(Color3.new(1, 1, 1))
-trail.Transparency = NumberSequence.new(0,1)
+trail.Transparency = NumberSequence.new{
+	NumberSequenceKeypoint.new(0, 1),
+	NumberSequenceKeypoint.new(0.35, 0.25),
+	NumberSequenceKeypoint.new(1, 1)
+}
 trail.LightEmission = 1
 trail.LightInfluence = 1
 trail.Lifetime = 0.25
 trail.FaceCamera = true
 trail.Attachment0 = attachment0
 trail.Attachment1 = attachment1
-attachment0.Position = Vector3.new(-0.1, 0, 0)
-attachment1.Position = Vector3.new(0.1, 0, 0)
+attachment0.Position = Vector3.new(-0.025, 0, 0)
+attachment1.Position = Vector3.new(0.025, 0, 0)
 local selectionbox = _Ins("SelectionBox", SelectionFolder);
 selectionbox.LineThickness = 0.015;
 selectionbox.SurfaceTransparency = 0.9;
@@ -227,7 +230,7 @@ local createtool = function(ft)
 	tool.CanBeDropped = false;
 	tool.Name = name;
 	tool.ToolTip = name .. " " .. vers;
-	tool.TextureId = "rbxassetid://17063241381"
+	tool.TextureId = "rbxassetid://17063241367"
 	tool.Parent = mas;
 	cservice:AddTag(tool, randomguid)
 	curtool = tool
