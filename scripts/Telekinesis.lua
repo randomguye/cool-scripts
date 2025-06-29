@@ -18,7 +18,7 @@ local cam = workspace.CurrentCamera;
 local mb = uis.TouchEnabled;
 local w = task.wait;
 local notifs = true;
-local tkcollisions = true;
+--local tkcollisions = true;
 local destroying = false;
 local ctrlpressed = false;
 local mousedown = false;
@@ -240,7 +240,8 @@ local createtool = function(ft)
 				return;
 			end
 			mousedown = true;
-			local ignoredlist = {}
+			table.clear(ignore)
+			table.insert(ignore, plr.Character)
 			coroutine.resume(coroutine.create(function()
 				ClickfastWav:Play()
 				local p = point:Clone();
@@ -330,7 +331,7 @@ local createtool = function(ft)
 				local attachment = cura or _Ins("Attachment", object)
 				attachment.WorldOrientation = _VTR_new(0, 0, 0)
 				BP.Attachment0 = attachment
-				if result and not table.find(ignoredlist, result.Instance) then
+				if result then
 					local lv = _CF_new(primary.Position, result.Position);
 					BP.Position = primary.Position + (lv.lookVector * dist);
 					--local BPClone = curBP or BP:Clone()
@@ -394,28 +395,33 @@ local createtool = function(ft)
 			end
 			SendNotification("Telekinesis Strength", "Set Strength to " .. BP.Responsiveness/10, 0.35, "Close", nil, nil, true)
 		end
-		if (key == "") then
-			if not ctrlpressed then return end
-			Button:Play()
-			tkcollisions = not tkcollisions
-			if tkcollisions == false then
-				SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
-			else
-				SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
-			end
-		end
+		--if (key == "") then
+		--	if not ctrlpressed then return end
+		--	Button:Play()
+		--	tkcollisions = not tkcollisions
+		--	if tkcollisions == false then
+		--		SendNotification("TK Collisions Disabled", "Disabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+		--	else
+		--		SendNotification("TK Collisions Enabled", "Enabled Telekinesis Collisions.", 1, "Close", nil, nil, true)
+		--	end
+		--end
 		if (key == "t") then
-			local mouse = plr:GetMouse();
-			mouse.TargetFilter = nil;
+			local mousePos = uis:GetMouseLocation()
+			local result = rayResult(mousePos.X, mousePos.Y)
 			local char = plr.Character or workspace:FindFirstChild(plr.Name)
 			local hrp = char and char:FindFirstChild("HumanoidRootPart")
 			if not char or not hrp then
 				SendNotification("Failed to TP", "HumanoidRootPart is missing.", 2.5, "Close")
 				return
 			end
-			hrp.Velocity = Vector3.zero
-			hrp.RotVelocity = Vector3.zero
-			hrp.CFrame = _CF_new(mouse.Hit.X, mouse.Hit.Y + 3, mouse.Hit.Z, select(4, hrp.CFrame:components()))
+			hrp.AssemblyLinearVelocity = Vector3.zero
+			hrp.AssemblyAngularVelocity = Vector3.zero
+			if result then
+				hrp.CFrame = _CF_new(result.Position.X, result.Position.Y + 3, result.Position.Z, select(4, hrp.CFrame:components()))
+			else
+				local unitray = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+				hrp.CFrame = _CF_new(hrp.Position + (unitray.Direction * 1000))
+			end
 			SendNotification("Teleport", "Teleported to mouse position.", 0.25, "Close")
 			ElectronicpingshortWav:Play()
 		end
@@ -566,21 +572,20 @@ local createtool = function(ft)
 				return 
 			end	
 			local orgobj = object;
-			local mouse = plr:GetMouse();
-			mouse.TargetFilter = game
-			local mousePos = mouse.Hit.Position;
-			local direction = (mousePos - primary.Position).Unit;
+			local mousePos = uis:GetMouseLocation()
+			local unitRay = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+			local direction = unitRay.Direction
 			mousedown = false;
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				local force = 10 * BP.Responsiveness
-				orgobj.Velocity = direction * force
+				local force = 20 * BP.Responsiveness
+				orgobj.AssemblyLinearVelocity = direction * force
 				Paintball:Play()
 			else	
 				local amplified = BP.Responsiveness * 2
-				local force = 10 * amplified
-				orgobj.Velocity = direction * force
+				local force = 20 * amplified
+				orgobj.AssemblyLinearVelocity = direction * force
 				Explode:Play()
 			end
 		end
