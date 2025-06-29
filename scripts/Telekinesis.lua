@@ -579,12 +579,12 @@ local createtool = function(ft)
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				local force = 20 * BP.Responsiveness
+				local force = 10 * BP.Responsiveness
 				orgobj.AssemblyLinearVelocity = direction * force
 				Paintball:Play()
 			else	
 				local amplified = BP.Responsiveness * 2
-				local force = 20 * amplified
+				local force = 10 * amplified
 				orgobj.AssemblyLinearVelocity = direction * force
 				Explode:Play()
 			end
@@ -730,12 +730,9 @@ end;
 pcall(function()
 	local tool = createtool(true)
 	if tool == true then
-		--Credits&PartClaim
+		--Credits
 		SendNotification(name .. " " .. vers, "Made by hello_dark54.", nil, "Close")
 		print(name .. " " .. vers .. " loaded. Made by hello_dark54.");
-		if gethiddenproperty and sethiddenproperty and not PARTCLAIM_LOADED then
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/randomguye/cool-scripts/refs/heads/main/scripts/PartClaim.lua"))();
-		end
 	else
 		SendNotification("Failed to launch", "Failed to initiate script.", nil, "Close")
 		warn("Failed to initiate script.")
