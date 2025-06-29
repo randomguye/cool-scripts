@@ -598,13 +598,15 @@ local createtool = function(ft)
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				local force = 10 * BP.Responsiveness
-				orgobj.AssemblyLinearVelocity = direction * force
+				local force = 30 * BP.Responsiveness
+				--orgobj.AssemblyLinearVelocity = direction * force
+				orgobl:ApplyImpulse(direction * force)
 				Paintball:Play()
 			else	
 				local amplified = BP.Responsiveness * 2
-				local force = 10 * amplified
-				orgobj.AssemblyLinearVelocity = direction * force
+				local force = 30 * amplified
+				--orgobj.AssemblyLinearVelocity = direction * force
+				orgobl:ApplyImpulse(direction * force)
 				Explode:Play()
 			end
 		end
@@ -654,6 +656,7 @@ local createtool = function(ft)
 				local elapsedTime = currentTime - startTime
 				--orgobj.Velocity = _VTR_new(0, -10000, 0);
 				--orgobj.RotVelocity = _VTR_new(0, -10000, 0);
+				orgobj:ApplyImpulse(0,-10000,0)
 				att.WorldOrientation = _VTR_new(0,0,0)
 				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil and att ~= nil then 
 					BX:Destroy()
