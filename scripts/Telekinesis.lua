@@ -109,7 +109,14 @@ local attachment1 = Instance.new("Attachment", point)
 local trail = Instance.new("Trail", point)
 trail.Texture = "rbxassetid://1448806393"
 trail.Color = ColorSequence.new(Color3.new(1, 1, 1))
+trail.Transparency = NumberSequence.new{
+    NumberSequenceKeypoint.new(0, 0),
+    NumberSequenceKeypoint.new(0.75, 1),
+}
+trail.LightEmission = 1
+trail.LightInfluence = 1
 trail.Lifetime = 0.25
+trail.FaceCamera = true
 trail.Attachment0 = attachment0
 trail.Attachment1 = attachment1
 attachment0.Position = Vector3.new(-0.1, 0, 0)
