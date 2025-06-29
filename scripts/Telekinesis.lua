@@ -95,7 +95,7 @@ point.Transparency = 0.996;
 point.Position = _VTR_new(math.huge, math.huge, math.huge)
 local mesh = _Ins("SpecialMesh", point);
 mesh.MeshId = "rbxassetid://1111494591"
-mesh.Scale = _VTR_new(-0.025, -0.025, -0.025);
+mesh.Scale = _VTR_new(-0.0125, -0.0125, -0.0125);
 local highlight = _Ins("Highlight", point);
 highlight.FillTransparency = 0.7;
 highlight.FillColor = Color3.fromRGB(255, 255, 255);
@@ -212,6 +212,7 @@ local createtool = function(ft)
 	tool.CanBeDropped = false;
 	tool.Name = name;
 	tool.ToolTip = name .. " " .. vers;
+	tool.TextureId = "rbxassetid://17063241381"
 	tool.Parent = mas;
 	cservice:AddTag(tool, randomguid)
 	curtool = tool
