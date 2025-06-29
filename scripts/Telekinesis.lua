@@ -616,7 +616,10 @@ local createtool = function(ft)
 		end
 		if (key == "h") then
 			--if not ctrlpressed then return end
-			if table.find(destroypart, object) then return end
+			if table.find(destroypart, object) then 
+				UnSelectable:Play()
+				return
+			end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
@@ -665,7 +668,7 @@ local createtool = function(ft)
 					orgobj.AssemblyAngularVelocity = Vector3.zero
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy part: \'" .. objname .. "\'.", 1, "Close")
-					table.remove(destroypart, orgobj)
+					table.remove(destroypart, table.find(destroypart, orgobj))
 					break 
 				end
 				w()
