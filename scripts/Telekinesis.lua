@@ -429,7 +429,7 @@ local createtool = function(ft)
 			if not ctrlpressed then return end
 			Button:Play()
 			applyatcenterofmass = not applyatcenterofmass
-			if tkcollisions == false then
+			if applyatcenterofmass == false then
 				BP.ApplyAtCenterOfMass = false
 				SendNotification("Telekinesis", "Disabled ApplyAtCenterOfMass.", 1, "Close", nil, nil, true)
 			else
