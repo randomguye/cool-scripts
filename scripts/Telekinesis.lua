@@ -116,7 +116,6 @@ trail.Transparency = NumberSequence.new{
 	NumberSequenceKeypoint.new(1, 1)
 }
 trail.LightEmission = 1
-trail.LightInfluence = 1
 trail.Lifetime = 0.25
 trail.FaceCamera = true
 trail.Attachment0 = attachment0
