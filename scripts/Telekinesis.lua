@@ -2,7 +2,7 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V9";
+local vers = "V10";
 
 local cloneref = cloneref or function(o) return o end
 local httpservice = cloneref(game:GetService("HttpService"))
@@ -26,6 +26,7 @@ local curtool = nil
 local curpoint = nil
 local cura = nil
 local ignore = {plr.Character}
+local destroying = {}
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 
 local ScriptFolder = _Ins("Folder", coregui)
@@ -348,7 +349,6 @@ local createtool = function(ft)
 				end
 				table.insert(ignore, object)
 				local attachment = cura or _Ins("Attachment", object)
-				attachment.WorldOrientation = _VTR_new(0, 0, 0)
 				BP.Attachment0 = attachment
 				if result then
 					local lv = _CF_new(primary.Position, result.Position);
@@ -538,12 +538,6 @@ local createtool = function(ft)
 				BX.VectorVelocity = _VTR_new(0, math.random(1, 5), 0);
 				BX.Attachment0 = att;
 				cservice:AddTag(att, randomguid)
-				task.spawn(function()
-					while att ~= nil do
-						att.WorldOrientation = _VTR_new(0,0,0)
-						w()
-					end
-				end)
 				mousedown = false;
 			end
 		end
@@ -598,73 +592,68 @@ local createtool = function(ft)
 			w()
 			if orgobj == nil then return end
 			if not ctrlpressed then
-				local force = 30 * BP.Responsiveness
-				--orgobj.AssemblyLinearVelocity = direction * force
-				orgobl:ApplyImpulse(direction * force)
+				local force = 15 * BP.Responsiveness
+				orgobj.AssemblyLinearVelocity = orgobj.AssemblyLinearVelocity + direction * force
 				Paintball:Play()
 			else	
 				local amplified = BP.Responsiveness * 2
-				local force = 30 * amplified
-				--orgobj.AssemblyLinearVelocity = direction * force
-				orgobl:ApplyImpulse(direction * force)
+				local force = 15 * amplified
+				orgobj.AssemblyLinearVelocity = orgobj.AssemblyLinearVelocity + direction * force
 				Explode:Play()
 			end
 		end
 		if (key == "h") then
 			--if not ctrlpressed then return end
+			if table.find(destroying, object) then return end
 			if not IsNetworkOwner(object) then 
 				UnSelectable:Play() 
 				SendNotification("Unable to perform action", "You currently do not own the part: \'" .. object.Name .. "\'.", 0.75, "Close")
 				return 
 			end	
-			for _, v in pairs(object:GetChildren()) do
-
-				if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
-
-					UnSelectable:Play()
-
-					return;
-
-				end
-
-			end
+			--for _, v in pairs(object:GetChildren()) do
+			--	if (v.className == "Attachment") and cservice:HasTag(v, randomguid) then
+			--		UnSelectable:Play()
+				--	return;
+				--end
+			--end
 			local orgobj = object;
 			local objname = object.Name;
 			local startTime = tick()
-			local att = _Ins("Attachment", orgobj);
-			local BX = _Ins("LinearVelocity", Temp);
-			BX.ForceLimitsEnabled = false
-			BX.VectorVelocity = _VTR_new(0, -10000, 0);
-			BX.Attachment0 = att;
-			cservice:AddTag(att, randomguid)
+			table.insert(destroying, orgobj)
+			--local att = _Ins("Attachment", orgobj);
+			--local BX = _Ins("LinearVelocity", Temp);
+			--BX.ForceLimitsEnabled = false
+			--BX.VectorVelocity = _VTR_new(0, -10000, 0);
+			--BX.Attachment0 = att;
+			--cservice:AddTag(att, randomguid)
 			mousedown = false;
 			ElectronicpingshortWav:Play()
 			while true do
 				if orgobj == nil or orgobj.Parent == nil then
 					CollideWav:Play()
-					if BX ~= nil then
-						BX:Destroy()
-					end	
-					if att ~= nil then
-						att:Destroy()
-					end
+					--if BX ~= nil then
+						--BX:Destroy()
+					--end	
+					--if att ~= nil then
+					--	att:Destroy()
+					--end
 					SendNotification("Part Destroyed", "Destroyed part: \'" .. objname .. "\'.", 2.5, "Close")
 					break
 				end
-				if BX == nil or BX.Parent == nil then break end
 				local currentTime = tick()
 				local elapsedTime = currentTime - startTime
-				--orgobj.Velocity = _VTR_new(0, -10000, 0);
-				--orgobj.RotVelocity = _VTR_new(0, -10000, 0);
-				orgobj:ApplyImpulse(0,-10000,0)
-				att.WorldOrientation = _VTR_new(0,0,0)
-				if elapsedTime >= 10 and BX ~= nil and orgobj ~= nil and att ~= nil then 
-					BX:Destroy()
-					att:Destroy()
-					orgobj.Velocity = Vector3.zero
-					orgobj.RotVelocity = Vector3.zero
+				orgobj.AssemblyLinearVelocity = orgobj.AssemblyLinearVelocity + _VTR_new(0, -10000, 0);
+				orgobj.AssemblyAngularVelocity = orgobj.AssemblyAngularVelocity + _VTR_new(0, -10000, 0);
+				--orgobj:ApplyImpulse(_VTR_new(0, -10000, 0))
+				--att.WorldOrientation = _VTR_new(0,0,0)
+				if elapsedTime >= 10 and orgobj ~= nil then 
+					--BX:Destroy()
+					--att:Destroy()
+					orgobj.AssemblyLinearVelocity = Vector3.zero
+					orgobj.AssemblyAngularVelocity = Vector3.zero
 					UnSelectable:Play()
 					SendNotification("Failed to destroy", "Failed to destroy part: \'" .. objname .. "\'.", 1, "Close")
+					table.remove(destroying, orgobj)
 					break 
 				end
 				w()
