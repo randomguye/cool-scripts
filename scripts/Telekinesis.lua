@@ -110,8 +110,9 @@ local trail = Instance.new("Trail", point)
 trail.Texture = "rbxassetid://1448806393"
 trail.Color = ColorSequence.new(Color3.new(1, 1, 1))
 trail.Transparency = NumberSequence.new{
-    NumberSequenceKeypoint.new(0, 0),
-    NumberSequenceKeypoint.new(0.75, 1),
+	NumberSequenceKeypoint.new(0, 0),
+	NumberSequenceKeypoint.new(0.75, 1),
+	NumberSequenceKeypoint.new(1, 1)
 }
 trail.LightEmission = 1
 trail.LightInfluence = 1
