@@ -145,7 +145,7 @@ BP.Responsiveness = BP.Responsiveness * 3;
 BP.ApplyAtCenterOfMass = true
 local SettingsWindow = ReGui:Window({
 	Title = "Telekinesis | Anti",
-	Size = UDim2.fromOffset(300, 300),
+	Size = UDim2.fromOffset(300, 250),
 	NoClose = true
 })
 
