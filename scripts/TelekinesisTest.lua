@@ -146,7 +146,7 @@ BP.Responsiveness = BP.Responsiveness * 3;
 BP.ApplyAtCenterOfMass = true
 local SettingsWindow = ReGui:Window({
 	Title = "Telekinesis | Anti",
-	Size = UDim2.fromOffset(700, 150),
+	Size = UDim2.fromOffset(300, 600),
 	NoClose = true
 })
 
@@ -698,7 +698,7 @@ SettingsWindow:Checkbox({
   Label = "NetworkOwners",
   Value = settings().Physics.AreOwnersShown,
   Callback = function()
-    settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown
+    settings().Physics.AreOwnersShown = not Value
   end
 })
 
@@ -706,7 +706,7 @@ SettingsWindow:Checkbox({
   Label = "Notifications",
   Value = notifs,
   Callback = function()
-    notifs = not notifs
+    notifs = not Value
   end
 })
 
@@ -716,7 +716,7 @@ SettingsWindow:Checkbox({
   Label = "ApplyAtCenterOfMass",
   Value = applyatcenterofmass,
   Callback = function()
-    applyatcenterofmass = not applyatcenterofmass
+    applyatcenterofmass = not Value
   end
 })
 
@@ -724,11 +724,11 @@ SettingsWindow:Checkbox({
   Label = "Collisions",
   Value = tkcollisions,
   Callback = function()
-    tkcollisions = not tkcollisions
+    tkcollisions = not Value
   end
 })
 
-BPresponsiveness = SettingsWindow:SliderInt({Label = "Responsiveness", Minimum = 1, Maximum = 20})
+BPresponsiveness = SettingsWindow:SliderInt({Label = "Responsiveness", Value = 3, Minimum = 1, Maximum = 20})
 
 task.spawn(function()
 	while w() do
