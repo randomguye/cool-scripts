@@ -2,11 +2,12 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 
 --hello_dark54
 local name = "Telekinesis";
-local vers = "V11";
+local vers = "V12";
 
 local cloneref = cloneref or function(o) return o end
 local httpservice = cloneref(game:GetService("HttpService"))
 local uis = cloneref(game:GetService("UserInputService"));
+local inservice = cloneref(game:GetService("InsertService"))
 local cservice = cloneref(game:GetService("CollectionService"))
 local coregui = cloneref(game:GetService("CoreGui"))
 local sgui = cloneref(game:GetService("StarterGui"))
@@ -33,7 +34,7 @@ local ignore = {plr.Character}
 local destroypart = {}
 local _Ins, _CF_new, _VTR_new = Instance.new, CFrame.new, Vector3.new;
 ReGui:Init({
-	Prefabs = InsertService:LoadLocalAsset(PrefabsId)
+	Prefabs = inservice:LoadLocalAsset(PrefabsId)
 })
 
 local ScriptFolder = _Ins("Folder", coregui)
@@ -730,9 +731,9 @@ BPresponsiveness = SettingsWindow:SliderInt({Label = "Responsiveness", Minimum =
 
 task.spawn(function()
 	while w() do
-    BP.Responsiveness = BPresponsiveness * 10
-    BP.ApplyAtCenterOfMass = applyatcenterofmass
-  end
+		BP.Responsiveness = BPresponsiveness * 10
+		BP.ApplyAtCenterOfMass = applyatcenterofmass
+	end
 end)
 
 SettingsWindow:Separator({Text = "Script Settings"})
@@ -741,8 +742,8 @@ SettingsWindow:Button({
 	Text = "Destroy Script",
 	Callback = function()
     	if destroying == true or object ~= nil then return end
-			SendNotification("Killed Script!", "DEATH.... guh", nil, "ok")
-			killscript()
+		SendNotification("Killed Script!", "DEATH.... guh", nil, "ok")
+		killscript()
 	end
 })
 end)
