@@ -146,7 +146,8 @@ BP.Responsiveness = BP.Responsiveness * 3;
 BP.ApplyAtCenterOfMass = true
 local SettingsWindow = ReGui:Window({
 	Title = "Telekinesis | Anti",
-	Size = UDim2.fromOffset(700, 150)
+	Size = UDim2.fromOffset(700, 150),
+	NoClose = true
 })
 
 local rayResult = function(x, y)
@@ -731,7 +732,7 @@ BPresponsiveness = SettingsWindow:SliderInt({Label = "Responsiveness", Minimum =
 
 task.spawn(function()
 	while w() do
-		BP.Responsiveness = BPresponsiveness * 10
+		BP.Responsiveness = BPresponsiveness.Value * 10
 		BP.ApplyAtCenterOfMass = applyatcenterofmass
 	end
 end)
