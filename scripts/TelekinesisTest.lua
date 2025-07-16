@@ -27,7 +27,6 @@ local BPresponsiveness
 local destroying = false;
 local ctrlpressed = false;
 local mousedown = false;
-local curtool = nil
 local curpoint = nil
 local cura = nil
 local ignore = {plr.Character}
@@ -146,7 +145,7 @@ BP.Responsiveness = BP.Responsiveness * 3;
 BP.ApplyAtCenterOfMass = true
 local SettingsWindow = ReGui:Window({
 	Title = "Telekinesis | Anti",
-	Size = UDim2.fromOffset(300, 600),
+	Size = UDim2.fromOffset(300, 300),
 	NoClose = true
 })
 
@@ -167,9 +166,6 @@ local killscript = function()
 	end
 	if cura ~= nil then
 		cura:Destroy()
-	end
-	if curtool ~= nil then
-		curtool:Destroy()
 	end
 	if curpoint ~= nil then
 		curpoint:Destroy()
@@ -226,7 +222,7 @@ local createtool = function(ft)
 	local dist = nil;
 	local object = nil;
 
-	if (primary == nil or ScriptFolder == nil) then
+	if (primary == nil or ScriptFolder == nil or destroying == true) then
 		if ft and ft == false then
 			UnSelectable:Play() 
 			SendNotification("Failed to create tool", nil, nil, "Close")
@@ -246,7 +242,6 @@ local createtool = function(ft)
 	tool.TextureId = "rbxassetid://87584126977170"
 	tool.Parent = mas;
 	cservice:AddTag(tool, randomguid)
-	curtool = tool
 	local destroy = function()
 		if ScriptFolder == nil then return end
 		mousedown = false;
@@ -255,9 +250,6 @@ local createtool = function(ft)
 		selectionhighlight.Adornee = nil
 		if (cura ~= nil) then
 			cura:Destroy();
-		end
-		if (curtool ~= nil) then
-			curtool:Destroy();
 		end
 		if (curpoint ~= nil) then
 			curpoint:Destroy();
@@ -694,46 +686,49 @@ SettingsWindow:Button({
 
 SettingsWindow:Separator({Text = "Visual Settings"})
 
-SettingsWindow:Checkbox({
+local networkownersshown = SettingsWindow:Checkbox({
   Label = "NetworkOwners",
   Value = settings().Physics.AreOwnersShown,
-  Callback = function()
-    settings().Physics.AreOwnersShown = not Value
-  end
+  --Callback = function()
+  --  settings().Physics.AreOwnersShown = not settings().Physics.AreOwnersShown
+  --end
 })
 
-SettingsWindow:Checkbox({
+local notifss = SettingsWindow:Checkbox({
   Label = "Notifications",
   Value = notifs,
-  Callback = function()
-    notifs = not Value
-  end
+  --Callback = function()
+  --  notifs = not notifs
+  --end
 })
 
 SettingsWindow:Separator({Text = "Telekinesis Settings"})
 
-SettingsWindow:Checkbox({
+local applyat = SettingsWindow:Checkbox({
   Label = "ApplyAtCenterOfMass",
   Value = applyatcenterofmass,
-  Callback = function()
-    applyatcenterofmass = not Value
-  end
+  --Callback = function()
+  --  applyatcenterofmass = not applyatcenterofmass
+  --end
 })
 
-SettingsWindow:Checkbox({
+local cols = SettingsWindow:Checkbox({
   Label = "Collisions",
   Value = tkcollisions,
-  Callback = function()
-    tkcollisions = not Value
-  end
+  --Callback = function()
+  --  tkcollisions = not tkcollisions
+  --end
 })
 
 BPresponsiveness = SettingsWindow:SliderInt({Label = "Responsiveness", Value = 3, Minimum = 1, Maximum = 20})
 
 task.spawn(function()
 	while w() do
+		settings().Physics.AreOwnersShown = networkownersshown.Value
+		notifs = notifss.Value
+		tkcollisions = cols.Value
 		BP.Responsiveness = BPresponsiveness.Value * 10
-		BP.ApplyAtCenterOfMass = applyatcenterofmass
+		BP.ApplyAtCenterOfMass = applyat.Value
 	end
 end)
 
