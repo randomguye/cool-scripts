@@ -739,6 +739,7 @@ SettingsWindow:Button({
 	Callback = function()
     	if destroying == true or object ~= nil then return end
 		SendNotification("Killed Script!", "DEATH.... guh", nil, "ok")
+		SettingsWindow:Close()
 		killscript()
 	end
 })
